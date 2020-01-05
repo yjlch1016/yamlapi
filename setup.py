@@ -32,17 +32,9 @@ setup(
     install_requires=requires,
     keywords='Interface test framework',
     classifiers=[
-        "Development Status :: 1 - Beta",
-        "Intended Audience :: Developers",
-        "Intended Audience :: System Administrators",
+        "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python",
-        "Topic :: System :: Networking :: Monitoring",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
     ],
     entry_points='''
         [console_scripts]
