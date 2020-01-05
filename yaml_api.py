@@ -6,12 +6,12 @@ import click
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
-    click.echo('V1.0.0')
+    click.echo('V1.0.1')
     ctx.exit()
 
 
 @click.command(context_settings=dict(help_option_names=['-h', '--help']))
-@click.option('--p', prompt='请输入工程名称！', type=str, nargs=1, help='工程名称')
+@click.option('--p', prompt='请输入工程名称', type=str, nargs=1, help='工程名称')
 @click.option('--version', '-v', help='版本号',
               is_flag=True, callback=print_version, expose_value=False, is_eager=True)
 def start_project(p):
@@ -28,9 +28,9 @@ def start_project(p):
         # 测试用例的目录
         create_directory(case_path)
         file_name = case_path + "/__init__.py"
-        create_file(file_name)
+        create_file(file_name, "# 初始化文件\n\r")
         file_name = case_path + "/demo_test.py"
-        create_file(file_name)
+        create_file(file_name, "# 测试用例\n\r")
 
         log_path = os.path.join(project_path, "log")
         # 日志的目录
@@ -44,41 +44,41 @@ def start_project(p):
         # yaml文件的目录
         create_directory(yaml_path)
         file_name = yaml_path + "/case_list.csv"
-        create_file(file_name)
+        create_file(file_name, "此文件只作展示，不参与逻辑判断\n\r")
         file_name = yaml_path + "/demo_one.yaml"
-        create_file(file_name)
+        create_file(file_name, "# 测试用例one\n\r")
         file_name = yaml_path + "/demo_two.yaml"
-        create_file(file_name)
+        create_file(file_name, "# 测试用例two\n\r")
         file_name = yaml_path + "/demo_three.yaml"
-        create_file(file_name)
+        create_file(file_name, "# 测试用例three\n\r")
 
         setting_path = os.path.join(project_path, "setting")
         # 工程配置文件的目录
         create_directory(setting_path)
         file_name = setting_path + "/__init__.py"
-        create_file(file_name)
+        create_file(file_name, "# 初始化文件\n\r")
         file_name = setting_path + "/project_setting.py"
-        create_file(file_name)
+        create_file(file_name, "# 整个工程的配置文件\n\r")
 
         tool_path = os.path.join(project_path, "tool")
         # 工具包的目录
         create_directory(tool_path)
         file_name = tool_path + "/__init__.py"
-        create_file(file_name)
+        create_file(file_name, "# 初始化文件\n\r")
 
         file_name = project_path + "/Jenkinsfile"
-        create_file(file_name)
+        create_file(file_name, "")
         file_name = project_path + "/README.md"
-        create_file(file_name)
+        create_file(file_name, "")
         file_name = project_path + "/pytest.ini"
-        create_file(file_name)
+        create_file(file_name, "")
         file_name = project_path + "/requirements.txt"
-        create_file(file_name)
+        create_file(file_name, "")
         # 各种配置文件
 
-        click.echo("%s创建成功！" % p)
+        click.echo("%s创建成功" % p)
     else:
-        click.echo("工程名称不能为空！")
+        click.echo("工程名称不能为空")
 
 
 def create_directory(directory_path):
@@ -88,10 +88,10 @@ def create_directory(directory_path):
         pass
 
 
-def create_file(file_path):
+def create_file(file_path, characters):
     if not os.path.isfile(file_path):
         with open(file_path, mode="w", encoding="utf-8") as f:
-            f.write("")
+            f.write(characters)
     else:
         pass
 
