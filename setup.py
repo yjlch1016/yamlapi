@@ -15,12 +15,13 @@ requires = [
     'pytest-html==2.0.1',
     'allure-pytest==2.8.6',
     'pytest-rerunfailures==8.0',
+    'pytest-assume==2.2.0',
     'Click==7.0',
 ]
 
 setup(
     name='yamlapi',
-    version='1.0.1',
+    version='1.0.2',
     description='honeybee（蜜蜂）接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',

@@ -6,7 +6,7 @@ import click
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
-    click.echo('V1.0.1')
+    click.echo('V1.0.2')
     ctx.exit()
 
 
@@ -70,6 +70,8 @@ def start_project(p):
         create_file(file_name, "")
         file_name = project_path + "/README.md"
         create_file(file_name, "")
+        file_name = project_path + "/conftest.py"
+        create_file(file_name, "# 全局钩子文件\n\r")
         file_name = project_path + "/pytest.ini"
         create_file(file_name, "")
         file_name = project_path + "/requirements.txt"
