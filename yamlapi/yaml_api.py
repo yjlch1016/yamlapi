@@ -7,7 +7,7 @@ import click
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
-    click.echo('V1.0.3')
+    click.echo('V1.0.4')
     ctx.exit()
 
 
@@ -25,16 +25,17 @@ def start_project(p):
         demo_path = get_python_lib() + "/yamlapi/demo"
         copy_directory(demo_path, project_path)
         # 拷贝目录
-        click.echo("%s创建成功" % p)
+        click.echo("%s创建成功！" % p)
     else:
-        click.echo("工程名称不能为空")
+        click.echo("工程名称不能为空！")
 
 
 def copy_directory(old_directory, new_directory):
     # 拷贝目录
 
     try:
-        shutil.copytree(old_directory, new_directory)
+        shutil.copytree(
+            old_directory, new_directory, ignore=shutil.ignore_patterns('*.pyc', '__pycache__'))
     except OSError as e:
         click.echo("拷贝目录出错：", e)
 
