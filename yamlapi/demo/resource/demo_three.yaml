@@ -1,0 +1,27 @@
+-
+  case_name: 5、第五条用例
+  mysql:
+  request_mode:
+  api:
+  data:
+  headers:
+  query_string:
+  expected_code:
+  expected_result:
+  regular:
+    variable:
+    expression:
+
+-
+  case_name: 6、第六条用例
+  mysql:
+  request_mode:
+  api:
+  data:
+  headers:
+  query_string:
+  expected_code:
+  expected_result:
+  regular:
+    variable:
+    expression:

@@ -1,0 +1,75 @@
+#!groovy
+
+pipeline {
+
+    agent any
+
+    parameters {
+        choice(
+            name:'measured_environment', 
+            choices: ['test', 'pre', 'formal', 'dev'],
+            description: '被测环境')
+    }
+
+    environment {
+        mail_to='123456789@qq.com'
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+    }
+
+    triggers {
+		cron('H 2 * * 1-5')
+        pollSCM('H 2 * * 1-5')
+    }
+
+    stages {
+        stage('Prepare'){
+            steps {
+                script{
+                    echo "被测环境：${params.measured_environment}"
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script{
+                    sh "cd ${JENKINS_HOME}/workspace/${JOB_NAME}"
+                    sh "pytest -v"
+                    }
+                }
+            }
+        }
+
+    post {
+        always {
+            junit 'report/*.xml'
+			publishHTML (
+                target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'report',
+                    reportFiles: 'report.html',
+                    reportName: "XXX接口测试报告"
+                    ])
+            allure([
+                disabled: false,
+                includeProperties: false,
+                jdk: '',
+                properties: [],
+                reportBuildPolicy: 'ALWAYS',
+                results: [[path: 'report/allure-report']]
+                ])
+            step([
+                $class: 'Mailer',
+                recipients: "${mail_to}",
+                notifyEveryUnstableBuild: true,
+                sendToIndividuals: true
+                ])
+        }
+    }
+
+}
