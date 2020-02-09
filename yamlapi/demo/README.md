@@ -1,9 +1,9 @@
-# honeybee   
-（蜜蜂）接口测试框架  
+# yamlapi  
+接口测试框架  
 
 
 # 一、思路         
-1、采用requests+unittest+ddt+PyMySQL+BeautifulReport+demjson+loguru+PyYAML+pytest+pytest-html+allure-pytest+pytest-rerunfailures+pytest-sugar+pytest-timeout  
+1、采用requests+unittest+ddt+PyMySQL+BeautifulReport+demjson+loguru+PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-rerunfailures+pytest-sugar+pytest-timeout  
 2、requests是发起HTTP请求的第三方库  
 3、unittest是Python自带的单元测试工具  
 4、ddt是数据驱动的第三方库  
@@ -11,7 +11,7 @@
 6、BeautifulReport是生成html测试报告的第三方库  
 7、demjson是解析json的第三方库  
 8、loguru是记录日志的第三方库  
-9、PyYAML是读写yaml文件的第三方库  
+9、PyYAML与ruamel.yaml是读写yaml文件的第三方库  
 10、pytest是单元测试的第三方库  
 11、pytest-html是生成html测试报告的插件  
 12、allure-pytest是生成allure测试报告的插件  

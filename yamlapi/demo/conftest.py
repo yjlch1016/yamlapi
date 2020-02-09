@@ -1,3 +1,7 @@
+"""
+全局钩子文件
+"""
+
 from datetime import datetime
 
 import pytest

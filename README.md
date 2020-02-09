@@ -1,9 +1,10 @@
 # yamlapi  
 yamlapi接口测试框架  
 支持unittest与pytest两种运行模式  
-yamlapi即为yaml文件+api测试的合写  
-可以看作是一个脚手架工具  
+yamlapi即为yaml文件+api测试的缩写  
+可看作是一个脚手架工具  
 可快速生成项目的各个目录与文件  
+只需维护一份或者多份yaml文件即可  
 
 # 安装  
 pip install yamlapi  

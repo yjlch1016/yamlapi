@@ -11,6 +11,7 @@ requires = [
     'demjson==2.2.4',
     'loguru==0.4.0',
     'PyYAML==5.1.2',
+    'ruamel.yaml==0.16.5',
     'pytest==5.0.1',
     'pytest-html==2.0.1',
     'allure-pytest==2.8.6',
@@ -23,7 +24,7 @@ requires = [
 
 setup(
     name='yamlapi',
-    version='1.0.4',
+    version='1.0.5',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',

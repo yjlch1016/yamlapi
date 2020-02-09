@@ -1,3 +1,7 @@
+"""
+测试用例
+"""
+
 import json
 import re
 import os
@@ -42,9 +46,9 @@ class DemoTest(unittest.TestCase):
         # 定义一个变量名与提取的结果字典
         # cls.variable_result_dict与self.variable_result_dict都是本类的公共属性
 
-    @ddt.file_data(yaml_path + "/l.yaml")
+    @ddt.file_data(yaml_path + "/temporary.yaml")
     # 传入临时yaml文件
-    def test_logistics(self, **kwargs):
+    def test_demo(self, **kwargs):
         """
         测试用例
         :param kwargs:
