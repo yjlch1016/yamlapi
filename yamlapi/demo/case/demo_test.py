@@ -18,10 +18,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
 from setting.project_config import *
-from tool.connect_mysql import query_mysql
-from tool.create_random import create_random_number, create_random_letters
+from tool.connect_mysql import ConnectMySQL
 from tool.read_write_yaml import read_yaml, write_yaml
 from tool.beautiful_report_run import beautiful_report_run
+from tool.function_assistant import function_dollar, function_rn, function_rl, function_sql
 
 
 @ddt.ddt
@@ -67,7 +67,7 @@ class DemoTest(unittest.TestCase):
         self._testMethodDoc = case_name
         # 测试报告里面的用例描述
         mysql = kwargs.get("mysql")
-        # mysql查询语句
+        # mysql语句
         request_mode = kwargs.get("request_mode")
         # 请求方式
         api = kwargs.get("api")
@@ -99,89 +99,90 @@ class DemoTest(unittest.TestCase):
             self.skipTest("生产环境跳过此用例，请忽略")
         # 生产环境不能连接MySQL数据库，因此跳过，此行后面的都不会执行
 
-        requests_list = [api, payload, headers, query_string]
-        # 请求数据列表
-
-        for index, value in enumerate(requests_list):
-            # for循环修改requests_list的值
-
-            if self.variable_result_dict:
-                # 如果变量名与提取的结果字典不为空
-                if "$" in value:
-                    for key, value_2 in self.variable_result_dict.items():
-                        value = value.replace("{" + key + "}", value_2)
-                        # replace(old, new)把字符串中的旧字符串替换成正则表达式提取的值
-                    value = re.sub("\\$", "", value)
-                    # re.sub(old, new, 源字符串)默认全部替换
-                    # 如果遇到带有转义的字符被当作特殊字符时，使用双反斜杠\\来转义，或者在引号前面加r
-            else:
-                pass
-
+        if self.variable_result_dict:
+            # 如果变量名与提取的结果字典不为空
             if mysql:
-                # 如果mysql查询语句不为空
-                if "$" in mysql:
-                    # 有些场景下MySQL查询语句也需要参数化
-                    for key, value_2 in self.variable_result_dict.items():
-                        mysql = mysql.replace("{" + key + "}", value_2)
-                    mysql = re.sub("\\$", "", mysql)
-                mysql_result_tuple = query_mysql(mysql)
+                mysql = function_dollar(mysql, self.variable_result_dict.items())
+                # 调用替换$的方法
+            if api:
+                api = function_dollar(api, self.variable_result_dict.items())
+            if payload:
+                payload = function_dollar(payload, self.variable_result_dict.items())
+            if headers:
+                headers = function_dollar(headers, self.variable_result_dict.items())
+            if query_string:
+                query_string = function_dollar(query_string, self.variable_result_dict.items())
+        else:
+            pass
+
+        if mysql:
+            mysql = function_rn(mysql)
+            # 调用替换RN随机数字的方法
+            mysql = function_rl(mysql)
+            # 调用替换RL随机字母的方法
+            db = ConnectMySQL()
+            # 实例化一个MySQL操作对象
+            if "SELECT" in mysql:
+                mysql_result_tuple = db.query_mysql(mysql)
                 # mysql查询结果元祖
                 mysql_result_list = list(chain.from_iterable(mysql_result_tuple))
                 # 把二维元祖转换为一维列表
-                if "__SQL" in value:
-                    for i in mysql_result_list:
-                        if type(i) != str:
-                            i = str(i)
-                        value = value.replace("{__SQL}", i, 1)
-                        # replace(old, new, 替换次数)把字符串中的{__SQL}替换成mysql查询返回的值
-            else:
-                pass
+                if api:
+                    api = function_sql(api, mysql_result_list)
+                    # 调用替换MySQL查询结果的方法
+                if payload:
+                    payload = function_sql(payload, mysql_result_list)
+                if headers:
+                    headers = function_sql(headers, mysql_result_list)
+                if query_string:
+                    query_string = function_sql(query_string, mysql_result_list)
+            if "INSERT" in mysql:
+                db.insert_mysql(mysql)
+                # 调用插入mysql的方法
+                sleep(1)
+            if "UPDATE" in mysql:
+                db.update_mysql(mysql)
+                # 调用更新mysql的方法
+                sleep(1)
+            if "DELETE" in mysql:
+                db.delete_mysql(mysql)
+                # 调用删除mysql的方法
+                sleep(1)
 
-            if "__RN" in value:
-                digit_list = re.findall("{__RN(.+?)}", value)
-                # 获取位数列表
-                for j in digit_list:
-                    random_number = create_random_number(int(j))
-                    # 调用生成随机数字的方法
-                    value = value.replace("{__RN" + j + "}", random_number)
-
-            if "__RL" in value:
-                digit_list = re.findall("{__RL(.+?)}", value)
-                # 获取位数列表
-                for i in digit_list:
-                    random_letters = create_random_letters(int(i))
-                    # 调用生成随机字母的方法
-                    value = value.replace("{__RL" + i + "}", random_letters)
-
-            requests_list[index] = value
-
-        api = requests_list[0]
-        payload = requests_list[1]
-        headers = requests_list[2]
-        query_string = requests_list[3]
-
-        if payload != "":
+        if api:
+            api = function_rn(api)
+            api = function_rl(api)
+        if payload:
+            payload = function_rn(payload)
+            payload = function_rl(payload)
             payload = demjson.decode(payload)
-        if headers != "":
+        if headers:
+            headers = function_rn(headers)
+            headers = function_rl(headers)
             headers = demjson.decode(headers)
-        if query_string != "":
+        if query_string:
+            query_string = function_rn(query_string)
+            query_string = function_rl(query_string)
             query_string = demjson.decode(query_string)
 
         url = service_domain + api
         # 拼接完整地址
+        if "获取登录token" in case_name:
+            url = token_domain + api
+            payload = token_payload
 
         logger.info("请求方式为：{}", request_mode)
         logger.info("地址为：{}", url)
         logger.info("请求体为：{}", payload)
         logger.info("请求头为：{}", headers)
         logger.info("请求参数为：{}", query_string)
-
         logger.info("预期的响应代码为：{}", expected_code)
         logger.info("预期的响应结果为：{}", expected_result)
 
         response = requests.request(
             request_mode, url, data=json.dumps(payload),
-            headers=headers, params=query_string, timeout=(9, 15))
+            headers=headers, params=query_string, timeout=(12, 18)
+        )
         # 发起HTTP请求
         # json.dumps()序列化把字典转换成字符串，json.loads()反序列化把字符串转换成字典
         # data请求体为字符串，headers请求头与params请求参数为字典
@@ -241,8 +242,6 @@ class DemoTest(unittest.TestCase):
             self.assertTrue(set(expected_result) <= set(actual_result_list))
 
         logger.info("##########用例分隔符##########\n")
-        # sleep(3)
-        # 等待时间为3秒，也可以调整为其他值
 
 
 if __name__ == '__main__':
