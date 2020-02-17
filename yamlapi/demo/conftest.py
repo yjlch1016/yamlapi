@@ -43,3 +43,17 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
     report.description = str(item.function.__doc__)
     report.nodeid = report.nodeid.encode("utf-8").decode("unicode_escape")
+
+
+def pytest_addoption(parser):
+    # 注册自定义的命令
+
+    parser.addoption(
+        "--cmd", action="store", default="test", help="被测环境的缩写"
+    )
+
+
+@pytest.fixture(scope="session", autouse=True)
+def cmd(request):
+    environment = request.config.getoption("--cmd")
+    # 获取从命令行传入的值

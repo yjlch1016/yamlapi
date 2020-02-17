@@ -10,8 +10,10 @@ import unittest
 from itertools import chain
 from time import sleep
 
+import allure
 import ddt
 import demjson
+import pytest
 import requests
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,6 +26,7 @@ from tool.beautiful_report_run import beautiful_report_run
 from tool.function_assistant import function_dollar, function_rn, function_rl, function_sql
 
 
+@allure.feature(test_scenario)
 @ddt.ddt
 # 声明使用ddt
 class DemoTest(unittest.TestCase):
@@ -46,6 +49,10 @@ class DemoTest(unittest.TestCase):
         # 定义一个变量名与提取的结果字典
         # cls.variable_result_dict与self.variable_result_dict都是本类的公共属性
 
+    @pytest.mark.usefixtures("cmd")
+    @allure.story(test_story)
+    @allure.severity(test_case_priority[0])
+    @allure.testcase(test_case_address, test_case_address_title)
     @ddt.file_data(yaml_path + "/temporary.yaml")
     # 传入临时yaml文件
     def test_demo(self, **kwargs):
@@ -95,7 +102,7 @@ class DemoTest(unittest.TestCase):
 
         logger.info("{}>>>开始执行", case_name)
 
-        if environment == "prd" and mysql != "":
+        if environment == "formal" and mysql != "":
             self.skipTest("生产环境跳过此用例，请忽略")
         # 生产环境不能连接MySQL数据库，因此跳过，此行后面的都不会执行
 
@@ -167,9 +174,6 @@ class DemoTest(unittest.TestCase):
 
         url = service_domain + api
         # 拼接完整地址
-        if "获取登录token" in case_name:
-            url = token_domain + api
-            payload = token_payload
 
         logger.info("请求方式为：{}", request_mode)
         logger.info("地址为：{}", url)

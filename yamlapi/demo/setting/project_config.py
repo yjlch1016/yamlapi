@@ -10,6 +10,10 @@ from loguru import logger
 
 parameter = sys.argv[1]
 # 从命令行获取参数
+if "--cmd=" in parameter:
+    parameter = parameter.replace("--cmd=", "")
+else:
+    pass
 
 environment = os.getenv("measured_environment", parameter)
 # 环境变量
@@ -75,3 +79,11 @@ logger.add(
     encoding="utf-8",
 )
 # loguru日志配置
+
+
+test_scenario = "测试场景：XXX接口测试"
+test_story = "测试故事：XXX接口测试"
+test_case_priority = ["blocker", "critical", "normal", "minor", "trivial"]
+test_case_address = "http://www.case.com"
+test_case_address_title = "XXX接口测试用例地址"
+# allure配置
