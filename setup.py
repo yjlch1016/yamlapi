@@ -16,7 +16,6 @@ requires = [
     'pytest-html==2.0.1',
     'allure-pytest==2.8.6',
     'pytest-rerunfailures==8.0',
-    'pytest-assume==2.2.0',
     'pytest-sugar==0.9.2',
     'pytest-timeout==1.3.3',
     'Click==7.0',
@@ -24,7 +23,7 @@ requires = [
 
 setup(
     name='yamlapi',
-    version='1.0.8',
+    version='1.0.9',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',

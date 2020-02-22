@@ -49,7 +49,6 @@ class DemoTest(unittest.TestCase):
         # 定义一个变量名与提取的结果字典
         # cls.variable_result_dict与self.variable_result_dict都是本类的公共属性
 
-    @pytest.mark.usefixtures("cmd")
     @allure.story(test_story)
     @allure.severity(test_case_priority[0])
     @allure.testcase(test_case_address, test_case_address_title)
@@ -78,7 +77,7 @@ class DemoTest(unittest.TestCase):
         request_mode = kwargs.get("request_mode")
         # 请求方式
         api = kwargs.get("api")
-        # 接口
+        # 接口路径
         if type(api) != str:
             api = str(api)
         payload = kwargs.get("data")
@@ -96,9 +95,9 @@ class DemoTest(unittest.TestCase):
         expected_code = kwargs.get("expected_code")
         # 预期的响应代码
         expected_result = kwargs.get("expected_result")
+        # 预期的响应结果
         if type(expected_result) != str:
             expected_result = str(expected_result)
-        # 预期的响应结果
         regular = kwargs.get("regular")
         # 正则
 
@@ -198,12 +197,12 @@ class DemoTest(unittest.TestCase):
         # json.dumps()序列化把字典转换成字符串，json.loads()反序列化把字符串转换成字典
         # data请求体为字符串，headers请求头与params请求参数为字典
 
-        actual_time = response.elapsed.total_seconds()
-        # 实际的响应时间
         actual_code = response.status_code
         # 实际的响应代码
         actual_result_text = response.text
         # 实际的响应结果（文本格式）
+        actual_time = response.elapsed.total_seconds()
+        # 实际的响应时间
         logger.info("实际的响应代码为：{}", actual_code)
         logger.info("实际的响应结果为：{}", actual_result_text)
         logger.info("实际的响应时间为：{}", actual_time)
@@ -217,10 +216,8 @@ class DemoTest(unittest.TestCase):
                 # re.findall(正则表达式, 实际的响应结果)返回一个符合规则的list，取第1个
                 extract_list.append(regular_result)
                 # 把提取结果添加到提取结果列表里面
-
             temporary_dict = dict(zip(regular["variable"], extract_list))
             # 把变量列表与提取结果列表转为一个临时字典
-
             for key, value in temporary_dict.items():
                 self.variable_result_dict[key] = value
             # 把临时字典合并到变量名与提取的结果字典，已去重
@@ -253,7 +250,7 @@ class DemoTest(unittest.TestCase):
         else:
             logger.error("{}>>>请求失败！！！", url)
             logger.error("{}>>>执行失败！！！", case_name)
-            self.assertTrue(set(expected_result_list) <= set(actual_result_list))
+            self.assertEqual(expected_code, actual_code)
         logger.info("##########用例分隔符##########\n")
 
 

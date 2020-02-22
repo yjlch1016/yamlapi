@@ -41,7 +41,7 @@ data: 请求体，缩进字典格式或者json格式
 headers: 请求头，缩进字典格式或者json格式    
 query_string: 请求参数，缩进字典格式或者json格式    
 expected_code: 预期的响应代码    
-expected_result: 预期的响应结果，-列表格式     
+expected_result: 预期的响应结果，缩进字典格式或者json格式  
 regular: 正则，缩进字典格式  
 >>variable:变量名，-列表格式  
 >>expression:表达式，-列表格式  
@@ -59,12 +59,12 @@ ${变量名}的作用域是全局的，其它3种的作用域仅限该条用例
 1、unittest模式：  
 python+测试文件名+环境缩写  
 python case/logistics_test.py dev  
-python case/logistics_test.py fat  
-python case/logistics_test.py sit  
-python case/logistics_test.py prd  
+python case/logistics_test.py test  
+python case/logistics_test.py pre  
+python case/logistics_test.py formal  
 2、pytest模式：  
 pytest+--cmd=环境缩写  
 pytest --cmd=dev  
-pytest --cmd=fat  
-pytest --cmd=sit  
-pytest --cmd=prd  
+pytest --cmd=test  
+pytest --cmd=pre  
+pytest --cmd=formal  
