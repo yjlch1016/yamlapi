@@ -34,8 +34,8 @@ python case/demo_test.py test
 python case/demo_test.py pre  
 python case/demo_test.py formal  
 2、pytest模式：  
-pytest+cmd=环境缩写  
-pytest cmd=dev  
-pytest cmd=test  
-pytest cmd=pre  
-pytest cmd=formal  
+pytest+--cmd=环境缩写  
+pytest --cmd=dev  
+pytest --cmd=test  
+pytest --cmd=pre  
+pytest --cmd=formal  

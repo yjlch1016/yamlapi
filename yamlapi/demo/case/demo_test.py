@@ -96,12 +96,13 @@ class DemoTest(unittest.TestCase):
         expected_code = kwargs.get("expected_code")
         # 预期的响应代码
         expected_result = kwargs.get("expected_result")
+        if type(expected_result) != str:
+            expected_result = str(expected_result)
         # 预期的响应结果
         regular = kwargs.get("regular")
         # 正则
 
         logger.info("{}>>>开始执行", case_name)
-
         if environment == "formal" and mysql != "":
             self.skipTest("生产环境跳过此用例，请忽略")
         # 生产环境不能连接MySQL数据库，因此跳过，此行后面的都不会执行
@@ -119,6 +120,8 @@ class DemoTest(unittest.TestCase):
                 headers = function_dollar(headers, self.variable_result_dict.items())
             if query_string:
                 query_string = function_dollar(query_string, self.variable_result_dict.items())
+            if expected_result:
+                expected_result = function_dollar(expected_result, self.variable_result_dict.items())
         else:
             pass
 
@@ -134,6 +137,7 @@ class DemoTest(unittest.TestCase):
                 # mysql查询结果元祖
                 mysql_result_list = list(chain.from_iterable(mysql_result_tuple))
                 # 把二维元祖转换为一维列表
+                logger.info("发起请求之前mysql查询的结果列表为：{}", mysql_result_list)
                 if api:
                     api = function_sql(api, mysql_result_list)
                     # 调用替换MySQL查询结果的方法
@@ -143,18 +147,21 @@ class DemoTest(unittest.TestCase):
                     headers = function_sql(headers, mysql_result_list)
                 if query_string:
                     query_string = function_sql(query_string, mysql_result_list)
+                if expected_result:
+                    expected_result = function_sql(expected_result, mysql_result_list)
             if "INSERT" in mysql:
                 db.insert_mysql(mysql)
                 # 调用插入mysql的方法
-                sleep(1)
+                sleep(2)
+                # 等待2秒钟
             if "UPDATE" in mysql:
                 db.update_mysql(mysql)
                 # 调用更新mysql的方法
-                sleep(1)
+                sleep(2)
             if "DELETE" in mysql:
                 db.delete_mysql(mysql)
                 # 调用删除mysql的方法
-                sleep(1)
+                sleep(2)
 
         if api:
             api = function_rn(api)
@@ -197,7 +204,6 @@ class DemoTest(unittest.TestCase):
         # 实际的响应代码
         actual_result_text = response.text
         # 实际的响应结果（文本格式）
-
         logger.info("实际的响应代码为：{}", actual_code)
         logger.info("实际的响应结果为：{}", actual_result_text)
         logger.info("实际的响应时间为：{}", actual_time)
@@ -226,25 +232,28 @@ class DemoTest(unittest.TestCase):
                 del self.variable_result_dict[key]
         # 删除变量名与提取的结果字典中为空的键值对
 
-        actual_result_text = re.sub("{|}|\"|\\[|\\]", "", actual_result_text)
-        # 去除{、}、"、[与]
+        expected_result = re.sub("{|}|\'|\"|\\[|\\]| ", "", expected_result)
+        actual_result_text = re.sub("{|}|\'|\"|\\[|\\]| ", "", actual_result_text)
+        # 去除大括号{、}、单引号'、双引号"、中括号[、]与空格
+        expected_result_list = re.split(":|,", expected_result)
         actual_result_list = re.split(":|,", actual_result_text)
-        # 把响应文本转为列表，并去除:与,
+        # 把文本转为列表，并去除:与,
+        logger.info("切割之后预期的响应结果列表为：{}", expected_result_list)
+        logger.info("切割之后实际的响应结果列表为：{}", actual_result_list)
 
         if expected_code == actual_code:
-            if set(expected_result) <= set(actual_result_list):
+            if set(expected_result_list) <= set(actual_result_list):
                 # 预期的响应结果与实际的响应结果是被包含关系
                 # 判断是否是其真子集
                 logger.info("{}>>>执行通过", case_name)
             else:
-                logger.error("{}>>>执行失败", case_name)
-            self.assertTrue(set(expected_result) <= set(actual_result_list))
+                logger.error("{}>>>执行失败！！！", case_name)
+            self.assertTrue(set(expected_result_list) <= set(actual_result_list))
             # 布尔表达式断言
         else:
-            logger.error("{}>>>请求失败，请检查域名、路径与请求参数是否正确！", url)
-            logger.error("{}>>>执行失败", case_name)
-            self.assertTrue(set(expected_result) <= set(actual_result_list))
-
+            logger.error("{}>>>请求失败！！！", url)
+            logger.error("{}>>>执行失败！！！", case_name)
+            self.assertTrue(set(expected_result_list) <= set(actual_result_list))
         logger.info("##########用例分隔符##########\n")
 
 

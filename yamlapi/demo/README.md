@@ -32,9 +32,11 @@
 # 三、yaml文件说明  
 1、字段（命名和格式不可修改，顺序可以修改）  
 case_name: 用例名称   
-mysql: MySQL查询语句   
+mysql: MySQL语句，是发起请求之前的动作  
+如果是增删改语句，没有返回结果  
+如果是查语句，有返回结果，是为了动态传参  
 request_mode: 请求方式  
-api: 接口    
+api: 接口路径    
 data: 请求体，缩进字典格式或者json格式     
 headers: 请求头，缩进字典格式或者json格式    
 query_string: 请求参数，缩进字典格式或者json格式    
@@ -45,9 +47,24 @@ regular: 正则，缩进字典格式
 >>expression:表达式，-列表格式  
 
 2、参数化  
-正则表达式提取的结果用${变量名}表示，一条用例里面可以有多个    
-MySQL返回的结果用{__SQL}表示，一条用例里面可以有多个   
-随机数字用{__RN位数}，一条用例里面可以有多个   
+正则表达式提取的结果用${变量名}匹配，一条用例里面可以有多个  
+MySQL查询语句返回的结果，用{__SQL0}、{__SQL1}、{__SQL2}、{__SQL3}。。。。。。匹配，一条用例里面可以有多个  
+随机数字用{__RN位数}，一条用例里面可以有多个  
 随机英文字母用{__RL位数}，一条用例里面可以有多个  
 以上4种类型在一条用例里面可以混合使用  
 ${变量名}的作用域是全局的，其它3种的作用域仅限该条用例  
+
+
+# 四、运行  
+1、unittest模式：  
+python+测试文件名+环境缩写  
+python case/logistics_test.py dev  
+python case/logistics_test.py fat  
+python case/logistics_test.py sit  
+python case/logistics_test.py prd  
+2、pytest模式：  
+pytest+--cmd=环境缩写  
+pytest --cmd=dev  
+pytest --cmd=fat  
+pytest --cmd=sit  
+pytest --cmd=prd  

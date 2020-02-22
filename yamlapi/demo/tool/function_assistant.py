@@ -58,13 +58,13 @@ def function_sql(field, mysql_result_list):
     # 替换MySQL查询结果的方法，第一个参数是yaml文件里面定义的字段，第二个参数是MySQL查询结果列表
 
     if "__SQL" in field:
-        for i in mysql_result_list:
-            if type(i) != str:
-                i = str(i)
-            field = field.replace("{__SQL}", i, 1)
-            # replace(old, new, 替换次数)把字符串中的{__SQL}替换成mysql查询返回的值
-    else:
-        pass
+        mysql_index_list = re.findall("{__SQL(.+?)}", field)
+        # 获取索引列表
+        for i in mysql_index_list:
+            mysql_value = mysql_result_list[int(i)]
+            if type(mysql_value) != str:
+                mysql_value = str(mysql_value)
+            field = field.replace("{__SQL" + i + "}", mysql_value)
 
     return field
     # 返回替换后的字段

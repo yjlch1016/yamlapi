@@ -40,8 +40,7 @@ class ConnectMySQL(object):
             results = cur.fetchall()
             # 获取查询的结果
             logger.info("mysql查询成功：{}", sql_sentence)
-            logger.info("数据量为：{}", cur.execute(sql_sentence))
-            logger.info("查询的结果为：{}", results)
+            logger.info("mysql查询的数据量为：{}", cur.execute(sql_sentence))
         except Exception as e:
             logger.error("mysql查询发生错误：{}", e)
             raise e
@@ -77,7 +76,7 @@ class ConnectMySQL(object):
             db.commit()
             # 提交
             logger.info("mysql插入成功：{}", sql_sentence)
-            logger.info("数据量为：{}", cur.execute(sql_sentence))
+            logger.info("mysql插入的数据量为：{}", cur.execute(sql_sentence))
         except Exception as e:
             logger.error("mysql插入发生错误：{}", e)
             db.rollback()
@@ -111,7 +110,7 @@ class ConnectMySQL(object):
             db.commit()
             # 提交
             logger.info("mysql更新成功：{}", sql_sentence)
-            logger.info("数据量为：{}", cur.execute(sql_sentence))
+            logger.info("mysql更新的数据量为：{}", cur.execute(sql_sentence))
         except Exception as e:
             logger.error("mysql更新发生错误：{}", e)
             db.rollback()
@@ -145,7 +144,7 @@ class ConnectMySQL(object):
             db.commit()
             # 提交
             logger.info("mysql删除成功：{}", sql_sentence)
-            logger.info("数据量为：{}", cur.execute(sql_sentence))
+            logger.info("mysql删除的数据量为：{}", cur.execute(sql_sentence))
         except Exception as e:
             logger.error("mysql删除发生错误：{}", e)
             db.rollback()
