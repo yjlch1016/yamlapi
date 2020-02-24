@@ -7,22 +7,25 @@ from datetime import datetime
 import pytest
 from py._xmlgen import html
 
+from setting.project_config import *
+
 
 def pytest_configure(config):
     # 添加环境信息
 
-    config._metadata["项目名称"] = "XXX接口自动化测试"
-    config._metadata["Swagger地址"] = "http://www.test.com/swagger-ui.html"
+    config._metadata["项目名称"] = project_name
+    config._metadata["Swagger地址"] = swagger_address
 
 
 @pytest.mark.optionalhook
 def pytest_html_results_summary(prefix, summary, postfix):
     # 添加附加摘要信息
 
-    prefix.extend([html.p("测试部门：")])
-    prefix.extend([html.p("测试人员：")])
+    prefix.extend([html.p(test_department)])
+    prefix.extend([html.p(tester)])
 
 
+@pytest.mark.optionalhook
 def pytest_html_results_table_header(cells):
     # 添加带有测试函数docstring的description列，添加可排序的time列，并删除links列
 
@@ -31,6 +34,7 @@ def pytest_html_results_table_header(cells):
     cells.pop()
 
 
+@pytest.mark.optionalhook
 def pytest_html_results_table_row(report, cells):
     cells.insert(2, html.td(report.description))
     cells.insert(1, html.td(datetime.now(), class_='col-time'))

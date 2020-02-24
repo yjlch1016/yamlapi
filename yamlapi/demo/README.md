@@ -41,14 +41,15 @@ data: 请求体，缩进字典格式或者json格式
 headers: 请求头，缩进字典格式或者json格式    
 query_string: 请求参数，缩进字典格式或者json格式    
 expected_code: 预期的响应代码    
-expected_result: 预期的响应结果，缩进字典格式或者json格式  
+expected_result: 预期的响应结果，-列表格式、缩进字典格式或者json格式  
 regular: 正则，缩进字典格式  
 >>variable:变量名，-列表格式  
 >>expression:表达式，-列表格式  
 
 2、参数化  
 正则表达式提取的结果用${变量名}匹配，一条用例里面可以有多个  
-MySQL查询语句返回的结果，用{__SQL0}、{__SQL1}、{__SQL2}、{__SQL3}。。。。。。匹配，一条用例里面可以有多个  
+MySQL查询语句返回的结果，用{__SQL索引}匹配  
+即{__SQL0}、{__SQL1}、{__SQL2}、{__SQL3}。。。。。。一条用例里面可以有多个    
 随机数字用{__RN位数}，一条用例里面可以有多个  
 随机英文字母用{__RL位数}，一条用例里面可以有多个  
 以上4种类型在一条用例里面可以混合使用  
@@ -58,10 +59,10 @@ ${变量名}的作用域是全局的，其它3种的作用域仅限该条用例
 # 四、运行  
 1、unittest模式：  
 python+测试文件名+环境缩写  
-python case/logistics_test.py dev  
-python case/logistics_test.py test  
-python case/logistics_test.py pre  
-python case/logistics_test.py formal  
+python case/demo_test.py dev  
+python case/demo_test.py test  
+python case/demo_test.py pre  
+python case/demo_test.py formal  
 2、pytest模式：  
 pytest+--cmd=环境缩写  
 pytest --cmd=dev  

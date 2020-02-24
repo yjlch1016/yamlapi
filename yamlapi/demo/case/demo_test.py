@@ -13,7 +13,6 @@ from time import sleep
 import allure
 import ddt
 import demjson
-import pytest
 import requests
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +20,7 @@ sys.path.append(BASE_DIR)
 
 from setting.project_config import *
 from tool.connect_mysql import ConnectMySQL
-from tool.read_write_yaml import read_yaml, write_yaml
+from tool.read_write_yaml import merge_yaml, write_yaml
 from tool.beautiful_report_run import beautiful_report_run
 from tool.function_assistant import function_dollar, function_rn, function_rl, function_sql
 
@@ -35,13 +34,11 @@ class DemoTest(unittest.TestCase):
         # 如果临时yaml文件存在
         os.remove(temporary_yaml)
         # 删除之
-    demo_one_list = read_yaml("/demo_one.yaml")
-    demo_two_list = read_yaml("/demo_two.yaml")
-    demo_three_list = read_yaml("/demo_three.yaml")
-    temporary_list = demo_one_list + demo_two_list + demo_three_list
+    temporary_list = merge_yaml()
+    # 调用合并所有yaml文件的方法
     temporary_yaml = yaml_path + write_yaml("/temporary.yaml", temporary_list)
 
-    # 把几个yaml文件合并为一个临时yaml文件
+    # 调用写入yaml文件的方法
 
     @classmethod
     def setUpClass(cls) -> None:

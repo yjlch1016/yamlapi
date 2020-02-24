@@ -11,9 +11,9 @@ def beautiful_report_run(test_class):
     suite = unittest.TestLoader().loadTestsFromTestCase(test_class)
     result = BeautifulReport(suite)
     result.report(
-        filename="xxx_report",
+        filename=beautiful_filename,
         # 测试报告文件名称, 如果不指定，默认文件名为report.html
-        description="XXX接口测试报告",
+        description=beautiful_description,
         # 测试报告名称展示
         report_dir=report_path,
         # 测试报告文件写入路径

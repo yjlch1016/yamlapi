@@ -84,6 +84,22 @@ logger.add(
 test_scenario = "测试场景：XXX接口测试"
 test_story = "测试故事：XXX接口测试"
 test_case_priority = ["blocker", "critical", "normal", "minor", "trivial"]
-test_case_address = "http://www.case.com"
+test_case_address = "http://www.testcase.com"
 test_case_address_title = "XXX接口测试用例地址"
 # allure配置
+
+
+beautiful_filename = "xxx_report"
+beautiful_description = "XXX接口测试报告"
+# BeautifulReport配置
+
+
+project_name = "XXX接口自动化测试"
+swagger_address = "http://www.swagger.com/swagger-ui.html"
+test_department = "测试部门："
+tester = "测试人员："
+# conftest配置
+
+
+first_yaml = "demo_one.yaml"
+# 第一个yaml文件
