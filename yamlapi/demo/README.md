@@ -26,7 +26,12 @@
 3、report是测试报告的目录       
 4、resource是yaml文件的目录      
 5、setting是工程的配置文件包            
-6、tool是常用方法的封装包         
+6、tool是常用方法的封装包  
+7、.gitignore是.ignore插件需要排除的文件  
+8、conftest.py是全局钩子文件  
+9、Jenkinsfile是Jenkins Pipeline文件  
+10、pytest.ini是pytest的配置文件  
+11、requirements.txt是第三方依耐库  
 
 
 # 三、yaml文件说明  

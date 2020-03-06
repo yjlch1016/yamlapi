@@ -6,7 +6,7 @@ from tool.create_random import create_random_number, create_random_letters
 def function_dollar(field, variable_list):
     # 替换$的方法，第一个参数是yaml文件里面定义的字段，第二个参数是变量列表
 
-    if "$" in field:
+    if "{$" in field:
         for key, value in variable_list:
             field = field.replace("{" + key + "}", value)
             # replace(old, new)把字符串中的旧字符串替换成正则表达式提取的值
@@ -23,7 +23,7 @@ def function_dollar(field, variable_list):
 def function_rn(field):
     # 替换RN随机数字的方法，参数为yaml文件里面定义的字段
 
-    if "__RN" in field:
+    if "{__RN" in field:
         digit_list = re.findall("{__RN(.+?)}", field)
         # 获取位数列表
         for i in digit_list:
@@ -40,7 +40,7 @@ def function_rn(field):
 def function_rl(field):
     # 替换RL随机字母的方法，参数为yaml文件里面定义的字段
 
-    if "__RL" in field:
+    if "{__RL" in field:
         digit_list = re.findall("{__RL(.+?)}", field)
         # 获取位数列表
         for i in digit_list:
@@ -57,7 +57,7 @@ def function_rl(field):
 def function_sql(field, mysql_result_list):
     # 替换MySQL查询结果的方法，第一个参数是yaml文件里面定义的字段，第二个参数是MySQL查询结果列表
 
-    if "__SQL" in field:
+    if "{__SQL" in field:
         mysql_index_list = re.findall("{__SQL(.+?)}", field)
         # 获取索引列表
         for i in mysql_index_list:
