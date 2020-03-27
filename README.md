@@ -28,21 +28,22 @@ pip uninstall yamlapi
 
 
 # 思路         
-1、采用requests+unittest+ddt+PyMySQL+BeautifulReport+demjson+loguru+PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-rerunfailures+pytest-sugar+pytest-timeout  
+1、采用requests+unittest+ddt+PyMySQL+DBUtils+BeautifulReport+demjson+loguru+PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-rerunfailures+pytest-sugar+pytest-timeout  
 2、requests是发起HTTP请求的第三方库  
 3、unittest是Python自带的单元测试工具  
 4、ddt是数据驱动的第三方库  
 5、PyMySQL是连接MySQL的第三方库  
-6、BeautifulReport是生成html测试报告的第三方库  
-7、demjson是解析json的第三方库  
-8、loguru是记录日志的第三方库  
-9、PyYAML与ruamel.yaml是读写yaml文件的第三方库  
-10、pytest是单元测试的第三方库  
-11、pytest-html是生成html测试报告的插件  
-12、allure-pytest是生成allure测试报告的插件  
-13、pytest-rerunfailures是失败重跑的插件   
-14、pytest-sugar是显示进度的插件  
-15、pytest-timeout是设置超时时间的插件  
+6、DBUtils是数据库连接池的第三方库    
+7、BeautifulReport是生成html测试报告的第三方库  
+8、demjson是解析json的第三方库  
+9、loguru是记录日志的第三方库  
+10、PyYAML与ruamel.yaml是读写yaml文件的第三方库  
+11、pytest是单元测试的第三方库  
+12、pytest-html是生成html测试报告的插件  
+13、allure-pytest是生成allure测试报告的插件  
+14、pytest-rerunfailures是失败重跑的插件   
+15、pytest-sugar是显示进度的插件  
+16、pytest-timeout是设置超时时间的插件  
 
 
 # 目录结构    

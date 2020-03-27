@@ -222,6 +222,8 @@ class DemoTest(unittest.TestCase):
                     db_after = ConnectMySQL()
                     mysql_result_tuple_after = db_after.query_mysql(mysql[2])
                     mysql_result_list_after = list(chain.from_iterable(mysql_result_tuple_after))
+                    mysql_result_list_after = list(map(str, mysql_result_list_after))
+                    # 把列表里面的元素类型全部改为str
                     logger.info("发起请求之后mysql查询的结果列表为：{}", mysql_result_list_after)
 
         logger.info("实际的响应代码为：{}", actual_code)
