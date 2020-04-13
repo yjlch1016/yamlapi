@@ -1,6 +1,6 @@
 import re
 
-from tool.create_random import create_random_number, create_random_letters
+from tool.create_random import create_random_number, create_random_letters, create_random_mobile_phone
 
 
 def function_dollar(field, variable_list):
@@ -47,6 +47,20 @@ def function_rl(field):
             random_number = create_random_letters(int(i))
             # 调用生成随机数字的方法
             field = field.replace("{__RL" + i + "}", random_number)
+    else:
+        pass
+
+    return field
+    # 返回替换后的字段
+
+
+def function_mp(field):
+    # 替换MP随机手机号码的方法，参数为yaml文件里面定义的字段
+
+    if "{__MP" in field:
+        random_mobile_phone = create_random_mobile_phone()
+        # 调用生成随机手机号码的方法
+        field = field.replace("{__MP}", random_mobile_phone)
     else:
         pass
 
