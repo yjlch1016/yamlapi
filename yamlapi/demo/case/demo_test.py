@@ -20,6 +20,7 @@ sys.path.append(BASE_DIR)
 
 from setting.project_config import *
 from tool.connect_mysql import ConnectMySQL
+from tool.data_type_conversion import data_conversion_string
 from tool.read_write_yaml import merge_yaml, write_yaml
 from tool.beautiful_report_run import beautiful_report_run
 from tool.function_assistant import function_dollar, function_rn, function_rl, function_sql, function_mp
@@ -159,6 +160,8 @@ class DemoTest(unittest.TestCase):
                     # mysql查询结果元祖
                     mysql_result_list = list(chain.from_iterable(mysql_result_tuple))
                     # 把二维元祖转换为一维列表
+                    mysql_result_list = data_conversion_string(mysql_result_list)
+                    # 调用数据类型转换的方法
                     logger.info("发起请求之前mysql查询的结果列表为：{}", mysql_result_list)
                     if api:
                         api = function_sql(api, mysql_result_list)
@@ -195,7 +198,7 @@ class DemoTest(unittest.TestCase):
 
         logger.info("请求方式为：{}", request_mode)
         logger.info("地址为：{}", url)
-        logger.info("请求体为：{}", payload)
+        logger.info("请求体为：{}", json.dumps(payload, ensure_ascii=False))
         logger.info("请求头为：{}", headers)
         logger.info("请求参数为：{}", query_string)
         logger.info("预期的响应代码为：{}", expected_code)
@@ -224,6 +227,7 @@ class DemoTest(unittest.TestCase):
                     db_after = ConnectMySQL()
                     mysql_result_tuple_after = db_after.query_mysql(mysql[2])
                     mysql_result_list_after = list(chain.from_iterable(mysql_result_tuple_after))
+                    mysql_result_list_after = data_conversion_string(mysql_result_list_after)
                     mysql_result_list_after = list(map(str, mysql_result_list_after))
                     # 把列表里面的元素类型全部改为str
                     logger.info("发起请求之后mysql查询的结果列表为：{}", mysql_result_list_after)
