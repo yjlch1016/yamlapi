@@ -3,9 +3,10 @@
   mysql:
   request_mode:
   api:
-  data:
+  body:
   headers:
   query_string:
+  expected_time:
   expected_code:
   expected_result:
   regular:
@@ -17,9 +18,10 @@
   mysql:
   request_mode:
   api:
-  data:
+  body:
   headers:
   query_string:
+  expected_time:
   expected_code:
   expected_result:
   regular:
