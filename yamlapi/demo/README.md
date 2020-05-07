@@ -1,5 +1,5 @@
 # yamlapi  
-接口测试框架  
+yamlapi接口测试框架  
 
 
 # 一、思路         
@@ -23,30 +23,15 @@
 
 # 二、目录结构    
 1、case是测试用例包              
-2、log是日志目录         
-3、report是测试报告的目录       
-4、resource是yaml文件的目录      
-5、setting是工程的配置文件包            
-6、tool是常用方法的封装包  
-7、.gitignore是.ignore插件需要排除的文件  
-8、conftest.py是全局钩子文件  
-9、Jenkinsfile是Jenkins Pipeline文件  
-10、pytest.ini是pytest的配置文件  
-11、requirements.txt是第三方依赖库  
-
-
-# 三、yaml文件说明  
-1、case是测试用例包              
-2、log是日志目录         
-3、report是测试报告的目录       
-4、resource是yaml文件的目录      
-5、setting是工程的配置文件包            
-6、tool是常用方法的封装包  
-7、.gitignore是.ignore插件需要排除的文件  
-8、conftest.py是全局钩子文件  
-9、Jenkinsfile是Jenkins Pipeline文件  
-10、pytest.ini是pytest的配置文件  
-11、requirements.txt是第三方依赖库  
+2、report_log是测试报告和日志的目录       
+3、resource是yaml文件的目录      
+4、setting是工程的配置文件包            
+5、tool是常用方法的封装包  
+6、.gitignore是.ignore插件需要排除的文件  
+7、conftest.py是全局钩子文件  
+8、Jenkinsfile是Jenkins Pipeline文件  
+9、pytest.ini是pytest的配置文件  
+10、requirements.txt是第三方依赖库  
 
 
 # 三、yaml文件说明  
@@ -74,7 +59,7 @@ expected_code: 预期的响应代码，必填
 expected_result: 预期的响应结果，-列表格式、缩进字典格式或者json格式，必填  
 regular: 正则，缩进字典格式，选填  
 >>variable:变量名，-列表格式  
->>expression:表达式，-列表格式   
+>>expression:表达式，-列表格式  
 
 2、参数化  
 正则表达式提取的结果用${变量名}匹配，一条用例里面可以有多个  
@@ -100,3 +85,7 @@ pytest --cmd=dev
 pytest --cmd=test  
 pytest --cmd=pre  
 pytest --cmd=formal  
+
+
+# 五、从阿里云镜像仓库拉取镜像  
+docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:[镜像版本号]  

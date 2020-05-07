@@ -23,7 +23,7 @@ from tool.connect_mysql import ConnectMySQL
 from tool.data_type_conversion import data_conversion_string
 from tool.read_write_yaml import merge_yaml, write_yaml
 from tool.beautiful_report_run import beautiful_report_run
-from tool.function_assistant import function_dollar, function_rn, function_rl, function_sql,
+from tool.function_assistant import function_dollar, function_rn, function_rl, function_sql, function_mp
 
 
 @allure.feature(test_scenario)
@@ -110,7 +110,7 @@ class DemoTest(unittest.TestCase):
         # 正则
 
         logger.info("{}>>>开始执行", case_name)
-        if environment == "prd" and mysql:
+        if environment == "formal" and mysql:
             self.skipTest("生产环境跳过此用例，请忽略")
         # 生产环境不能连接MySQL数据库，因此跳过，此行后面的都不会执行
 

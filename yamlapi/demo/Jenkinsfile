@@ -2,7 +2,9 @@
 
 pipeline {
 
-    agent any
+    agent {
+        docker { image 'registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.2' }
+    }
 
     parameters {
         choice(
@@ -31,11 +33,9 @@ pipeline {
                 }
             }
         }
-
         stage('Test') {
             steps {
                 script{
-                    sh "cd ${JENKINS_HOME}/workspace/${JOB_NAME}"
                     sh "pytest --cmd="
                     }
                 }

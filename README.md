@@ -1,5 +1,6 @@
 # yamlapi  
 yamlapi接口测试框架  
+
 支持unittest与pytest两种运行模式  
 yamlapi即为yaml文件+api测试的缩写  
 可看作是一个脚手架工具  
@@ -48,16 +49,15 @@ pip uninstall yamlapi
 
 # 二、目录结构    
 1、case是测试用例包              
-2、log是日志目录         
-3、report是测试报告的目录       
-4、resource是yaml文件的目录      
-5、setting是工程的配置文件包            
-6、tool是常用方法的封装包  
-7、.gitignore是.ignore插件需要排除的文件  
-8、conftest.py是全局钩子文件  
-9、Jenkinsfile是Jenkins Pipeline文件  
-10、pytest.ini是pytest的配置文件  
-11、requirements.txt是第三方依赖库  
+2、report_log是测试报告和日志的目录       
+3、resource是yaml文件的目录      
+4、setting是工程的配置文件包            
+5、tool是常用方法的封装包  
+6、.gitignore是.ignore插件需要排除的文件  
+7、conftest.py是全局钩子文件  
+8、Jenkinsfile是Jenkins Pipeline文件  
+9、pytest.ini是pytest的配置文件  
+10、requirements.txt是第三方依赖库  
 
 
 # 三、yaml文件说明  
@@ -111,3 +111,7 @@ pytest --cmd=dev
 pytest --cmd=test  
 pytest --cmd=pre  
 pytest --cmd=formal  
+
+
+# 五、从阿里云镜像仓库拉取镜像  
+docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:[镜像版本号]  

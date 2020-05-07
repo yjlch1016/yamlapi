@@ -55,27 +55,21 @@ yaml_path = os.path.join(current_path, "resource")
 today = time.strftime("%Y-%m-%d", time.localtime())
 # 年月日
 
-report_path = os.path.join(current_path, "report")
-# 测试报告的目录
-if os.path.exists(report_path):
+
+report_log_path = os.path.join(current_path, "report_log")
+# 测试报告和日志的目录
+if os.path.exists(report_log_path):
     pass
 else:
-    os.mkdir(report_path, mode=0o777)
+    os.mkdir(report_log_path, mode=0o777)
 
-log_path = os.path.join(current_path, "log")
-# 日志的目录
-if os.path.exists(log_path):
-    pass
-else:
-    os.mkdir(log_path, mode=0o777)
-
-logging_file = os.path.join(log_path, "log{}.log".format(today))
+logging_file = os.path.join(report_log_path, "report_log{}.log".format(today))
 
 logger.add(
     logging_file,
     format="{time:YYYY-MM-DD HH:mm:ss}|{level}|{message}",
     level="INFO",
-    rotation="500 MB",
+    rotation="50MB",
     encoding="utf-8",
 )
 # loguru日志配置
