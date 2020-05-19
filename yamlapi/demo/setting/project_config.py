@@ -63,13 +63,13 @@ if os.path.exists(report_log_path):
 else:
     os.mkdir(report_log_path, mode=0o777)
 
-logging_file = os.path.join(report_log_path, "report_log{}.log".format(today))
+logging_file = os.path.join(report_log_path, "log{}.log".format(today))
 
 logger.add(
     logging_file,
     format="{time:YYYY-MM-DD HH:mm:ss}|{level}|{message}",
     level="INFO",
-    rotation="50MB",
+    rotation="100 MB",
     encoding="utf-8",
 )
 # loguru日志配置

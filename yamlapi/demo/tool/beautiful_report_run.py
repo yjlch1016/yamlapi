@@ -15,7 +15,7 @@ def beautiful_report_run(test_class):
         # 测试报告文件名称, 如果不指定，默认文件名为report.html
         description=beautiful_description,
         # 测试报告名称展示
-        report_dir=report_path,
+        report_dir=report_log_path,
         # 测试报告文件写入路径
         theme="theme_default",
         # 测试报告主题样式

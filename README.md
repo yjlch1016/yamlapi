@@ -29,7 +29,7 @@ pip uninstall yamlapi
 
 
 # 一、思路         
-1、采用requests+unittest+ddt+PyMySQL+DBUtils+BeautifulReport+demjson+loguru+PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-rerunfailures+pytest-sugar+pytest-timeout  
+1、采用requests+unittest+ddt+PyMySQL+DBUtils+BeautifulReport+demjson+loguru+PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-rerunfailures+pytest-sugar+pytest-timeout+pytest-parallel  
 2、requests是发起HTTP请求的第三方库  
 3、unittest是Python自带的单元测试工具  
 4、ddt是数据驱动的第三方库  
@@ -42,9 +42,11 @@ pip uninstall yamlapi
 11、pytest是单元测试的第三方库  
 12、pytest-html是生成html测试报告的插件  
 13、allure-pytest是生成allure测试报告的插件  
-14、pytest-rerunfailures是失败重跑的插件   
-15、pytest-sugar是显示进度的插件  
-16、pytest-timeout是设置超时时间的插件  
+14、pytest-reportlog是替换--resultlog选项的插件  
+15、pytest-rerunfailures是失败重跑的插件  
+16、pytest-sugar是显示进度的插件  
+17、pytest-timeout是设置超时时间的插件  
+18、pytest-parallel是多线程的插件   
 
 
 # 二、目录结构    

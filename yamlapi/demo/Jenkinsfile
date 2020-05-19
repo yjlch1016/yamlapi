@@ -3,7 +3,7 @@
 pipeline {
 
     agent {
-        docker { image 'registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.2' }
+        docker { image 'registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.3' }
     }
 
     parameters {
@@ -44,13 +44,13 @@ pipeline {
 
     post {
         always {
-            junit 'report/*.xml'
+            junit 'report_log/*.xml'
 			publishHTML (
                 target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
                     keepAll: true,
-                    reportDir: 'report',
+                    reportDir: 'report_log',
                     reportFiles: 'report.html',
                     reportName: "XXX接口测试报告"
                     ])
@@ -60,7 +60,7 @@ pipeline {
                 jdk: '',
                 properties: [],
                 reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'report/allure-report']]
+                results: [[path: 'report_log/allure-report']]
                 ])
             step([
                 $class: 'Mailer',

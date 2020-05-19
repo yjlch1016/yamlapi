@@ -16,15 +16,18 @@ requires = [
     'pytest==5.0.1',
     'pytest-html==2.0.1',
     'allure-pytest==2.8.6',
+    'pytest-reportlog==0.1.0',
+    'pytest-assume==2.2.0',
     'pytest-rerunfailures==8.0',
     'pytest-sugar==0.9.2',
     'pytest-timeout==1.3.3',
+    'pytest-parallel==0.1.0',
     'Click==7.0',
 ]
 
 setup(
     name='yamlapi',
-    version='1.1.7',
+    version='1.1.8',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',
