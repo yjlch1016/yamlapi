@@ -63,9 +63,39 @@ pip uninstall yamlapi
 
 
 # 三、yaml文件说明  
-1、字段（命名和格式不可修改，顺序可以修改）  
-case_name: 用例名称，必填  
-mysql: MySQL语句，-列表格式，顺序不可修改，选填  
+    - case_name: 用例名称
+      step:
+        - step_name: 步骤名称
+          mysql: 
+            - 
+            - 
+            - 
+          request_mode: POST
+          api: /api/test
+          body: 
+            {"key_1":"value_1","key_2":"value_2"}
+          headers:
+            {"Content-Type":"application/json"}
+          expected_time: 3
+          expected_code: 200
+          expected_result:
+            {"code":1,"message":"成功"}
+          regular:
+            variable:
+              - name_1
+              - name_2
+            expression:
+              - '"response_1":"(.+?)"'
+              - '"response_2":"(.+?)"'
+1、外层有2个字段，内层有13个字段  
+命名和格式不可修改，顺序可以修改  
+外层：  
+case_name：用例名称，必填  
+step：步骤，-列表格式  
+一条用例可以有多个步骤，全部的步骤通过，本条用例才算通过  
+内层：  
+step_name：步骤名称，必填  
+mysql： MySQL语句，-列表格式，顺序不可修改，选填  
 第一行：mysql[0]  
 第二行：mysql[1]  
 第三行：mysql[2]  

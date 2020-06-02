@@ -1,29 +1,32 @@
--
-  case_name: 3、第三条用例
-  mysql:
-  request_mode:
-  api:
-  body:
-  headers:
-  query_string:
-  expected_time:
-  expected_code:
-  expected_result:
-  regular:
-    variable:
-    expression:
+- case_name: 3、第三条用例
+  step:
+    - step_name: 步骤名称1
+      mysql:
+      request_mode:
+      api:
+      body:
+      headers:
+      query_string:
+      expected_time:
+      expected_code:
+      expected_result:
+      regular:
+        variable:
+        expression:
 
--
-  case_name: 4、第四条用例
-  mysql:
-  request_mode:
-  api:
-  body:
-  headers:
-  query_string:
-  expected_time:
-  expected_code:
-  expected_result:
-  regular:
-    variable:
-    expression:
+
+- case_name: 4、第四条用例
+  step:
+    - step_name: 步骤名称1
+      mysql:
+      request_mode:
+      api:
+      body:
+      headers:
+      query_string:
+      expected_time:
+      expected_code:
+      expected_result:
+      regular:
+        variable:
+        expression:
