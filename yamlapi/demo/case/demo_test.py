@@ -74,7 +74,7 @@ class DemoTest(unittest.TestCase):
         # 测试报告里面的用例描述
         step = kwargs.get("step")
         # 步骤列表
-        logger.info("{}>>>开始执行\n", case_name)
+        logger.info("**********{}>>>开始执行**********\n", case_name)
 
         for item in step:
             step_name = item.get("step_name")
@@ -116,6 +116,7 @@ class DemoTest(unittest.TestCase):
             regular = item.get("regular")
             # 正则
 
+            logger.info("步骤名称为：{}", step_name)
             if environment == "formal" and mysql:
                 self.skipTest("跳过生产环境，请忽略")
             # 生产环境不能连接MySQL数据库，因此跳过，此行后面的都不会执行
@@ -321,7 +322,7 @@ class DemoTest(unittest.TestCase):
                     logger.info("{}>>>执行通过", step_name)
                 else:
                     logger.error("{}>>>执行失败！！！", step_name)
-                logger.info("##########用例分隔符##########\n")
+                logger.info("##########步骤分隔符##########\n")
                 self.assertTrue(boolean_expression)
             else:
                 logger.error("{}>>>执行失败！！！", step_name)
@@ -329,8 +330,10 @@ class DemoTest(unittest.TestCase):
                     self.assertEqual(expected_code, actual_code)
                 except AssertionError as e:
                     logger.error("预期的响应代码与实际的响应代码不相等：{}", e)
-                    logger.info("##########用例分隔符##########\n")
+                    logger.info("##########步骤分隔符##########\n")
                     raise e
+
+        logger.info("**********{}>>>执行结束**********\n", case_name)
 
 
 if __name__ == '__main__':

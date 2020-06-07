@@ -7,24 +7,24 @@ yamlapi即为yaml文件+api测试的缩写
 可快速生成项目的各个目录与文件  
 只需维护一份或者多份yaml文件即可  
 
-pip install yamlapi  
+`pip install yamlapi`  
 安装  
 
-yamlapi -h（或yamlapi --help）  
+`yamlapi -h（或yamlapi --help）`  
 查看参数信息  
 
-yamlapi -v（或yamlapi --v）  
+`yamlapi -v（或yamlapi --version）`  
 查看版本号  
 
-pip install -U yamlapi  
+`pip install -U yamlapi`  
 安装最新版  
 
-yamlapi --p=项目名称  
+`yamlapi --p=项目名称`  
 创建项目  
 例如在某个路径下执行命令：  
-yamlapi --p=demo_project  
+`yamlapi --p=demo_project`  
 
-pip uninstall yamlapi  
+`pip uninstall yamlapi`  
 卸载  
 
 
@@ -63,38 +63,53 @@ pip uninstall yamlapi
 
 
 # 三、yaml文件说明  
-    - case_name: 用例名称
-      step:
-        - step_name: 步骤名称
-          mysql: 
-            - 
-            - 
-            - 
-          request_mode: POST
-          api: /api/test
-          body: 
-            {"key_1":"value_1","key_2":"value_2"}
-          headers:
-            {"Content-Type":"application/json"}
-          expected_time: 3
-          expected_code: 200
-          expected_result:
-            {"code":1,"message":"成功"}
-          regular:
-            variable:
-              - name_1
-              - name_2
-            expression:
-              - '"response_1":"(.+?)"'
-              - '"response_2":"(.+?)"'
+```yaml
+- case_name: 用例名称
+  step:
+    - step_name: 步骤名称
+      mysql:
+        -
+        -
+        -
+      request_mode: POST
+      api: /api/test
+      body:
+        {"key_1":"value_1","key_2":"value_2"}
+      headers:
+        {"Content-Type":"application/json"}
+      expected_time: 3
+      expected_code: 200
+      expected_result:
+        {"code":1,"message":"成功"}
+      regular:
+        variable:
+          - name_1
+          - name_2
+        expression:
+          - '"response_1":"(.+?)"'
+          - '"response_2":"(.+?)"'
+```
 1、外层有2个字段，内层有13个字段  
 命名和格式不可修改，顺序可以修改  
-外层：  
-case_name：用例名称，必填  
-step：步骤，-列表格式  
-一条用例可以有多个步骤，全部的步骤通过，本条用例才算通过  
-内层：  
-step_name：步骤名称，必填  
+
+| 字段 | 中文名称 | 是否必填 | 格式 | 注解 |
+| ---- | ---- | --- | ---- | ---- |
+| case_name | 用例名称 | 是 | | |
+| step | 步骤 | 是 | -列表格式 | 1条用例可以有1个或者N个步骤，全部的步骤通过，本条用例才算通过 |
+| step_name | 步骤名称 | 是 | | |
+| mysql | MySQL语句 | 否 | -列表格式| 顺序不可修改 |
+| request_mode | 请求方式 | 是 | | |
+| api | 接口路径 | 是 | | |
+| body | 请求体 | 否 | 缩进字典格式或者json格式 | |
+| headers | 请求头 | 否 | 缩进字典格式或者json格式 | |
+| query_string | 请求参数 | 否 | 缩进字典格式或者json格式 | |
+| expected_time | 预期的响应时间 | 否 | | |
+| expected_code | 预期的响应代码 | 是 | | |
+| expected_result  | 预期的响应结果 | 是 | -列表格式、缩进字典格式或者json格式 | |
+| regular | 正则 | 否 | 缩进字典格式 | |
+| variable | 变量名 | 否 | -列表格式 | |
+| expression | 表达式 | 否 | -列表格式 | |
+
 mysql： MySQL语句，-列表格式，顺序不可修改，选填  
 第一行：mysql[0]  
 第二行：mysql[1]  
@@ -106,18 +121,7 @@ mysql： MySQL语句，-列表格式，顺序不可修改，选填
 当不需要增删改查和双重断言时，可以不写mysql字段，或者三行都为空  
 当只需要增删改时，第一行为增删改语句，第二行为空，第三行为空  
 当只需要查时，第一行为空，第二行为查语句，第三行为空  
-当只需要双重断言时，第一行为空，第二行为空，第三行为查语句  
-request_mode: 请求方式，必填  
-api: 接口路径，必填  
-body: 请求体，缩进字典格式或者json格式，选填  
-headers: 请求头，缩进字典格式或者json格式，选填  
-query_string: 请求参数，缩进字典格式或者json格式，选填  
-expected_time: 预期的响应时间，选填    
-expected_code: 预期的响应代码，必填  
-expected_result: 预期的响应结果，-列表格式、缩进字典格式或者json格式，必填  
-regular: 正则，缩进字典格式，选填  
->>variable:变量名，-列表格式  
->>expression:表达式，-列表格式  
+当只需要双重断言时，第一行为空，第二行为空，第三行为查语句 
 
 2、参数化  
 正则表达式提取的结果用${变量名}匹配，一条用例里面可以有多个  
@@ -146,4 +150,4 @@ pytest --cmd=formal
 
 
 # 五、从阿里云镜像仓库拉取镜像  
-docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:[镜像版本号]  
+`docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:[镜像版本号]`  
