@@ -23,12 +23,14 @@ requires = [
     'pytest-timeout>=1.3.4',
     'pytest-parallel>=0.1.0',
     'tablib>=2.0.0',
+    'openpyxl>=3.0.3',
+    'MarkupPy>=1.14',
     'Click>=7.0',
 ]
 
 setup(
     name='yamlapi',
-    version='1.2.1',
+    version='1.2.2',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',

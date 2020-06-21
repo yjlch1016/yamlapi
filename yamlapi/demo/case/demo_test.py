@@ -230,18 +230,18 @@ class DemoTest(unittest.TestCase):
             logger.info("预期的响应代码为：{}", expected_code)
             logger.info("预期的响应结果为：{}", json.dumps(expected_result, ensure_ascii=False))
 
-            self.test_case_data_list.append([
+            self.test_case_data_list.append((
                 case_name,
                 step_name,
                 request_mode,
-                api,
+                url,
                 json.dumps(payload, ensure_ascii=False),
                 json.dumps(headers, ensure_ascii=False),
                 json.dumps(query_string, ensure_ascii=False),
                 expected_time,
                 expected_code,
                 json.dumps(expected_result, ensure_ascii=False)
-            ])
+            ))
             # 把用例数据添加到测试用例数据列表
 
             try:
