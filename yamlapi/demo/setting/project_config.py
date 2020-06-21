@@ -44,7 +44,6 @@ db_password = '123456'
 db_database = ''
 # MySQL数据库配置
 
-
 current_path = os.path.dirname(os.path.dirname(__file__))
 # 获取当前目录的父目录的绝对路径
 # 也就是整个工程的根目录

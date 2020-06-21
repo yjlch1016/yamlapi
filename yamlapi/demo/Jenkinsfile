@@ -3,7 +3,7 @@
 pipeline {
 
     agent {
-        docker { image 'registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.3' }
+        docker { image 'registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.5' }
     }
 
     parameters {

@@ -21,6 +21,7 @@ sys.path.append(BASE_DIR)
 from setting.project_config import *
 from tool.connect_mysql import ConnectMySQL
 from tool.data_type_conversion import data_conversion_string
+from tool.export_test_case import export_various_formats
 from tool.read_write_yaml import merge_yaml, write_yaml
 from tool.beautiful_report_run import beautiful_report_run
 from tool.function_assistant import function_dollar, function_rn, function_rl, function_sql, function_mp
@@ -43,9 +44,13 @@ class DemoTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+
         cls.variable_result_dict = {}
         # 定义一个变量名与提取的结果字典
         # cls.variable_result_dict与self.variable_result_dict都是本类的公共属性
+
+        cls.test_case_data_list = []
+        # 定义一个测试用例数据列表
 
     @allure.story(test_story)
     @allure.severity(test_case_priority[0])
@@ -225,10 +230,24 @@ class DemoTest(unittest.TestCase):
             logger.info("预期的响应代码为：{}", expected_code)
             logger.info("预期的响应结果为：{}", json.dumps(expected_result, ensure_ascii=False))
 
+            self.test_case_data_list.append([
+                case_name,
+                step_name,
+                request_mode,
+                api,
+                json.dumps(payload, ensure_ascii=False),
+                json.dumps(headers, ensure_ascii=False),
+                json.dumps(query_string, ensure_ascii=False),
+                expected_time,
+                expected_code,
+                json.dumps(expected_result, ensure_ascii=False)
+            ])
+            # 把用例数据添加到测试用例数据列表
+
             try:
                 response = requests.request(
                     request_mode, url, data=json.dumps(payload),
-                    headers=headers, params=query_string, timeout=(12, 18)
+                    headers=headers, params=query_string, timeout=(15, 20)
                 )
                 # 发起HTTP请求
                 # json.dumps()序列化把字典转换成字符串，json.loads()反序列化把字符串转换成字典
@@ -334,6 +353,12 @@ class DemoTest(unittest.TestCase):
                     raise e
 
         logger.info("**********{}>>>执行结束**********\n", case_name)
+
+    @classmethod
+    def teardown_class(cls):
+
+        export_various_formats(cls.test_case_data_list)
+        # 调用导出各种格式的测试用例的方法
 
 
 if __name__ == '__main__':

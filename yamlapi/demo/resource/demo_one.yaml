@@ -14,18 +14,18 @@
         variable:
         expression:
     - step_name: 步骤名称2
-        mysql:
-        request_mode:
-        api:
-        body:
-        headers:
-        query_string:
-        expected_time:
-        expected_code:
-        expected_result:
-        regular:
-          variable:
-          expression:
+      mysql:
+      request_mode:
+      api:
+      body:
+      headers:
+      query_string:
+      expected_time:
+      expected_code:
+      expected_result:
+      regular:
+        variable:
+        expression:
 
 
 - case_name: 2、第二条用例
@@ -44,15 +44,15 @@
         variable:
         expression:
     - step_name: 步骤名称2
-        mysql:
-        request_mode:
-        api:
-        body:
-        headers:
-        query_string:
-        expected_time:
-        expected_code:
-        expected_result:
-        regular:
-          variable:
-          expression:
+      mysql:
+      request_mode:
+      api:
+      body:
+      headers:
+      query_string:
+      expected_time:
+      expected_code:
+      expected_result:
+      regular:
+        variable:
+        expression:

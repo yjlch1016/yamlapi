@@ -1,6 +1,10 @@
 # yamlapi  
 yamlapi接口测试框架  
 
+# 工程主页
+https://pypi.org/project/yamlapi/  
+https://github.com/yjlch1016/yamlapi  
+
 支持unittest与pytest两种运行模式  
 yamlapi即为yaml文件+api测试的缩写  
 可看作是一个脚手架工具  
@@ -27,9 +31,9 @@ yamlapi即为yaml文件+api测试的缩写
 `pip uninstall yamlapi`  
 卸载  
 
-
+***
 # 一、思路         
-1、采用requests+unittest+ddt+PyMySQL+DBUtils+BeautifulReport+demjson+loguru+PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-rerunfailures+pytest-sugar+pytest-timeout+pytest-parallel  
+1、采用requests+unittest+ddt+PyMySQL+DBUtils+BeautifulReport+demjson+loguru+PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-rerunfailures+pytest-sugar+pytest-timeout+pytest-parallel+tablib  
 2、requests是发起HTTP请求的第三方库  
 3、unittest是Python自带的单元测试工具  
 4、ddt是数据驱动的第三方库  
@@ -46,9 +50,10 @@ yamlapi即为yaml文件+api测试的缩写
 15、pytest-rerunfailures是失败重跑的插件  
 16、pytest-sugar是显示进度的插件  
 17、pytest-timeout是设置超时时间的插件  
-18、pytest-parallel是多线程的插件   
+18、pytest-parallel是多线程的插件  
+19、tablib是导出多种格式数据的第三方库  
 
-
+***
 # 二、目录结构    
 1、case是测试用例包              
 2、report_log是测试报告和日志的目录       
@@ -61,7 +66,7 @@ yamlapi即为yaml文件+api测试的缩写
 9、pytest.ini是pytest的配置文件  
 10、requirements.txt是第三方依赖库  
 
-
+***
 # 三、yaml文件说明  
 ```yaml
 - case_name: 用例名称
@@ -133,21 +138,30 @@ MySQL查询语句返回的结果，即第二行mysql[1]返回的结果，用{__S
 以上5种类型在一条用例里面可以混合使用  
 ${变量名}的作用域是全局的，其它4种的作用域仅限该条用例  
 
-
+***
 # 四、运行  
 1、unittest模式：  
 python+测试文件名+环境缩写  
-python case/demo_test.py dev  
-python case/demo_test.py test  
-python case/demo_test.py pre  
-python case/demo_test.py formal  
+`python case/demo_test.py dev`  
+开发环境  
+`python case/demo_test.py test`  
+测试环境  
+`python case/demo_test.py pre`  
+预生产环境  
+`python case/demo_test.py formal`  
+生产环境  
+
 2、pytest模式：  
 pytest+--cmd=环境缩写  
-pytest --cmd=dev  
-pytest --cmd=test  
-pytest --cmd=pre  
-pytest --cmd=formal  
+`pytest --cmd=dev`  
+开发环境  
+`pytest --cmd=test`  
+测试环境  
+`pytest --cmd=pre`  
+预生产环境  
+`pytest --cmd=formal`  
+生产环境  
 
-
+***
 # 五、从阿里云镜像仓库拉取镜像  
 `docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:[镜像版本号]`  
