@@ -33,11 +33,11 @@ def merge_yaml():
         # dirs为当前路径下所有子目录，list格式
         # files当前路径下所有非目录子文件，list格式
         for i in files:
-            if i != first_yaml:
+            if i != first_test_case_file:
                 if os.path.splitext(i)[1] == '.yaml':
                     # os.path.splitext()把路径拆分为文件名+扩展名
                     yaml_list.append(i)
-    yaml_list.append(first_yaml)
+    yaml_list.append(first_test_case_file)
     # 加入第一个yaml文件
     yaml_list.reverse()
     # 反转排序

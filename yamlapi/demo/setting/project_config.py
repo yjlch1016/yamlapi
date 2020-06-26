@@ -44,6 +44,7 @@ db_password = '123456'
 db_database = ''
 # MySQL数据库配置
 
+
 current_path = os.path.dirname(os.path.dirname(__file__))
 # 获取当前目录的父目录的绝对路径
 # 也就是整个工程的根目录
@@ -94,5 +95,8 @@ tester = "测试人员："
 # conftest配置
 
 
-first_yaml = "demo_one.yaml"
-# 第一个yaml文件
+test_case_format = "yaml"
+# 测试用例的格式：yaml或者json
+# 不可混用，只能选取一种格式
+first_test_case_file = "demo_one.yaml"
+# 第一个测试用例文件

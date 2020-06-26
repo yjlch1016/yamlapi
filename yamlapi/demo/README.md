@@ -10,6 +10,7 @@ yamlapi即为yaml文件+api测试的缩写
 可看作是一个脚手架工具  
 可快速生成项目的各个目录与文件  
 只需维护一份或者多份yaml文件即可  
+（或者json文件）  
 
 `pip install yamlapi`  
 安装  
@@ -67,7 +68,8 @@ yamlapi即为yaml文件+api测试的缩写
 10、requirements.txt是第三方依赖库  
 
 ***
-# 三、yaml文件说明  
+# 三、yaml、json文件说明  
+yaml文件  
 ```yaml
 - case_name: 用例名称
   step:
@@ -94,6 +96,37 @@ yamlapi即为yaml文件+api测试的缩写
           - '"response_1":"(.+?)"'
           - '"response_2":"(.+?)"'
 ```
+json文件  
+```json
+[
+  {
+    "case_name": "用例名称",
+    "step": [
+      {
+        "step_name": "步骤名称",
+        "mysql": [],
+        "request_mode": "POST",
+        "api": "/api/test",
+        "body": "{\"key_1\":\"value_1\",\"key_2\":\"value_2\"}",
+        "headers": "{'Content-Type': 'application/json'}",
+        "expected_time": 3,
+        "expected_code": 200,
+        "expected_result": "{\"code\":1,\"message\":\"成功\"}",
+        "regular": {
+          "variable": [
+            "name_1",
+            "name_2"
+          ],
+          "expression": [
+            "\"response_1\":\"(.+?)\"",
+            "\"response_2\":\"(.+?)\""
+          ]
+        }
+      }
+    ]
+  }
+]
+```
 1、外层有2个字段，内层有13个字段  
 命名和格式不可修改，顺序可以修改  
 
@@ -115,6 +148,7 @@ yamlapi即为yaml文件+api测试的缩写
 | variable | 变量名 | 否 | -列表格式 | |
 | expression | 表达式 | 否 | -列表格式 | |
 
+2、mysql字段说明  
 mysql： MySQL语句，-列表格式，顺序不可修改，选填  
 第一行：mysql[0]  
 第二行：mysql[1]  
@@ -128,7 +162,7 @@ mysql： MySQL语句，-列表格式，顺序不可修改，选填
 当只需要查时，第一行为空，第二行为查语句，第三行为空  
 当只需要双重断言时，第一行为空，第二行为空，第三行为查语句 
 
-2、参数化  
+3、参数化  
 正则表达式提取的结果用${变量名}匹配，一条用例里面可以有多个  
 MySQL查询语句返回的结果，即第二行mysql[1]返回的结果，用{__SQL索引}匹配  
 即{__SQL0}、{__SQL1}、{__SQL2}、{__SQL3}。。。。。。一条用例里面可以有多个  
@@ -161,6 +195,18 @@ pytest+--cmd=环境缩写
 预生产环境  
 `pytest --cmd=formal`  
 生产环境  
+
+3、运行结果  
+会在report_log目录下生成以下文件  
+allure-report  
+log年月日.log  
+report.html  
+report.xml  
+test_case.csv  
+test_case.html  
+test_case.json  
+test_case.xlsx  
+test_case.yaml  
 
 ***
 # 五、从阿里云镜像仓库拉取镜像  

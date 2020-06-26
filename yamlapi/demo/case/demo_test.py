@@ -23,6 +23,7 @@ from tool.connect_mysql import ConnectMySQL
 from tool.data_type_conversion import data_conversion_string
 from tool.export_test_case import export_various_formats
 from tool.read_write_yaml import merge_yaml, write_yaml
+from tool.read_write_json import merge_json
 from tool.beautiful_report_run import beautiful_report_run
 from tool.function_assistant import function_dollar, function_rn, function_rl, function_sql, function_mp
 
@@ -36,8 +37,14 @@ class DemoTest(unittest.TestCase):
         # 如果临时yaml文件存在
         os.remove(temporary_yaml)
         # 删除之
-    temporary_list = merge_yaml()
-    # 调用合并所有yaml文件的方法
+
+    if test_case_format == "yaml":
+        temporary_list = merge_yaml()
+        # 调用合并所有yaml文件的方法
+    if test_case_format == "json":
+        temporary_list = merge_json()
+        # 调用合并所有json文件的方法
+
     temporary_yaml = yaml_path + write_yaml("/temporary.yaml", temporary_list)
 
     # 调用写入yaml文件的方法
@@ -64,7 +71,7 @@ class DemoTest(unittest.TestCase):
         :return:
         """
 
-        global mysql_result_list_after
+        global mysql_result_list_after, temporary_list
 
         kwargs = str(kwargs)
         if "None" in kwargs:
