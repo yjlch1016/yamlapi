@@ -84,6 +84,8 @@ yaml文件
         {"key_1":"value_1","key_2":"value_2"}
       headers:
         {"Content-Type":"application/json"}
+      query_string:
+        {"key_3":"value_3","key_4":"value_4"}
       expected_time: 3
       expected_code: 200
       expected_result:
@@ -109,6 +111,7 @@ json文件
         "api": "/api/test",
         "body": "{\"key_1\":\"value_1\",\"key_2\":\"value_2\"}",
         "headers": "{'Content-Type': 'application/json'}",
+        "query_string": "{'key_3':'value_3','key_4':'value_4'}",
         "expected_time": 3,
         "expected_code": 200,
         "expected_result": "{\"code\":1,\"message\":\"成功\"}",
@@ -166,11 +169,12 @@ mysql： MySQL语句，-列表格式，顺序不可修改，选填
 正则表达式提取的结果用${变量名}匹配，一条用例里面可以有多个  
 MySQL查询语句返回的结果，即第二行mysql[1]返回的结果，用{__SQL索引}匹配  
 即{__SQL0}、{__SQL1}、{__SQL2}、{__SQL3}。。。。。。一条用例里面可以有多个  
-随机数字用{__RN位数}，一条用例里面可以有多个  
-随机英文字母用{__RL位数}，一条用例里面可以有多个  
+随机数字用{__RN位数}，如{__RN15}，一条用例里面可以有多个  
+随机英文字母用{__RL位数}，如{__RL10}，一条用例里面可以有多个  
 随机手机号码用{__MP}，一条用例里面可以有多个  
-以上5种类型在一条用例里面可以混合使用  
-${变量名}的作用域是全局的，其它4种的作用域仅限该条用例  
+随机日期时间字符串用{__RD开始年份,结束年份}，如{__RD2019,2020}，一条用例里面可以有多个  
+以上6种类型在一条用例里面可以混合使用  
+${变量名}的作用域是全局的，其它5种的作用域仅限该条用例   
 
 ***
 # 四、运行  

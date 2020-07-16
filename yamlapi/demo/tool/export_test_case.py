@@ -4,7 +4,11 @@ from setting.project_config import *
 
 
 def export_various_formats(test_case_data_list):
-    # 导出各种格式的测试用例，参数为测试用例数据列表
+    """
+    导出各种格式的测试用例
+    :param test_case_data_list: 参数为测试用例数据列表
+    :return:
+    """
 
     test_case_data_list_removal = list(set(test_case_data_list))
     test_case_data_list_removal.sort(key=test_case_data_list.index)

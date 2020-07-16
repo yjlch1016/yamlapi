@@ -1,18 +1,21 @@
 import re
 
-from tool.create_random import create_random_number, create_random_letters, create_random_mobile_phone
+from tool.create_random import create_random_number, create_random_letters, \
+    create_random_mobile_phone, create_random_datetime
 
 
 def function_dollar(field, variable_list):
-    # 替换$的方法，第一个参数是yaml文件里面定义的字段，第二个参数是变量列表
+    """
+    替换${变量名}的方法
+    :param field: 第一个参数是yaml文件里面定义的字段
+    :param variable_list: 第二个参数是变量列表
+    :return:
+    """
 
-    if "{$" in field:
+    if "${" in field:
         for key, value in variable_list:
-            field = field.replace("{" + key + "}", value)
+            field = field.replace("${" + key + "}", value)
             # replace(old, new)把字符串中的旧字符串替换成正则表达式提取的值
-        field = re.sub("\\$", "", field)
-        # re.sub(old, new, 源字符串)默认全部替换
-        # 如果遇到带有转义的字符被当作特殊字符时，使用双反斜杠\\来转义，或者在引号前面加r
     else:
         pass
 
@@ -21,7 +24,11 @@ def function_dollar(field, variable_list):
 
 
 def function_rn(field):
-    # 替换RN随机数字的方法，参数为yaml文件里面定义的字段
+    """
+    替换RN随机数字的方法
+    :param field: 参数为yaml文件里面定义的字段
+    :return:
+    """
 
     if "{__RN" in field:
         digit_list = re.findall("{__RN(.+?)}", field)
@@ -38,7 +45,11 @@ def function_rn(field):
 
 
 def function_rl(field):
-    # 替换RL随机字母的方法，参数为yaml文件里面定义的字段
+    """
+    替换RL随机字母的方法
+    :param field: 参数为yaml文件里面定义的字段
+    :return:
+    """
 
     if "{__RL" in field:
         digit_list = re.findall("{__RL(.+?)}", field)
@@ -55,7 +66,11 @@ def function_rl(field):
 
 
 def function_mp(field):
-    # 替换MP随机手机号码的方法，参数为yaml文件里面定义的字段
+    """
+    替换MP随机手机号码的方法
+    :param field: 参数为yaml文件里面定义的字段
+    :return:
+    """
 
     if "{__MP" in field:
         random_mobile_phone = create_random_mobile_phone()
@@ -68,8 +83,35 @@ def function_mp(field):
     # 返回替换后的字段
 
 
+def function_rd(field):
+    """
+    替换RD随机日期时间的方法
+    :param field: 参数为yaml文件里面定义的字段
+    :return:
+    """
+
+    if "{__RD" in field:
+        digit_list = re.findall("{__RD(.+?)}", field)
+        # 获取年份列表
+        for i in digit_list:
+            i_split = i.split(",")
+            random_datetime = create_random_datetime(i_split[0], i_split[1])
+            # 调用生成随机日期时间的方法
+            field = field.replace("{__RD" + i + "}", random_datetime)
+    else:
+        pass
+
+    return field
+    # 返回替换后的字段
+
+
 def function_sql(field, mysql_result_list):
-    # 替换MySQL查询结果的方法，第一个参数是yaml文件里面定义的字段，第二个参数是MySQL查询结果列表
+    """
+    替换MySQL查询结果的方法
+    :param field: 第一个参数是yaml文件里面定义的字段
+    :param mysql_result_list: 第二个参数是MySQL查询结果列表
+    :return:
+    """
 
     if "{__SQL" in field:
         mysql_index_list = re.findall("{__SQL(.+?)}", field)
@@ -79,6 +121,8 @@ def function_sql(field, mysql_result_list):
             if type(mysql_value) != str:
                 mysql_value = str(mysql_value)
             field = field.replace("{__SQL" + i + "}", mysql_value)
+    else:
+        pass
 
     return field
     # 返回替换后的字段

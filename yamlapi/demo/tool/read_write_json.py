@@ -4,7 +4,11 @@ from setting.project_config import *
 
 
 def read_json(json_relative):
-    # 读取json文件，参数为需要读取的json文件的相对路径
+    """
+    读取json文件
+    :param json_relative: 参数为需要读取的json文件的相对路径
+    :return:
+    """
 
     with open(yaml_path + json_relative, "r", encoding="utf-8") as f:
         data_list = demjson.decode(f.read(), encoding="utf-8")
@@ -13,7 +17,12 @@ def read_json(json_relative):
 
 
 def write_json(json_relative, data_list):
-    # 写入json文件，第一个参数为需要写入的json文件的相对路径，第二个参数为需要转换的数据
+    """
+    写入json文件
+    :param json_relative: 第一个参数为需要写入的json文件的相对路径
+    :param data_list: 第二个参数为需要转换的数据
+    :return:
+    """
 
     with open(yaml_path + json_relative, "wb") as f:
         f.write(demjson.encode(data_list, encoding="utf-8"))
@@ -22,7 +31,10 @@ def write_json(json_relative, data_list):
 
 
 def merge_json():
-    # 合并所有json文件的方法
+    """
+    合并所有json文件的方法
+    :return:
+    """
 
     json_list = []
     for root, dirs, files in os.walk(yaml_path):

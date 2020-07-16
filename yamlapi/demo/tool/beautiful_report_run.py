@@ -6,7 +6,11 @@ from setting.project_config import *
 
 
 def beautiful_report_run(test_class):
-    # BeautifulReport运行方式，参数为测试类名
+    """
+    BeautifulReport运行方式
+    :param test_class: 参数为测试类名
+    :return:
+    """
 
     suite = unittest.TestLoader().loadTestsFromTestCase(test_class)
     result = BeautifulReport(suite)

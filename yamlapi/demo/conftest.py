@@ -11,7 +11,11 @@ from setting.project_config import *
 
 
 def pytest_configure(config):
-    # 添加环境信息
+    """
+    添加环境信息
+    :param config:
+    :return:
+    """
 
     config._metadata["项目名称"] = project_name
     config._metadata["Swagger地址"] = swagger_address
@@ -19,7 +23,13 @@ def pytest_configure(config):
 
 @pytest.mark.optionalhook
 def pytest_html_results_summary(prefix, summary, postfix):
-    # 添加附加摘要信息
+    """
+    添加附加摘要信息
+    :param prefix:
+    :param summary:
+    :param postfix:
+    :return:
+    """
 
     prefix.extend([html.p(test_department)])
     prefix.extend([html.p(tester)])
@@ -27,7 +37,11 @@ def pytest_html_results_summary(prefix, summary, postfix):
 
 @pytest.mark.optionalhook
 def pytest_html_results_table_header(cells):
-    # 添加带有测试函数docstring的description列，添加可排序的time列，并删除links列
+    """
+    添加带有测试函数docstring的description列，添加可排序的time列，并删除links列
+    :param cells:
+    :return:
+    """
 
     cells.insert(2, html.th('Description'))
     cells.insert(1, html.th('Time', class_='sortable time', col='time'))
@@ -50,7 +64,11 @@ def pytest_runtest_makereport(item, call):
 
 
 def pytest_addoption(parser):
-    # 注册自定义的命令
+    """
+    注册自定义的命令
+    :param parser:
+    :return:
+    """
 
     parser.addoption(
         "--cmd", action="store", default="test", help="被测环境的缩写"
@@ -59,5 +77,10 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope="session", autouse=True)
 def cmd(request):
+    """
+    获取从命令行传入的值
+    :param request:
+    :return:
+    """
+
     environment = request.config.getoption("--cmd")
-    # 获取从命令行传入的值

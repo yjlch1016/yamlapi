@@ -51,7 +51,11 @@ class ConnectMySQL(object):
             raise e
 
     def query_mysql(self, sql_sentence):
-        # 查询MySQL，参数为MySQL查询语句
+        """
+        查询MySQL
+        :param sql_sentence: 参数为MySQL查询语句
+        :return:
+        """
 
         conn = self.pool.connection()
         # 打开数据库连接
@@ -78,7 +82,11 @@ class ConnectMySQL(object):
         # 返回一个元组
 
     def insert_mysql(self, sql_sentence):
-        # 插入MySQL，参数为MySQL插入语句
+        """
+        插入MySQL
+        :param sql_sentence: 参数为MySQL插入语句
+        :return:
+        """
 
         conn = self.pool.connection()
         # 打开数据库连接
@@ -103,7 +111,11 @@ class ConnectMySQL(object):
             # 断开数据库连接
 
     def update_mysql(self, sql_sentence):
-        # 更新MySQL，参数为MySQL更新语句
+        """
+        更新MySQL
+        :param sql_sentence: 参数为MySQL更新语句
+        :return:
+        """
 
         conn = self.pool.connection()
         # 打开数据库连接
@@ -128,7 +140,11 @@ class ConnectMySQL(object):
             # 断开数据库连接
 
     def delete_mysql(self, sql_sentence):
-        # 删除MySQL，参数为MySQL删除语句
+        """
+        删除MySQL
+        :param sql_sentence: 参数为MySQL删除语句
+        :return:
+        """
 
         conn = self.pool.connection()
         # 打开数据库连接

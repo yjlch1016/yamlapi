@@ -4,7 +4,11 @@ from setting.project_config import *
 
 
 def read_yaml(yaml_relative):
-    # 读取yaml文件，参数为需要读取的yaml文件的相对路径
+    """
+    读取yaml文件
+    :param yaml_relative: 参数为需要读取的yaml文件的相对路径
+    :return:
+    """
 
     with open(yaml_path + yaml_relative, "r",
               encoding="utf-8") as f:
@@ -14,7 +18,12 @@ def read_yaml(yaml_relative):
 
 
 def write_yaml(yaml_relative, data_list):
-    # 写入yaml文件，第一个参数为需要写入的yaml文件的相对路径，第二个参数为需要转换的数据
+    """
+    写入yaml文件
+    :param yaml_relative: 第一个参数为需要写入的yaml文件的相对路径
+    :param data_list: 第二个参数为需要转换的数据
+    :return:
+    """
 
     with open(yaml_path + yaml_relative, "w",
               encoding="utf-8") as f:
@@ -25,7 +34,10 @@ def write_yaml(yaml_relative, data_list):
 
 
 def merge_yaml():
-    # 合并所有yaml文件的方法
+    """
+    合并所有yaml文件的方法
+    :return:
+    """
 
     yaml_list = []
     for root, dirs, files in os.walk(yaml_path):

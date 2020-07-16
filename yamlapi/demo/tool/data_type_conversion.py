@@ -3,7 +3,11 @@ import decimal
 
 
 def data_conversion_string(mysql_result_list):
-    # 数据类型转换的方法，参数为MySQL查询结果列表
+    """
+    数据类型转换的方法
+    :param mysql_result_list: 参数为MySQL查询结果列表
+    :return:
+    """
 
     if mysql_result_list:
         for index in range(len(mysql_result_list)):
