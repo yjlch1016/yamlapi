@@ -25,12 +25,11 @@ requires = [
     'tablib>=2.0.0',
     'openpyxl>=3.0.3',
     'MarkupPy>=1.14',
-    'Click>=7.0',
 ]
 
 setup(
     name='yamlapi',
-    version='1.2.4',
+    version='1.2.5',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',

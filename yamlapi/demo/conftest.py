@@ -10,6 +10,15 @@ from py._xmlgen import html
 from setting.project_config import *
 
 
+def pytest_html_report_title(report):
+    """
+    添加标题
+    :param report:
+    :return:
+    """
+    report.title = html_report_title
+
+
 def pytest_configure(config):
     """
     添加环境信息
@@ -21,7 +30,6 @@ def pytest_configure(config):
     config._metadata["Swagger地址"] = swagger_address
 
 
-@pytest.mark.optionalhook
 def pytest_html_results_summary(prefix, summary, postfix):
     """
     添加附加摘要信息
@@ -35,7 +43,6 @@ def pytest_html_results_summary(prefix, summary, postfix):
     prefix.extend([html.p(tester)])
 
 
-@pytest.mark.optionalhook
 def pytest_html_results_table_header(cells):
     """
     添加带有测试函数docstring的description列，添加可排序的time列，并删除links列
@@ -48,7 +55,6 @@ def pytest_html_results_table_header(cells):
     cells.pop()
 
 
-@pytest.mark.optionalhook
 def pytest_html_results_table_row(report, cells):
     cells.insert(2, html.td(report.description))
     cells.insert(1, html.td(datetime.now(), class_='col-time'))
@@ -60,7 +66,6 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
     report.description = str(item.function.__doc__)
-    report.nodeid = report.nodeid.encode("utf-8").decode("unicode_escape")
 
 
 def pytest_addoption(parser):
@@ -71,7 +76,7 @@ def pytest_addoption(parser):
     """
 
     parser.addoption(
-        "--cmd", action="store", default="test", help="被测环境的缩写"
+        "--cmd", action="store", default="fat", help="被测环境的缩写"
     )
 
 
