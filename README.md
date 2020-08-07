@@ -1,8 +1,10 @@
 # yamlapi  
 yamlapi接口测试框架  
 
-# 工程主页
+# 工程主页  
+pypi：  
 https://pypi.org/project/yamlapi/  
+github：  
 https://github.com/yjlch1016/yamlapi  
 
 支持unittest与pytest两种运行模式  
@@ -24,10 +26,15 @@ yamlapi即为yaml文件+api测试的缩写
 `pip install -U yamlapi`  
 安装最新版  
 
-`yamlapi --p=项目名称`  
+`yamlapi create --p=项目名称`  
 创建项目  
 例如在某个路径下执行命令：  
-`yamlapi --p=demo_project`  
+`yamlapi create --p=demo_project`  
+
+`yamlapi run --c=环境缩写`  
+运行项目  
+例如在项目的根目录下面执行命令：  
+`yamlapi run --c=test`  
 
 `pip uninstall yamlapi`  
 卸载  
@@ -200,7 +207,18 @@ pytest+--cmd=环境缩写
 `pytest --cmd=formal`  
 生产环境  
 
-3、运行结果  
+3、yamlapi模式：  
+yamlapi+run+--c=环境缩写  
+`yamlapi run --c=dev`  
+开发环境  
+`yamlapi run --c=test`  
+测试环境  
+`yamlapi run --c=pre`  
+预生产环境  
+`yamlapi run --c=formal`  
+生产环境  
+
+4、运行结果  
 会在report_log目录下生成以下文件  
 allure-report  
 log年月日.log  
@@ -214,4 +232,4 @@ test_case.yaml
 
 ***
 # 五、从阿里云镜像仓库拉取镜像  
-`docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:[镜像版本号]`  
+`docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.6`  

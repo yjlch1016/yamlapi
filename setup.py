@@ -25,11 +25,12 @@ requires = [
     'tablib>=2.0.0',
     'openpyxl>=3.0.3',
     'MarkupPy>=1.14',
+    'Click>=7.0',
 ]
 
 setup(
     name='yamlapi',
-    version='1.2.5',
+    version='1.2.6',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',
@@ -50,7 +51,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'yamlapi=yamlapi.yaml_api:start_project',
+            'yamlapi=yamlapi.yaml_api:cli',
         ],
     },
     python_requires='>=3.5',
