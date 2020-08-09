@@ -62,17 +62,19 @@ yamlapi即为yaml文件+api测试的缩写
 19、tablib是导出多种格式数据的第三方库  
 
 ***
-# 二、目录结构    
-1、case是测试用例包              
-2、report_log是测试报告和日志的目录       
-3、resource是yaml文件的目录      
-4、setting是工程的配置文件包            
+# 二、目录结构  
+1、case是测试用例包  
+2、report_log是测试报告和日志的目录  
+3、resource是yaml文件的目录  
+4、setting是工程的配置文件包  
 5、tool是常用方法的封装包  
-6、.gitignore是.ignore插件需要排除的文件  
-7、conftest.py是全局钩子文件  
-8、Jenkinsfile是Jenkins Pipeline文件  
-9、pytest.ini是pytest的配置文件  
-10、requirements.txt是第三方依赖库  
+6、.dockerignore是在传递给docker引擎时需要忽略掉的文件  
+7、.gitignore是.ignore插件需要排除的文件  
+8、conftest.py是全局钩子文件  
+9、Dockerfile是构建镜像的文件  
+10、Jenkinsfile是Jenkins Pipeline文件  
+11、pytest.ini是pytest的配置文件  
+12、requirements.txt是第三方依赖库  
 
 ***
 # 三、yaml、json文件说明  
@@ -218,7 +220,7 @@ yamlapi+run+--c=环境缩写
 `yamlapi run --c=formal`  
 生产环境  
 
-4、运行结果  
+4、运行结果：  
 会在report_log目录下生成以下文件  
 allure-report  
 log年月日.log  
@@ -231,5 +233,17 @@ test_case.xlsx
 test_case.yaml  
 
 ***
-# 五、从阿里云镜像仓库拉取镜像  
+# 五、打包镜像  
 `docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.6`  
+从阿里云镜像仓库拉取yamlapi镜像
+
+`docker build -t demo_image .`  
+docker build -t 镜像名称 .  
+本地打包  
+demo_image为镜像名称，随便取  
+
+`docker run -e cmd="test" demo_image:latest`  
+docker run -e cmd="环境缩写" 镜像名称:latest  
+启动容器  
+前台运行  
+-e cmd="test"向启动命令动态传递参数，环境缩写为test  

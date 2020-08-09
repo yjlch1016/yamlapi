@@ -226,7 +226,7 @@ class DemoTest(unittest.TestCase):
                 query_string = function_rn(query_string)
                 query_string = function_rl(query_string)
                 query_string = function_mp(query_string)
-                payload = function_rd(payload)
+                query_string = function_rd(query_string)
                 query_string = demjson.decode(query_string)
             if expected_result:
                 expected_result = demjson.decode(expected_result)
