@@ -21,29 +21,74 @@ environment = os.getenv("measured_environment", parameter)
 if environment == "dev":
     service_domain = "http://www.dev.com"
     # 开发环境
+
     db_host = 'mysql.dev.com'
     db_port = 3306
+    db_user = 'root'
+    db_password = '123456'
+    db_database = ''
+    # MySQL数据库配置
+
+    mongo_host = "mongo.dev.com"
+    mongo_port = "27017"
+    mongo_database = "mongo_db_1"
+    mongo_user = "root"
+    mongo_password = "123456"
+    # Mongo数据库配置
+
 elif environment == "test":
     service_domain = "http://www.test.com"
     # 测试环境
+
     db_host = 'mysql.test.com'
     db_port = 3307
+    db_user = 'root'
+    db_password = '123456'
+    db_database = ''
+    # MySQL数据库配置
+
+    mongo_host = "mongo.test.com"
+    mongo_port = "27017"
+    mongo_database = "mongo_db_1"
+    mongo_user = "root"
+    mongo_password = "123456"
+    # Mongo数据库配置
+
 elif environment == "pre":
     service_domain = "http://www.pre.com"
     # 预生产环境
+
     db_host = 'mysql.pre.com'
     db_port = 3308
+    db_user = 'root'
+    db_password = '123456'
+    db_database = ''
+    # MySQL数据库配置
+
+    mongo_host = "mongo.pre.com"
+    mongo_port = "27017"
+    mongo_database = "mongo_db_1"
+    mongo_user = "root"
+    mongo_password = "123456"
+    # Mongo数据库配置
+
 elif environment == "formal":
     service_domain = "https://www.formal.com"
     # 生产环境
+
     db_host = None
     db_port = None
+    db_user = None
+    db_password = None
+    db_database = None
+    # MySQL数据库配置
 
-db_user = 'root'
-db_password = '123456'
-db_database = ''
-# MySQL数据库配置
-
+    mongo_host = None
+    mongo_port = None
+    mongo_database = None
+    mongo_user = None
+    mongo_password = None
+    # Mongo数据库配置
 
 current_path = os.path.dirname(os.path.dirname(__file__))
 # 获取当前目录的父目录的绝对路径

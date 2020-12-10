@@ -20,13 +20,14 @@ sys.path.append(BASE_DIR)
 
 from setting.project_config import *
 from tool.connect_mysql import ConnectMySQL
+from tool.connect_mongo import ConnectMongo
 from tool.data_type_conversion import data_conversion_string
 from tool.export_test_case import export_various_formats
 from tool.read_write_yaml import merge_yaml, write_yaml
 from tool.read_write_json import merge_json
 from tool.beautiful_report_run import beautiful_report_run
 from tool.function_assistant import function_dollar, function_rn, function_rl, \
-    function_sql, function_mp, function_rd
+    function_sql, function_mp, function_rd, function_mongo
 
 
 @allure.feature(test_scenario)
@@ -76,7 +77,7 @@ class DemoTest(unittest.TestCase):
         :return:
         """
 
-        global mysql_result_list_after, temporary_list
+        global mysql_result_list_after, mongo_result_list_after, temporary_list
 
         kwargs = str(kwargs)
         if "None" in kwargs:
@@ -98,6 +99,8 @@ class DemoTest(unittest.TestCase):
             # 步骤名称
             mysql = item.get("mysql")
             # mysql语句
+            mongo = item.get("mongo")
+            # mongo语句
             request_mode = item.get("request_mode")
             # 请求方式
             api = item.get("api")
@@ -134,9 +137,9 @@ class DemoTest(unittest.TestCase):
             # 正则
 
             logger.info("步骤名称为：{}", step_name)
-            if environment == "formal" and mysql:
+            if environment == "formal" and mysql or environment == "formal" and mongo:
                 self.skipTest("跳过生产环境，请忽略")
-            # 生产环境不能连接MySQL数据库，因此跳过，此行后面的都不会执行
+            # 生产环境不能连接MySQL或者Mongo数据库，因此跳过，此行后面的都不会执行
 
             if self.variable_result_dict:
                 # 如果变量名与提取的结果字典不为空
@@ -148,6 +151,23 @@ class DemoTest(unittest.TestCase):
                         mysql[1] = function_dollar(mysql[1], self.variable_result_dict.items())
                     if mysql[2]:
                         mysql[2] = function_dollar(mysql[2], self.variable_result_dict.items())
+                if mongo:
+                    if mongo[0]:
+                        if mongo[0][2]:
+                            if type(mongo[0][2]) != str:
+                                mongo[0][2] = str(mongo[0][2])
+                            mongo[0][2] = function_dollar(mongo[0][2], self.variable_result_dict.items())
+                            # 调用替换$的方法
+                    if mongo[1]:
+                        if mongo[1][1]:
+                            if type(mongo[1][1]) != str:
+                                mongo[1][1] = str(mongo[1][1])
+                            mongo[1][1] = function_dollar(mongo[1][1], self.variable_result_dict.items())
+                    if mongo[2]:
+                        if mongo[2][1]:
+                            if type(mongo[2][1]) != str:
+                                mongo[2][1] = str(mongo[2][1])
+                            mongo[2][1] = function_dollar(mongo[2][1], self.variable_result_dict.items())
                 if api:
                     api = function_dollar(api, self.variable_result_dict.items())
                 if payload:
@@ -206,6 +226,56 @@ class DemoTest(unittest.TestCase):
                             query_string = function_sql(query_string, mysql_result_list)
                         if expected_result:
                             expected_result = function_sql(expected_result, mysql_result_list)
+
+            if mongo:
+                mongo_db = ConnectMongo()
+                # 实例化一个Mongo操作对象
+                if mongo[0]:
+                    if mongo[0][2]:
+                        if type(mongo[0][2]) != str:
+                            mongo[0][2] = str(mongo[0][2])
+                        mongo[0][2] = function_rn(mongo[0][2])
+                        mongo[0][2] = function_rl(mongo[0][2])
+                        mongo[0][2] = function_mp(mongo[0][2])
+                        mongo[0][2] = function_rd(mongo[0][2])
+                        if type(mongo[0][2]) != dict:
+                            mongo[0][2] = demjson.decode(mongo[0][2])
+                    if mongo[0][1] == "insert":
+                        if mongo[0][2]:
+                            if type(mongo[0][2]) == dict:
+                                mongo_db.insert_mongo_one(mongo[0][0], mongo[0][2])
+                                # 调用插入Mongo（一条数据）的方法
+                            if type(mongo[0][2]) == list:
+                                mongo_db.insert_mongo_many(mongo[0][0], mongo[0][2])
+                                # 调用插入Mongo（多条数据）的方法
+                        sleep(2)
+                    if mongo[0][1] == "remove":
+                        if mongo[0][2]:
+                            mongo_db.delete_mongo_one(mongo[0][0], mongo[0][2])
+                            # 调用删除Mongo（一条数据）的方法
+                        sleep(2)
+                    if mongo[0][1] == "update":
+                        if mongo[0][2]:
+                            mongo_db.update_mongo_one(mongo[0][0], *mongo[0][2])
+                            # 调用更新Mongo（一条数据）的方法
+                        sleep(2)
+                if mongo[1]:
+                    mongo_result_dict = mongo_db.query_mongo_one(mongo[1][0], *mongo[1][1])
+                    # 调用查询Mongo（一条数据）的方法
+                    mongo_result_list = list(mongo_result_dict.values())
+                    # 把字典转换成列表
+                    logger.info("发起请求之前mongo查询的结果列表为：{}", mongo_result_list)
+                    if api:
+                        api = function_mongo(api, mongo_result_list)
+                        # 调用替换Mongo查询结果的方法
+                    if payload:
+                        payload = function_mongo(payload, mongo_result_list)
+                    if headers:
+                        headers = function_mongo(headers, mongo_result_list)
+                    if query_string:
+                        query_string = function_mongo(query_string, mongo_result_list)
+                    if expected_result:
+                        expected_result = function_mongo(expected_result, mongo_result_list)
 
             if api:
                 api = function_rn(api)
@@ -308,6 +378,14 @@ class DemoTest(unittest.TestCase):
                         logger.info("发起请求之后mysql查询的结果列表为：{}", mysql_result_list_after)
                         mysql_result_list_after = list(map(str, mysql_result_list_after))
                         # 把列表里面的元素类型全部转为str
+            if mongo:
+                if mongo[2]:
+                    mongo_db_after = ConnectMongo()
+                    mongo_result_dict_after = mongo_db_after.query_mongo_one(mongo[2][0], *mongo[2][1])
+                    mongo_result_list_after = list(mongo_result_dict_after.values())
+                    logger.info("发起请求之后mongo查询的结果列表为：{}", mongo_result_list_after)
+                    mongo_result_list_after = list(map(str, mysql_result_list_after))
+                    # 把列表里面的元素类型全部转为str
 
             if regular:
                 # 如果正则不为空
@@ -355,9 +433,17 @@ class DemoTest(unittest.TestCase):
                 if mysql[2] and expected_time:
                     boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
                         mysql_result_list_after) <= set(actual_result_list) and actual_time <= expected_time
+            if mongo:
+                if mongo[2]:
+                    boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
+                        mongo_result_list_after) <= set(actual_result_list)
+                if mongo[2] and expected_time:
+                    boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
+                        mongo_result_list_after) <= set(actual_result_list) and actual_time <= expected_time
             # 多重断言
             # 预期的响应结果与实际的响应结果是被包含关系
             # 发起请求之后mysql查询结果与实际的响应结果是被包含关系
+            # 发起请求之后mongo查询结果与实际的响应结果是被包含关系
             # 实际的响应时间应该小于或者等于预期的响应时间
             if expected_code == actual_code:
                 if boolean_expression:

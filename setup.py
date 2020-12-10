@@ -8,6 +8,9 @@ requires = [
     'ddt>=1.4.1',
     'PyMySQL>=0.9.3',
     'DBUtils>=1.3',
+    'psycopg2-binary>=2.8.5',
+    'pymongo>=3.11.0',
+    'redis>=3.2.1',
     'BeautifulReport>=0.1.2',
     'demjson>=2.2.4',
     'loguru>=0.5.0',
@@ -30,7 +33,7 @@ requires = [
 
 setup(
     name='yamlapi',
-    version='1.2.7',
+    version='1.2.8',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',
