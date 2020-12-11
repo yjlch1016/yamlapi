@@ -2,6 +2,7 @@
   step:
     - step_name: 步骤名称1
       mysql:
+      pgsql:
       mongo:
       request_mode:
       api:
@@ -20,6 +21,7 @@
   step:
     - step_name: 步骤名称1
       mysql:
+      pgsql:
       mongo:
       request_mode:
       api:

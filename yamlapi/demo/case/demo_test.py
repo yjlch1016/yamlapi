@@ -20,6 +20,7 @@ sys.path.append(BASE_DIR)
 
 from setting.project_config import *
 from tool.connect_mysql import ConnectMySQL
+from tool.connect_postgresql import ConnectPostgreSQL
 from tool.connect_mongo import ConnectMongo
 from tool.data_type_conversion import data_conversion_string
 from tool.export_test_case import export_various_formats
@@ -27,7 +28,7 @@ from tool.read_write_yaml import merge_yaml, write_yaml
 from tool.read_write_json import merge_json
 from tool.beautiful_report_run import beautiful_report_run
 from tool.function_assistant import function_dollar, function_rn, function_rl, \
-    function_sql, function_mp, function_rd, function_mongo
+    function_sql, function_mp, function_rd, function_mongo, function_pgsql
 
 
 @allure.feature(test_scenario)
@@ -77,7 +78,8 @@ class DemoTest(unittest.TestCase):
         :return:
         """
 
-        global mysql_result_list_after, mongo_result_list_after, temporary_list
+        global mysql_result_list_after, pgsql_result_list_after, \
+            mongo_result_list_after, temporary_list
 
         kwargs = str(kwargs)
         if "None" in kwargs:
@@ -99,6 +101,8 @@ class DemoTest(unittest.TestCase):
             # 步骤名称
             mysql = item.get("mysql")
             # mysql语句
+            pgsql = item.get("pgsql")
+            # pgsql语句
             mongo = item.get("mongo")
             # mongo语句
             request_mode = item.get("request_mode")
@@ -137,9 +141,11 @@ class DemoTest(unittest.TestCase):
             # 正则
 
             logger.info("步骤名称为：{}", step_name)
-            if environment == "formal" and mysql or environment == "formal" and mongo:
+            if environment == "formal" and mysql or \
+                    environment == "formal" and pgsql or \
+                    environment == "formal" and mongo:
                 self.skipTest("跳过生产环境，请忽略")
-            # 生产环境不能连接MySQL或者Mongo数据库，因此跳过，此行后面的都不会执行
+            # 生产环境不能连接MySQL数据库或者PostgreSQL数据库或者Mongo数据库，因此跳过，此行后面的都不会执行
 
             if self.variable_result_dict:
                 # 如果变量名与提取的结果字典不为空
@@ -151,6 +157,14 @@ class DemoTest(unittest.TestCase):
                         mysql[1] = function_dollar(mysql[1], self.variable_result_dict.items())
                     if mysql[2]:
                         mysql[2] = function_dollar(mysql[2], self.variable_result_dict.items())
+                if pgsql:
+                    if pgsql[0]:
+                        pgsql[0] = function_dollar(pgsql[0], self.variable_result_dict.items())
+                    # 调用替换$的方法
+                    if pgsql[1]:
+                        pgsql[1] = function_dollar(pgsql[1], self.variable_result_dict.items())
+                    if pgsql[2]:
+                        pgsql[2] = function_dollar(pgsql[2], self.variable_result_dict.items())
                 if mongo:
                     if mongo[0]:
                         if mongo[0][2]:
@@ -226,6 +240,50 @@ class DemoTest(unittest.TestCase):
                             query_string = function_sql(query_string, mysql_result_list)
                         if expected_result:
                             expected_result = function_sql(expected_result, mysql_result_list)
+
+            if pgsql:
+                pgsql_db = ConnectPostgreSQL()
+                # 实例化一个PostgreSQL操作对象
+                if pgsql[0]:
+                    pgsql[0] = function_rn(pgsql[0])
+                    # 调用替换RN随机数字的方法
+                    pgsql[0] = function_rl(pgsql[0])
+                    # 调用替换RL随机字母的方法
+                    pgsql[0] = function_mp(pgsql[0])
+                    # 调用替换MP随机手机号码的方法
+                    pgsql[0] = function_rd(pgsql[0])
+                    # 调用替换RD随机日期时间的方法
+                    if "INSERT" in pgsql[0] or "insert" in pgsql[0]:
+                        pgsql_db.insert_postgresql(pgsql[0])
+                        # 调用插入pgsql的方法
+                        sleep(2)
+                        # 等待2秒钟
+                    if "UPDATE" in pgsql[0] or "update" in pgsql[0]:
+                        pgsql_db.update_postgresql(pgsql[0])
+                        # 调用更新pgsql的方法
+                        sleep(2)
+                    if "DELETE" in pgsql[0] or "delete" in pgsql[0]:
+                        pgsql_db.delete_postgresql(pgsql[0])
+                        # 调用删除pgsql的方法
+                        sleep(2)
+                if pgsql[1]:
+                    if "SELECT" in pgsql[1] or "select" in pgsql[1]:
+                        pgsql_result_tuple = pgsql_db.query_postgresql(pgsql[1])
+                        # PostgreSQL查询结果元祖
+                        pgsql_result_list = list(chain.from_iterable(pgsql_result_tuple))
+                        # 把二维元祖转换为一维列表
+                        logger.info("发起请求之前PostgreSQL查询的结果列表为：{}", pgsql_result_list)
+                        if api:
+                            api = function_pgsql(api, pgsql_result_list)
+                            # 调用替换PostgreSQL查询结果的方法
+                        if payload:
+                            payload = function_pgsql(payload, pgsql_result_list)
+                        if headers:
+                            headers = function_pgsql(headers, pgsql_result_list)
+                        if query_string:
+                            query_string = function_pgsql(query_string, pgsql_result_list)
+                        if expected_result:
+                            expected_result = function_pgsql(expected_result, pgsql_result_list)
 
             if mongo:
                 mongo_db = ConnectMongo()
@@ -378,6 +436,15 @@ class DemoTest(unittest.TestCase):
                         logger.info("发起请求之后mysql查询的结果列表为：{}", mysql_result_list_after)
                         mysql_result_list_after = list(map(str, mysql_result_list_after))
                         # 把列表里面的元素类型全部转为str
+            if pgsql:
+                if pgsql[2]:
+                    if "SELECT" in pgsql[2] or "select" in pgsql[2]:
+                        pgsql_db_after = ConnectPostgreSQL()
+                        pgsql_result_tuple_after = pgsql_db_after.query_postgresql(pgsql[2])
+                        pgsql_result_list_after = list(chain.from_iterable(pgsql_result_tuple_after))
+                        logger.info("发起请求之后PostgreSQL查询的结果列表为：{}", pgsql_result_list_after)
+                        pgsql_result_list_after = list(map(str, pgsql_result_list_after))
+                        # 把列表里面的元素类型全部改为str
             if mongo:
                 if mongo[2]:
                     mongo_db_after = ConnectMongo()
@@ -433,6 +500,13 @@ class DemoTest(unittest.TestCase):
                 if mysql[2] and expected_time:
                     boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
                         mysql_result_list_after) <= set(actual_result_list) and actual_time <= expected_time
+            if pgsql:
+                if pgsql[2]:
+                    boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
+                        pgsql_result_list_after) <= set(actual_result_list)
+                if pgsql[2] and expected_time:
+                    boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
+                        pgsql_result_list_after) <= set(actual_result_list) and actual_time <= expected_time
             if mongo:
                 if mongo[2]:
                     boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
@@ -443,6 +517,7 @@ class DemoTest(unittest.TestCase):
             # 多重断言
             # 预期的响应结果与实际的响应结果是被包含关系
             # 发起请求之后mysql查询结果与实际的响应结果是被包含关系
+            # 发起请求之后pgsql查询结果与实际的响应结果是被包含关系
             # 发起请求之后mongo查询结果与实际的响应结果是被包含关系
             # 实际的响应时间应该小于或者等于预期的响应时间
             if expected_code == actual_code:

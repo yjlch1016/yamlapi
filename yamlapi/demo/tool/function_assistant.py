@@ -128,6 +128,29 @@ def function_sql(field, mysql_result_list):
     # 返回替换后的字段
 
 
+def function_pgsql(field, pgsql_result_list):
+    """
+    替换PgSQL查询结果的方法
+    :param field: 第一个参数是yaml文件里面定义的字段
+    :param pgsql_result_list: 第二个参数是PgSQL查询结果列表
+    :return:
+    """
+
+    if "{__PGSQL" in field:
+        pgsql_index_list = re.findall("{__PGSQL(.+?)}", field)
+        # 获取索引列表
+        for i in pgsql_index_list:
+            pgsql_value = pgsql_result_list[int(i)]
+            if type(pgsql_value) != str:
+                pgsql_value = str(pgsql_value)
+            field = field.replace("{__PGSQL" + i + "}", pgsql_value)
+    else:
+        pass
+
+    return field
+    # 返回替换后的字段
+
+
 def function_mongo(field, mongo_result_list):
     """
     替换Mongo查询结果的方法

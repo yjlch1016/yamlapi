@@ -29,6 +29,13 @@ if environment == "dev":
     db_database = ''
     # MySQL数据库配置
 
+    pgsql_host = 'pgsql.dev.com'
+    pgsql_port = 5432
+    pgsql_user = 'root'
+    pgsql_password = '123456'
+    pgsql_database = 'pgsql_db_1'
+    # PgSQL数据库配置
+
     mongo_host = "mongo.dev.com"
     mongo_port = "27017"
     mongo_database = "mongo_db_1"
@@ -46,6 +53,13 @@ elif environment == "test":
     db_password = '123456'
     db_database = ''
     # MySQL数据库配置
+
+    pgsql_host = 'pgsql.test.com'
+    pgsql_port = 5432
+    pgsql_user = 'root'
+    pgsql_password = '123456'
+    pgsql_database = 'pgsql_db_1'
+    # PgSQL数据库配置
 
     mongo_host = "mongo.test.com"
     mongo_port = "27017"
@@ -65,6 +79,13 @@ elif environment == "pre":
     db_database = ''
     # MySQL数据库配置
 
+    pgsql_host = 'pgsql.pre.com'
+    pgsql_port = 5432
+    pgsql_user = 'root'
+    pgsql_password = '123456'
+    pgsql_database = 'pgsql_db_1'
+    # PgSQL数据库配置
+
     mongo_host = "mongo.pre.com"
     mongo_port = "27017"
     mongo_database = "mongo_db_1"
@@ -82,6 +103,13 @@ elif environment == "formal":
     db_password = None
     db_database = None
     # MySQL数据库配置
+
+    pgsql_host = None
+    pgsql_port = None
+    pgsql_user = None
+    pgsql_password = None
+    pgsql_database = None
+    # PgSQL数据库配置
 
     mongo_host = None
     mongo_port = None
