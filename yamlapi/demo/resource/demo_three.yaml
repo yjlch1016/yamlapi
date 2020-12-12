@@ -6,6 +6,7 @@
       mongo:
       request_mode:
       api:
+      file:
       body:
       headers:
       query_string:
@@ -25,6 +26,7 @@
       mongo:
       request_mode:
       api:
+      file:
       body:
       headers:
       query_string:

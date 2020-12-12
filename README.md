@@ -1,6 +1,9 @@
 # yamlapi  
 yamlapi接口测试框架  
 
+# QQ群  
+529063263  
+
 # 工程主页  
 pypi：  
 https://pypi.org/project/yamlapi/  
@@ -103,6 +106,10 @@ yaml文件
         -
       request_mode: POST
       api: /api/test
+      file:
+        -
+        -
+        -
       body:
         {"key_1":"value_1","key_2":"value_2"}
       headers:
@@ -134,6 +141,7 @@ json文件
         "mongo": [],
         "request_mode": "POST",
         "api": "/api/test",
+        "file": [],
         "body": "{\"key_1\":\"value_1\",\"key_2\":\"value_2\"}",
         "headers": "{'Content-Type': 'application/json'}",
         "query_string": "{'key_3':'value_3','key_4':'value_4'}",
@@ -155,7 +163,7 @@ json文件
   }
 ]
 ```
-1、外层有2个字段，内层有15个字段  
+1、外层有2个字段，内层有16个字段  
 命名和格式不可修改，顺序可以修改  
 
 | 字段 | 中文名称 | 是否必填 | 格式 | 注解 |
@@ -168,6 +176,7 @@ json文件
 | mongo | Mongo语句 | 否 | -列表格式 | 顺序不可修改 |
 | request_mode | 请求方式 | 是 | | |
 | api | 接口路径 | 是 | | |
+| file | 文件 | 否 | -列表格式 | 顺序不可修改 |
 | body | 请求体 | 否 | 缩进字典格式或者json格式 | |
 | headers | 请求头 | 否 | 缩进字典格式或者json格式 | |
 | query_string | 请求参数 | 否 | 缩进字典格式或者json格式 | |
@@ -241,7 +250,16 @@ mongo： Mongo语句，-列表格式，顺序不可修改，选填
 当只需要查时，第一行为空，第二行为查，第三行为空  
 当只需要双重断言时，第一行为空，第二行为空，第三行为查  
 
-5、函数助手  
+5、file字段说明  
+file： 文件参数，-列表格式，顺序不可修改，选填  
+
+| 位置 | 类型 | 是否必填 | 格式 | 注解 |
+| ---- | --- | --- | ---- | ---- |
+| 第一行 | 文件类型 | 否 | 字符串 | 例如：file |
+| 第二行 | 文件名称 | 否 | 字符串 | 例如：demo_excel.xlsx |
+| 第三行 | MIME类型 | 否 | 字符串 | 例如：application/octet-stream |
+
+6、函数助手  
 
 | 函数名称 | 写法 | 作用域| 数量限制 |
 | ---- | ---- | --- | --- |

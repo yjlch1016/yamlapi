@@ -111,6 +111,8 @@ class DemoTest(unittest.TestCase):
             # 接口路径
             if type(api) != str:
                 api = str(api)
+            file = item.get("file")
+            # 文件
             payload = item.get("body")
             # 请求体
             if payload:
@@ -390,13 +392,22 @@ class DemoTest(unittest.TestCase):
             # 把用例数据添加到测试用例数据列表
 
             try:
-                response = requests.request(
-                    request_mode, url, data=json.dumps(payload),
-                    headers=headers, params=query_string, timeout=(15, 20)
-                )
-                # 发起HTTP请求
-                # json.dumps()序列化把字典转换成字符串，json.loads()反序列化把字符串转换成字典
-                # data请求体为字符串，headers请求头与params请求参数为字典
+                if file:
+                    # 如果file字段不为空
+                    files = {file[0]: (file[1], open(yaml_path + "/" + file[1], 'rb'), file[2], {'Expires': '0'})}
+                    response = requests.request(
+                        request_mode, url, files=files, data=json.dumps(payload),
+                        headers=headers, params=query_string, timeout=(15, 20)
+                    )
+                    # 上传文件
+                else:
+                    response = requests.request(
+                        request_mode, url, data=json.dumps(payload),
+                        headers=headers, params=query_string, timeout=(15, 20)
+                    )
+                    # 发起HTTP请求
+                    # json.dumps()序列化把字典转换成字符串，json.loads()反序列化把字符串转换成字典
+                    # data请求体为字符串，headers请求头与params请求参数为字典
             except Exception as e:
                 logger.error("HTTP请求发生错误：{}", e)
                 raise e
