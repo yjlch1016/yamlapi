@@ -31,7 +31,8 @@ class ConnectMongo(object):
             result = coll.find_one(*args)
             # *表示把元组里面每个元素逐一传递进来
             # 获取查询的结果
-            logger.info("mongo查询一条数据成功")
+            if result:
+                logger.info("mongo查询一条数据成功")
         except Exception as e:
             logger.error("mongo查询一条数据发生错误：{}", e)
             raise e
@@ -54,7 +55,8 @@ class ConnectMongo(object):
             coll = self.db[collection_name]
             result = coll.insert_one(*args)
             # *表示把元组里面每个元素逐一传递进来
-            logger.info("mongo插入一条数据成功，id为：{}", result.inserted_id)
+            if result:
+                logger.info("mongo插入一条数据成功，id为：{}", result.inserted_id)
         except Exception as e:
             logger.error("mongo插入一条数据发生错误：{}", e)
             raise e
@@ -74,7 +76,8 @@ class ConnectMongo(object):
             coll = self.db[collection_name]
             result = coll.insert_many(*args)
             # *表示把元组里面每个元素逐一传递进来
-            logger.info("mongo插入多条数据成功，ids为：{}", result.inserted_ids)
+            if result:
+                logger.info("mongo插入多条数据成功，ids为：{}", result.inserted_ids)
         except Exception as e:
             logger.error("mongo插入多条数据发生错误：{}", e)
             raise e
@@ -94,8 +97,10 @@ class ConnectMongo(object):
             coll = self.db[collection_name]
             result = coll.update_one(*args)
             # *表示把元组里面每个元素逐一传递进来
-            logger.info("mongo更新一条数据成功，匹配的数据条数为：{}，影响的数据条数为：{}",
-                        result.matched_count, result.modified_count)
+            if result:
+                logger.info(
+                    "mongo更新一条数据成功，匹配的数据条数为：{}，影响的数据条数为：{}",
+                    result.matched_count, result.modified_count)
         except Exception as e:
             logger.error("mongo更新一条数据发生错误：{}", e)
             raise e
@@ -115,7 +120,8 @@ class ConnectMongo(object):
             coll = self.db[collection_name]
             result = coll.delete_one(*args)
             # *表示把元组里面每个元素逐一传递进来
-            logger.info("mongo删除一条数据成功，删除的数据条数为：{}", result.deleted_count)
+            if result:
+                logger.info("mongo删除一条数据成功，删除的数据条数为：{}", result.deleted_count)
         except Exception as e:
             logger.error("mongo删除一条数据发生错误：{}", e)
             raise e

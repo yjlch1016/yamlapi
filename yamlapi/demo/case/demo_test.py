@@ -69,34 +69,27 @@ class DemoTest(unittest.TestCase):
     @allure.story(test_story)
     @allure.severity(test_case_priority[0])
     @allure.testcase(test_case_address, test_case_address_title)
-    @ddt.file_data(yaml_path + "/temporary.yaml")
-    # 传入临时yaml文件
-    def test_demo(self, **kwargs):
-        """
-        测试用例
-        :param kwargs:
-        :return:
-        """
+    @ddt.data(*temporary_list)
+    # 传入临时yaml列表
+    @ddt.unpack
+    def test_logistics(self, case_name, step):
+        """{case_name}"""
 
         global mysql_result_list_after, pgsql_result_list_after, \
             mongo_result_list_after, temporary_list
 
-        kwargs = str(kwargs)
-        if "None" in kwargs:
-            kwargs = kwargs.replace("None", "''")
-        kwargs = demjson.decode(kwargs)
-        # 把值为None的替换成''空字符串，因为None无法拼接
-        # demjson.decode()等价于json.loads()反序列化
-
-        case_name = kwargs.get("case_name")
-        # 用例名称
         self._testMethodDoc = case_name
         # 测试报告里面的用例描述
-        step = kwargs.get("step")
-        # 步骤列表
         logger.info("**********{}>>>开始执行**********\n", case_name)
 
         for item in step:
+            # 步骤列表
+            item = str(item)
+            if "None" in item:
+                item = item.replace("None", "''")
+            item = demjson.decode(item)
+            # 把值为None的替换成''空字符串，因为None无法拼接
+            # demjson.decode()等价于json.loads()反序列化
             step_name = item.get("step_name")
             # 步骤名称
             mysql = item.get("mysql")
@@ -462,7 +455,7 @@ class DemoTest(unittest.TestCase):
                     mongo_result_dict_after = mongo_db_after.query_mongo_one(mongo[2][0], *mongo[2][1])
                     mongo_result_list_after = list(mongo_result_dict_after.values())
                     logger.info("发起请求之后mongo查询的结果列表为：{}", mongo_result_list_after)
-                    mongo_result_list_after = list(map(str, mysql_result_list_after))
+                    mongo_result_list_after = list(map(str, mongo_result_list_after))
                     # 把列表里面的元素类型全部转为str
 
             if regular:

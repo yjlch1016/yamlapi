@@ -22,6 +22,7 @@ requires = [
     'pytest-reportlog>=0.1.1',
     'pytest-assume>=2.2.1',
     'pytest-rerunfailures>=9.0',
+    'pytest-instafail>=0.4.2',
     'pytest-sugar>=0.9.3',
     'pytest-timeout>=1.3.4',
     'pytest-parallel>=0.1.0',
@@ -33,7 +34,7 @@ requires = [
 
 setup(
     name='yamlapi',
-    version='1.3.0',
+    version='1.3.1',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',

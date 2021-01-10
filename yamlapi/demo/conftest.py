@@ -45,7 +45,7 @@ def pytest_html_results_summary(prefix, summary, postfix):
 
 def pytest_html_results_table_header(cells):
     """
-    添加带有测试函数docstring的description列，添加可排序的time列，并删除links列
+    添加带有测试函数docstring的description列，添加可排序的time列，并删除test与links列
     :param cells:
     :return:
     """
@@ -53,12 +53,14 @@ def pytest_html_results_table_header(cells):
     cells.insert(2, html.th('Description'))
     cells.insert(1, html.th('Time', class_='sortable time', col='time'))
     cells.pop()
+    cells.pop(2)
 
 
 def pytest_html_results_table_row(report, cells):
     cells.insert(2, html.td(report.description))
-    cells.insert(1, html.td(datetime.now(), class_='col-time'))
+    cells.insert(1, html.td(datetime.now().replace(microsecond=0), class_='col-time'))
     cells.pop()
+    cells.pop(2)
 
 
 @pytest.hookimpl(hookwrapper=True)
@@ -89,3 +91,28 @@ def cmd(request):
     """
 
     environment = request.config.getoption("--cmd")
+
+
+def pytest_terminal_summary(terminalreporter, exitstatus, config):
+    """
+    统计测试结果
+    :param terminalreporter:
+    :param exitstatus:
+    :param config:
+    :return:
+    """
+
+    total = terminalreporter._numcollected
+    logger.info("总共：{}", total)
+    passed = len([i for i in terminalreporter.stats.get('passed', []) if i.when != 'setup' and i.when != 'teardown'])
+    logger.info("通过：{}", passed)
+    failed = len([i for i in terminalreporter.stats.get('failed', []) if i.when != 'setup' and i.when != 'teardown'])
+    logger.info("失败：{}", failed)
+    error = len([i for i in terminalreporter.stats.get('error', []) if i.when != 'setup' and i.when != 'teardown'])
+    logger.info("错误：{}", error)
+    skipped = len([i for i in terminalreporter.stats.get('skipped', []) if i.when != 'setup' and i.when != 'teardown'])
+    logger.info("跳过：{}", skipped)
+    successful = passed / total
+    logger.info("成功率：{:.2%}", successful)
+    duration = time.time() - terminalreporter._sessionstarttime
+    logger.info("总共耗时：{:.2f}秒", duration)

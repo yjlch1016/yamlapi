@@ -5,6 +5,8 @@ yamlapi接口测试框架
 529063263  
 
 # 工程主页  
+readthedocs：  
+https://yamlapi-docs.readthedocs.io/zh_CN/latest/  
 pypi：  
 https://pypi.org/project/yamlapi/  
 github：  
@@ -46,7 +48,7 @@ yamlapi即为yaml文件+api测试的缩写
 ***
 # 一、思路         
 1、采用requests+unittest+ddt+PyMySQL+DBUtils+psycopg2-binary+pymongo+BeautifulReport+demjson+loguru+
-PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assume+pytest-rerunfailures+
+PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assume+pytest-rerunfailures+pytest-instafail+
 pytest-sugar+pytest-timeout+pytest-parallel+tablib  
 2、requests是发起HTTP请求的第三方库  
 3、unittest是Python自带的单元测试工具  
@@ -65,10 +67,11 @@ pytest-sugar+pytest-timeout+pytest-parallel+tablib
 16、pytest-reportlog是替换--resultlog选项的插件  
 17、pytest-assume是多重断言的插件  
 18、pytest-rerunfailures是失败重跑的插件  
-19、pytest-sugar是显示进度的插件  
-20、pytest-timeout是设置超时时间的插件  
-21、pytest-parallel是多线程的插件  
-22、tablib是导出多种格式数据的第三方库  
+19、pytest-instafail是实时显示错误信息的插件  
+20、pytest-sugar是显示进度的插件  
+21、pytest-timeout是设置超时时间的插件  
+22、pytest-parallel是多线程的插件  
+23、tablib是导出多种格式数据的第三方库  
 
 ***
 # 二、目录结构  
@@ -277,7 +280,7 @@ MySQL查询语句返回的结果，即第二行mysql[1]返回的结果，用{__S
 即{__SQL0}、{__SQL1}、{__SQL2}、{__SQL3}。。。。。。一条用例里面可以有多个  
 PgSQL查询语句返回的结果，即第二行pgsql[1]返回的结果，用{__PGSQL索引}匹配  
 即{__PGSQL0}、{__PGSQL1}、{__PGSQL2}、{__PGSQL3}。。。。。。一条用例里面可以有多个  
-Mongo查询语句返回的结果，即第四行mongo[3]返回的结果，用{__MONGO索引}匹配  
+Mongo查询语句返回的结果，即第二行mongo[1]返回的结果，用{__MONGO索引}匹配  
 即{__MONGO0}、{__MONGO1}、{__MONGO2}、{__MONGO3}。。。。。。一条用例里面可以有多个  
 随机数字用{__RN位数}，如{__RN15}，一条用例里面可以有多个  
 随机英文字母用{__RL位数}，如{__RL10}，一条用例里面可以有多个  
