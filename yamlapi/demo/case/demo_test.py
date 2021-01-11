@@ -24,7 +24,7 @@ from tool.connect_postgresql import ConnectPostgreSQL
 from tool.connect_mongo import ConnectMongo
 from tool.data_type_conversion import data_conversion_string
 from tool.export_test_case import export_various_formats
-from tool.read_write_yaml import merge_yaml, write_yaml
+from tool.read_write_yaml import merge_yaml
 from tool.read_write_json import merge_json
 from tool.beautiful_report_run import beautiful_report_run
 from tool.function_assistant import function_dollar, function_rn, function_rl, \
@@ -35,22 +35,12 @@ from tool.function_assistant import function_dollar, function_rn, function_rl, \
 @ddt.ddt
 # 声明使用ddt
 class DemoTest(unittest.TestCase):
-    temporary_yaml = yaml_path + "/temporary.yaml"
-    if os.path.isfile(temporary_yaml):
-        # 如果临时yaml文件存在
-        os.remove(temporary_yaml)
-        # 删除之
-
     if test_case_format == "yaml":
         temporary_list = merge_yaml()
         # 调用合并所有yaml文件的方法
     if test_case_format == "json":
         temporary_list = merge_json()
         # 调用合并所有json文件的方法
-
-    temporary_yaml = yaml_path + write_yaml("/temporary.yaml", temporary_list)
-
-    # 调用写入yaml文件的方法
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -72,7 +62,8 @@ class DemoTest(unittest.TestCase):
     @ddt.data(*temporary_list)
     # 传入临时yaml列表
     @ddt.unpack
-    def test_logistics(self, case_name, step):
+    # 解包
+    def test_demo(self, case_name, step):
         """{case_name}"""
 
         global mysql_result_list_after, pgsql_result_list_after, \

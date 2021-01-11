@@ -48,8 +48,7 @@ yamlapi即为yaml文件+api测试的缩写
 ***
 # 一、思路         
 1、采用requests+unittest+ddt+PyMySQL+DBUtils+psycopg2-binary+pymongo+BeautifulReport+demjson+loguru+
-PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assume+pytest-rerunfailures+pytest-instafail+
-pytest-sugar+pytest-timeout+pytest-parallel+tablib  
+PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assume+pytest-rerunfailures+pytest-instafail+pytest-sugar+pytest-timeout+pytest-parallel+tablib  
 2、requests是发起HTTP请求的第三方库  
 3、unittest是Python自带的单元测试工具  
 4、ddt是数据驱动的第三方库  
