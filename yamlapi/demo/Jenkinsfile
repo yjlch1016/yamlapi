@@ -18,7 +18,12 @@ pipeline {
     }
 
     options {
-        buildDiscarder(logRotator(numToKeepStr: '10'))
+        buildDiscarder(
+            logRotator(
+                daysToKeepStr: '7',
+                numToKeepStr: '10',
+                artifactDaysToKeepStr: '7'
+                artifactNumToKeepStr: '10'))
     }
 
     triggers {
@@ -68,6 +73,7 @@ pipeline {
                 notifyEveryUnstableBuild: true,
                 sendToIndividuals: true
                 ])
+            deleteDir()
         }
     }
 

@@ -48,7 +48,9 @@ def merge_yaml():
                 # os.path.splitext()把路径拆分为文件名+扩展名
                 if i != first_test_case_file:
                     yaml_list.append(os.path.join(root, i))
-    yaml_list.append(os.path.join(root, first_test_case_file))
+                else:
+                    the_first_yaml = os.path.join(root, first_test_case_file)
+    yaml_list.append(the_first_yaml)
     # 加入第一个yaml文件
     yaml_list.reverse()
     # 反转排序

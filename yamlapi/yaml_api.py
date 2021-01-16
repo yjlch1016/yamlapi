@@ -1,3 +1,4 @@
+import os
 import shutil
 import subprocess
 from distutils.sysconfig import get_python_lib
@@ -10,7 +11,7 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
-    click.echo('V1.3.2')
+    click.echo('V1.3.3')
     ctx.exit()
 
 
@@ -22,6 +23,21 @@ def copy_directory(old_directory, new_directory):
             old_directory, new_directory, ignore=shutil.ignore_patterns('*.pyc', '__pycache__'))
     except OSError as e:
         click.echo("拷贝目录出错：", e)
+
+
+def del_files(filepath):
+    # 删除测试报告与日志目录下的所有文件
+
+    try:
+        del_list = os.listdir(filepath)
+        for f in del_list:
+            file_path = os.path.join(filepath, f)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+    except OSError as e:
+        click.echo("删除测试报告与日志目录下的所有文件出错：", e)
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
@@ -61,6 +77,23 @@ def run(c):
         click.echo("运行环境：%s" % c)
     else:
         click.echo("环境缩写不能为空！")
+
+
+@cli.command()
+def clean():
+    """清理测试报告与日志目录下的所有文件"""
+
+    report_log_path = "./report_log"
+    report_log_path = os.path.abspath(report_log_path)
+
+    if os.path.exists(report_log_path):
+        if os.listdir(report_log_path):
+            del_files(report_log_path)
+            click.echo("清理测试报告与日志目录下的所有文件成功！")
+        else:
+            click.echo("%s为空！" % report_log_path)
+    else:
+        click.echo("%s不存在！" % report_log_path)
 
 
 if __name__ == '__main__':

@@ -46,7 +46,9 @@ def merge_json():
                 # os.path.splitext()把路径拆分为文件名+扩展名
                 if i != first_test_case_file:
                     json_list.append(os.path.join(root, i))
-    json_list.append(os.path.join(root, first_test_case_file))
+                else:
+                    the_first_json = os.path.join(root, first_test_case_file)
+    json_list.append(the_first_json)
     # 加入第一个json文件
     json_list.reverse()
     # 反转排序

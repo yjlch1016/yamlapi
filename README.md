@@ -42,6 +42,10 @@ yamlapi即为yaml文件+api测试的缩写
 例如在项目的根目录下面执行命令：  
 `yamlapi run --c=test`  
 
+`yamlapi clean`  
+清理测试报告与日志目录下的所有文件  
+类似于`mvn clean`    
+
 `pip uninstall yamlapi`  
 卸载  
 
