@@ -9,6 +9,10 @@ from py._xmlgen import html
 
 from setting.project_config import *
 
+from tool.feishu_robot import send_feishu_alarm
+
+from tool.dingtalk_robot import send_dingtalk_alarm
+
 
 def pytest_html_report_title(report):
     """
@@ -116,3 +120,12 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
     logger.info("成功率：{:.2%}", successful)
     duration = time.time() - terminalreporter._sessionstarttime
     logger.info("总共耗时：{:.2f}秒", duration)
+
+    if robot == "feishu":
+        send_feishu_alarm(total, passed, failed, error, skipped, successful, duration)
+        # 发送飞书报警
+    elif robot == "dingtalk":
+        send_dingtalk_alarm(total, passed, failed, error, skipped, successful, duration)
+        # 发送钉钉报警
+    else:
+        pass

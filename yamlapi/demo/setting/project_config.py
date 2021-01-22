@@ -174,3 +174,26 @@ test_case_format = "yaml"
 # 不可混用，只能选取一种格式
 first_test_case_file = "demo_one.yaml"
 # 第一个测试用例文件
+
+
+robot = "feishu"
+# 机器人：feishu、dingtalk或者为空
+# 不可混用，只能选取一种
+
+
+feishu_webhook = "https://open.feishu.cn/open-apis/bot/v2/hook/XXXXXX"
+# 飞书机器人webhook
+feishu_secret = "abcdefghij1234567890"
+# 飞书机器人密钥
+card_header_title_content = "飞书消息卡片标题"
+# 飞书消息卡片标题
+card_elements_actions_text_content = "飞书消息卡片跳转链接文字"
+# 飞书消息卡片跳转链接文字
+card_elements_actions_url = "https://demo.fesihu.com"
+# 飞书消息卡片跳转链接
+
+
+dingtalk_webhook = "https://oapi.dingtalk.com/robot/send?access_token=XXXXXX"
+# 钉钉机器人webhook
+dingtalk_secret = "1234567890abcdefghij"
+# 钉钉机器人密钥

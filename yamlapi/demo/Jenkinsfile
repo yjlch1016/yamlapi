@@ -19,11 +19,7 @@ pipeline {
 
     options {
         buildDiscarder(
-            logRotator(
-                daysToKeepStr: '7',
-                numToKeepStr: '10',
-                artifactDaysToKeepStr: '7'
-                artifactNumToKeepStr: '10'))
+            logRotator(daysToKeepStr: '7', numToKeepStr: '10', artifactDaysToKeepStr: '7', artifactNumToKeepStr: '10'))
     }
 
     triggers {
