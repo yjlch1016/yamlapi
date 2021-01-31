@@ -57,7 +57,7 @@ class DemoTest(unittest.TestCase):
         # 定义一个测试用例数据列表
 
     @allure.story(test_story)
-    @allure.severity(test_case_priority[0])
+    @allure.severity(test_case_priority)
     @allure.testcase(test_case_address, test_case_address_title)
     @ddt.data(*temporary_list)
     # 传入临时yaml列表
@@ -534,7 +534,7 @@ class DemoTest(unittest.TestCase):
         logger.info("**********{}>>>执行结束**********\n", case_name)
 
     @classmethod
-    def teardown_class(cls):
+    def tearDownClass(cls):
         """
         清理工作
         :return:
