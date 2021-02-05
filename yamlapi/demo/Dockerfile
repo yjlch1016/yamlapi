@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.7
+FROM registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.8
 # 基础镜像
 
 MAINTAINER yangjianliang <526861348@qq.com>

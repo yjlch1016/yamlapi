@@ -41,7 +41,7 @@ logger.add(
 # loguru日志配置
 
 
-def read_apollo_config_dict_center(config_server_url):
+def read_apollo_config_center(config_server_url):
     # 读取Apollo配置中心
 
     url = config_server_url + "/configfiles/json/DemoAppId/default/application"
@@ -73,7 +73,7 @@ setting_config_type = "apollo"
 if setting_config_type == "apollo":
     if environment == "dev":
 
-        apollo_config_dict = read_apollo_config_dict_center("http://dev.apollo.com")
+        apollo_config_dict = read_apollo_config_center("http://dev.apollo.com")
         # 传入开发环境的Apollo配置域名
 
         test_scenario = apollo_config_dict["test_scenario"]
@@ -144,9 +144,20 @@ if setting_config_type == "apollo":
         mongo_password = apollo_config_dict["mongo_password"]
         # 开发环境MongoDB数据库配置
 
+        influxdb_switch = apollo_config_dict["influxdb_switch"]
+        # 是否插入到influxDB, true或者为空
+        # 不可混用，只能选取一种
+        influxdb_host = apollo_config_dict["influxdb_host"]
+        influxdb_port = apollo_config_dict["influxdb_port"]
+        influxdb_database = apollo_config_dict["influxdb_database"]
+        influxdb_user = apollo_config_dict["influxdb_user"]
+        influxdb_password = apollo_config_dict["influxdb_password"]
+        influxdb_measurement = apollo_config_dict["influxdb_measurement"]
+        # influxDB数据库配置
+
     elif environment == "test":
 
-        apollo_config_dict = read_apollo_config_dict_center("http://test.apollo.com")
+        apollo_config_dict = read_apollo_config_center("http://test.apollo.com")
         # 传入测试环境的Apollo配置域名
 
         test_scenario = apollo_config_dict["test_scenario"]
@@ -217,9 +228,20 @@ if setting_config_type == "apollo":
         mongo_password = apollo_config_dict["mongo_password"]
         # 测试环境MongoDB数据库配置
 
+        influxdb_switch = apollo_config_dict["influxdb_switch"]
+        # 是否插入到influxDB, true或者为空
+        # 不可混用，只能选取一种
+        influxdb_host = apollo_config_dict["influxdb_host"]
+        influxdb_port = apollo_config_dict["influxdb_port"]
+        influxdb_database = apollo_config_dict["influxdb_database"]
+        influxdb_user = apollo_config_dict["influxdb_user"]
+        influxdb_password = apollo_config_dict["influxdb_password"]
+        influxdb_measurement = apollo_config_dict["influxdb_measurement"]
+        # influxDB数据库配置
+
     elif environment == "pre":
 
-        apollo_config_dict = read_apollo_config_dict_center("http://pro.apollo.com")
+        apollo_config_dict = read_apollo_config_center("http://pro.apollo.com")
         # 传入预生产环境的Apollo配置域名
 
         test_scenario = apollo_config_dict["test_scenario"]
@@ -290,9 +312,20 @@ if setting_config_type == "apollo":
         mongo_password = apollo_config_dict["mongo_password"]
         # 预生产环境MongoDB数据库配置
 
+        influxdb_switch = apollo_config_dict["influxdb_switch"]
+        # 是否插入到influxDB, true或者为空
+        # 不可混用，只能选取一种
+        influxdb_host = apollo_config_dict["influxdb_host"]
+        influxdb_port = apollo_config_dict["influxdb_port"]
+        influxdb_database = apollo_config_dict["influxdb_database"]
+        influxdb_user = apollo_config_dict["influxdb_user"]
+        influxdb_password = apollo_config_dict["influxdb_password"]
+        influxdb_measurement = apollo_config_dict["influxdb_measurement"]
+        # influxDB数据库配置
+
     elif environment == "formal":
 
-        apollo_config_dict = read_apollo_config_dict_center("https://formal.apollo.com")
+        apollo_config_dict = read_apollo_config_center("https://formal.apollo.com")
         # 传入生产环境的Apollo配置域名
 
         test_scenario = apollo_config_dict["test_scenario"]
@@ -363,6 +396,17 @@ if setting_config_type == "apollo":
         mongo_password = apollo_config_dict["mongo_password"]
         # 生产环境MongoDB数据库配置
 
+        influxdb_switch = apollo_config_dict["influxdb_switch"]
+        # 是否插入到influxDB, true或者为空
+        # 不可混用，只能选取一种
+        influxdb_host = apollo_config_dict["influxdb_host"]
+        influxdb_port = apollo_config_dict["influxdb_port"]
+        influxdb_database = apollo_config_dict["influxdb_database"]
+        influxdb_user = apollo_config_dict["influxdb_user"]
+        influxdb_password = apollo_config_dict["influxdb_password"]
+        influxdb_measurement = apollo_config_dict["influxdb_measurement"]
+        # influxDB数据库配置
+
 if setting_config_type == "local":
 
     test_scenario = "测试场景：XXX接口测试"
@@ -408,6 +452,17 @@ if setting_config_type == "local":
     # 钉钉机器人webhook
     dingtalk_secret = "1234567890abcdefghij"
     # 钉钉机器人密钥
+
+    influxdb_switch = "true"
+    # 是否插入到influxDB, true或者为空
+    # 不可混用，只能选取一种
+    influxdb_host = "www.influxdb.com"
+    influxdb_port = 8086
+    influxdb_database = "influxdb_database"
+    influxdb_user = "root"
+    influxdb_password = "123456"
+    influxdb_measurement = "influxdb_measurement"
+    # InfluxDB数据库配置
 
     if environment == "dev":
         service_domain = "http://www.dev.com"

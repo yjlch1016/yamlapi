@@ -22,6 +22,7 @@ from setting.project_config import *
 from tool.connect_mysql import ConnectMySQL
 from tool.connect_postgresql import ConnectPostgreSQL
 from tool.connect_mongo import ConnectMongo
+from tool.connect_influx import ConnectInflux
 from tool.data_type_conversion import data_conversion_string
 from tool.export_test_case import export_various_formats
 from tool.read_write_yaml import merge_yaml
@@ -210,22 +211,23 @@ class DemoTest(unittest.TestCase):
                     if "SELECT" in mysql[1] or "select" in mysql[1]:
                         mysql_result_tuple = db.query_mysql(mysql[1])
                         # mysql查询结果元祖
-                        mysql_result_list = list(chain.from_iterable(mysql_result_tuple))
-                        # 把二维元祖转换为一维列表
-                        mysql_result_list = data_conversion_string(mysql_result_list)
-                        # 调用数据类型转换的方法
-                        logger.info("发起请求之前mysql查询的结果列表为：{}", mysql_result_list)
-                        if api:
-                            api = function_sql(api, mysql_result_list)
-                            # 调用替换MySQL查询结果的方法
-                        if payload:
-                            payload = function_sql(payload, mysql_result_list)
-                        if headers:
-                            headers = function_sql(headers, mysql_result_list)
-                        if query_string:
-                            query_string = function_sql(query_string, mysql_result_list)
-                        if expected_result:
-                            expected_result = function_sql(expected_result, mysql_result_list)
+                        if mysql_result_tuple:
+                            mysql_result_list = list(chain.from_iterable(mysql_result_tuple))
+                            # 把二维元祖转换为一维列表
+                            mysql_result_list = data_conversion_string(mysql_result_list)
+                            # 调用数据类型转换的方法
+                            logger.info("发起请求之前mysql查询的结果列表为：{}", mysql_result_list)
+                            if api:
+                                api = function_sql(api, mysql_result_list)
+                                # 调用替换MySQL查询结果的方法
+                            if payload:
+                                payload = function_sql(payload, mysql_result_list)
+                            if headers:
+                                headers = function_sql(headers, mysql_result_list)
+                            if query_string:
+                                query_string = function_sql(query_string, mysql_result_list)
+                            if expected_result:
+                                expected_result = function_sql(expected_result, mysql_result_list)
 
             if pgsql:
                 pgsql_db = ConnectPostgreSQL()
@@ -256,20 +258,21 @@ class DemoTest(unittest.TestCase):
                     if "SELECT" in pgsql[1] or "select" in pgsql[1]:
                         pgsql_result_tuple = pgsql_db.query_postgresql(pgsql[1])
                         # PostgreSQL查询结果元祖
-                        pgsql_result_list = list(chain.from_iterable(pgsql_result_tuple))
-                        # 把二维元祖转换为一维列表
-                        logger.info("发起请求之前PostgreSQL查询的结果列表为：{}", pgsql_result_list)
-                        if api:
-                            api = function_pgsql(api, pgsql_result_list)
-                            # 调用替换PostgreSQL查询结果的方法
-                        if payload:
-                            payload = function_pgsql(payload, pgsql_result_list)
-                        if headers:
-                            headers = function_pgsql(headers, pgsql_result_list)
-                        if query_string:
-                            query_string = function_pgsql(query_string, pgsql_result_list)
-                        if expected_result:
-                            expected_result = function_pgsql(expected_result, pgsql_result_list)
+                        if pgsql_result_tuple:
+                            pgsql_result_list = list(chain.from_iterable(pgsql_result_tuple))
+                            # 把二维元祖转换为一维列表
+                            logger.info("发起请求之前PostgreSQL查询的结果列表为：{}", pgsql_result_list)
+                            if api:
+                                api = function_pgsql(api, pgsql_result_list)
+                                # 调用替换PostgreSQL查询结果的方法
+                            if payload:
+                                payload = function_pgsql(payload, pgsql_result_list)
+                            if headers:
+                                headers = function_pgsql(headers, pgsql_result_list)
+                            if query_string:
+                                query_string = function_pgsql(query_string, pgsql_result_list)
+                            if expected_result:
+                                expected_result = function_pgsql(expected_result, pgsql_result_list)
 
             if mongo:
                 mongo_db = ConnectMongo()
@@ -306,20 +309,21 @@ class DemoTest(unittest.TestCase):
                 if mongo[1]:
                     mongo_result_dict = mongo_db.query_mongo_one(mongo[1][0], *mongo[1][1])
                     # 调用查询Mongo（一条数据）的方法
-                    mongo_result_list = list(mongo_result_dict.values())
-                    # 把字典转换成列表
-                    logger.info("发起请求之前mongo查询的结果列表为：{}", mongo_result_list)
-                    if api:
-                        api = function_mongo(api, mongo_result_list)
-                        # 调用替换Mongo查询结果的方法
-                    if payload:
-                        payload = function_mongo(payload, mongo_result_list)
-                    if headers:
-                        headers = function_mongo(headers, mongo_result_list)
-                    if query_string:
-                        query_string = function_mongo(query_string, mongo_result_list)
-                    if expected_result:
-                        expected_result = function_mongo(expected_result, mongo_result_list)
+                    if mongo_result_dict:
+                        mongo_result_list = list(mongo_result_dict.values())
+                        # 把字典转换成列表
+                        logger.info("发起请求之前mongo查询的结果列表为：{}", mongo_result_list)
+                        if api:
+                            api = function_mongo(api, mongo_result_list)
+                            # 调用替换Mongo查询结果的方法
+                        if payload:
+                            payload = function_mongo(payload, mongo_result_list)
+                        if headers:
+                            headers = function_mongo(headers, mongo_result_list)
+                        if query_string:
+                            query_string = function_mongo(query_string, mongo_result_list)
+                        if expected_result:
+                            expected_result = function_mongo(expected_result, mongo_result_list)
 
             if api:
                 api = function_rn(api)
@@ -421,43 +425,54 @@ class DemoTest(unittest.TestCase):
                 logger.error("获取实际的响应结果发生错误：{}", e)
                 raise e
 
+            if influxdb_switch:
+                influx_db = ConnectInflux()
+                # 实例化一个InfluxDB操作对象
+                influx_db.insert_influx_one(environment, case_name, step_name, url, actual_time, actual_code)
+                # 往InfluxDB插入一条数据
+
             if mysql:
                 if mysql[2]:
                     if "SELECT" in mysql[2] or "select" in mysql[2]:
                         db_after = ConnectMySQL()
                         mysql_result_tuple_after = db_after.query_mysql(mysql[2])
-                        mysql_result_list_after = list(chain.from_iterable(mysql_result_tuple_after))
-                        mysql_result_list_after = data_conversion_string(mysql_result_list_after)
-                        logger.info("发起请求之后mysql查询的结果列表为：{}", mysql_result_list_after)
-                        mysql_result_list_after = list(map(str, mysql_result_list_after))
-                        # 把列表里面的元素类型全部转为str
+                        if mysql_result_tuple_after:
+                            mysql_result_list_after = list(chain.from_iterable(mysql_result_tuple_after))
+                            mysql_result_list_after = data_conversion_string(mysql_result_list_after)
+                            logger.info("发起请求之后mysql查询的结果列表为：{}", mysql_result_list_after)
+                            mysql_result_list_after = list(map(str, mysql_result_list_after))
+                            # 把列表里面的元素类型全部转为str
             if pgsql:
                 if pgsql[2]:
                     if "SELECT" in pgsql[2] or "select" in pgsql[2]:
                         pgsql_db_after = ConnectPostgreSQL()
                         pgsql_result_tuple_after = pgsql_db_after.query_postgresql(pgsql[2])
-                        pgsql_result_list_after = list(chain.from_iterable(pgsql_result_tuple_after))
-                        logger.info("发起请求之后PostgreSQL查询的结果列表为：{}", pgsql_result_list_after)
-                        pgsql_result_list_after = list(map(str, pgsql_result_list_after))
-                        # 把列表里面的元素类型全部改为str
+                        if pgsql_result_tuple_after:
+                            pgsql_result_list_after = list(chain.from_iterable(pgsql_result_tuple_after))
+                            logger.info("发起请求之后PostgreSQL查询的结果列表为：{}", pgsql_result_list_after)
+                            pgsql_result_list_after = list(map(str, pgsql_result_list_after))
+                            # 把列表里面的元素类型全部改为str
             if mongo:
                 if mongo[2]:
                     mongo_db_after = ConnectMongo()
                     mongo_result_dict_after = mongo_db_after.query_mongo_one(mongo[2][0], *mongo[2][1])
-                    mongo_result_list_after = list(mongo_result_dict_after.values())
-                    logger.info("发起请求之后mongo查询的结果列表为：{}", mongo_result_list_after)
-                    mongo_result_list_after = list(map(str, mongo_result_list_after))
-                    # 把列表里面的元素类型全部转为str
+                    if mongo_result_dict_after:
+                        mongo_result_list_after = list(mongo_result_dict_after.values())
+                        logger.info("发起请求之后mongo查询的结果列表为：{}", mongo_result_list_after)
+                        mongo_result_list_after = list(map(str, mongo_result_list_after))
+                        # 把列表里面的元素类型全部转为str
 
             if regular:
                 # 如果正则不为空
                 extract_list = []
                 # 定义一个提取结果列表
                 for i in regular["expression"]:
-                    regular_result = re.findall(i, actual_result_text)[0]
+                    regular_result_list = re.findall(i, actual_result_text)
                     # re.findall(正则表达式, 实际的响应结果)返回一个符合规则的list，取第1个
-                    extract_list.append(regular_result)
-                    # 把提取结果添加到提取结果列表里面
+                    if regular_result_list:
+                        regular_result = regular_result_list[0]
+                        extract_list.append(regular_result)
+                        # 把提取结果添加到提取结果列表里面
                 temporary_dict = dict(zip(regular["variable"], extract_list))
                 # 把变量列表与提取结果列表转为一个临时字典
                 for key, value in temporary_dict.items():

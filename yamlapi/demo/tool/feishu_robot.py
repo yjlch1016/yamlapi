@@ -8,8 +8,6 @@ import hmac
 import json
 from hashlib import sha256
 
-import requests
-
 from setting.project_config import *
 
 
@@ -50,8 +48,8 @@ def send_feishu_alarm(total, passed, failed, error, skipped, successful, duratio
             "elements": [{
                 "tag": "div",
                 "text": {
-                    "content": "总共：{}\n通过：{}\n失败：{}\n错误：{}\n跳过：{}\n成功率：{:.2%}\n总共耗时：{:.2f}秒"
-                        .format(total, passed, failed, error, skipped, successful, duration),
+                    "content": "**环境：**{}\n**总共：**{}条\n**通过：**{}条\n**失败：**{}条\n**错误：**{}条\n**跳过：**{}条\n**成功率：**{:.2%}\n**总共耗时：**{:.2f}秒"
+                        .format(environment, total, passed, failed, error, skipped, successful, duration),
                     "tag": "lark_md"
                 }
             }, {
@@ -72,7 +70,7 @@ def send_feishu_alarm(total, passed, failed, error, skipped, successful, duratio
                     "content": card_header_title_content,
                     "tag": "plain_text"
                 },
-                "template": "red"
+                "template": "green"
             }
         }
     }

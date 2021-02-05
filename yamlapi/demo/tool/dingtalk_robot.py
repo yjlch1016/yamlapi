@@ -9,8 +9,6 @@ import hmac
 import json
 import urllib.parse
 
-import requests
-
 from setting.project_config import *
 
 
@@ -45,8 +43,8 @@ def send_dingtalk_alarm(total, passed, failed, error, skipped, successful, durat
     payload = {
         "msgtype": "text",
         "text": {
-            "content": "总共：{}\n通过：{}\n失败：{}\n错误：{}\n跳过：{}\n成功率：{:.2%}\n总共耗时：{:.2f}秒"
-                .format(total, passed, failed, error, skipped, successful, duration)
+            "content": "环境：{}\n总共：{}条\n通过：{}条\n失败：{}条\n错误：{}条\n跳过：{}条\n成功率：{:.2%}\n总共耗时：{:.2f}秒"
+                .format(environment, total, passed, failed, error, skipped, successful, duration)
         },
         "at": {
             "atMobiles": [],

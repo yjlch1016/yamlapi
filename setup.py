@@ -11,6 +11,7 @@ requires = [
     'psycopg2-binary>=2.8.5',
     'pymongo>=3.11.0',
     'redis>=3.2.1',
+    'influxdb>=5.3.1',
     'BeautifulReport>=0.1.2',
     'demjson>=2.2.4',
     'loguru>=0.5.0',
@@ -34,7 +35,7 @@ requires = [
 
 setup(
     name='yamlapi',
-    version='1.3.5',
+    version='1.3.6',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',

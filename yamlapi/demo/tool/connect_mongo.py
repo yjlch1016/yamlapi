@@ -33,6 +33,8 @@ class ConnectMongo(object):
             # 获取查询的结果
             if result:
                 logger.info("mongo查询一条数据成功")
+            else:
+                logger.error("mongo查询一条数据失败：无数据返回")
         except Exception as e:
             logger.error("mongo查询一条数据发生错误：{}", e)
             raise e
@@ -57,6 +59,8 @@ class ConnectMongo(object):
             # *表示把元组里面每个元素逐一传递进来
             if result:
                 logger.info("mongo插入一条数据成功，id为：{}", result.inserted_id)
+            else:
+                logger.error("mongo插入一条数据失败")
         except Exception as e:
             logger.error("mongo插入一条数据发生错误：{}", e)
             raise e
@@ -78,6 +82,8 @@ class ConnectMongo(object):
             # *表示把元组里面每个元素逐一传递进来
             if result:
                 logger.info("mongo插入多条数据成功，ids为：{}", result.inserted_ids)
+            else:
+                logger.error("mongo插入多条数据失败")
         except Exception as e:
             logger.error("mongo插入多条数据发生错误：{}", e)
             raise e
@@ -101,6 +107,8 @@ class ConnectMongo(object):
                 logger.info(
                     "mongo更新一条数据成功，匹配的数据条数为：{}，影响的数据条数为：{}",
                     result.matched_count, result.modified_count)
+            else:
+                logger.error("mongo更新一条数据失败")
         except Exception as e:
             logger.error("mongo更新一条数据发生错误：{}", e)
             raise e
@@ -122,6 +130,8 @@ class ConnectMongo(object):
             # *表示把元组里面每个元素逐一传递进来
             if result:
                 logger.info("mongo删除一条数据成功，删除的数据条数为：{}", result.deleted_count)
+            else:
+                logger.error("mongo删除一条数据失败")
         except Exception as e:
             logger.error("mongo删除一条数据发生错误：{}", e)
             raise e

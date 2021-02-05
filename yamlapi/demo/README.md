@@ -51,7 +51,7 @@ yamlapi即为yaml文件+api测试的缩写
 
 ***
 # 一、思路         
-1、采用requests+unittest+ddt+PyMySQL+DBUtils+psycopg2-binary+pymongo+BeautifulReport+demjson+loguru+
+1、采用requests+unittest+ddt+PyMySQL+DBUtils+psycopg2-binary+pymongo+influxdb+BeautifulReport+demjson+loguru+
 PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assume+pytest-rerunfailures+pytest-instafail+pytest-sugar+pytest-timeout+pytest-parallel+tablib  
 2、requests是发起HTTP请求的第三方库  
 3、unittest是Python自带的单元测试工具  
@@ -60,21 +60,22 @@ PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assu
 6、DBUtils是数据库连接池的第三方库  
 7、psycopg2-binary是连接PgSQL的第三方库  
 8、pymongo是连接Mongo的第三方库  
-9、BeautifulReport是生成html测试报告的第三方库  
-10、demjson是解析非标格式json的第三方库  
-11、loguru是记录日志的第三方库  
-12、PyYAML与ruamel.yaml是读写yaml文件的第三方库  
-13、pytest是单元测试的第三方库  
-14、pytest-html是生成html测试报告的插件  
-15、allure-pytest是生成allure测试报告的插件  
-16、pytest-reportlog是替换--resultlog选项的插件  
-17、pytest-assume是多重断言的插件  
-18、pytest-rerunfailures是失败重跑的插件  
-19、pytest-instafail是实时显示错误信息的插件  
-20、pytest-sugar是显示进度的插件  
-21、pytest-timeout是设置超时时间的插件  
-22、pytest-parallel是多线程的插件  
-23、tablib是导出多种格式数据的第三方库  
+9、influxdb是连接influxDB的第三方库  
+10、BeautifulReport是生成html测试报告的第三方库  
+11、demjson是解析非标格式json的第三方库  
+12、loguru是记录日志的第三方库  
+13、PyYAML与ruamel.yaml是读写yaml文件的第三方库  
+14、pytest是单元测试的第三方库  
+15、pytest-html是生成html测试报告的插件  
+16、allure-pytest是生成allure测试报告的插件  
+17、pytest-reportlog是替换--resultlog选项的插件  
+18、pytest-assume是多重断言的插件  
+19、pytest-rerunfailures是失败重跑的插件  
+20、pytest-instafail是实时显示错误信息的插件  
+21、pytest-sugar是显示进度的插件  
+22、pytest-timeout是设置超时时间的插件  
+23、pytest-parallel是多线程的插件  
+24、tablib是导出多种格式数据的第三方库  
 
 ***
 # 二、目录结构  
@@ -341,7 +342,7 @@ test_case.yaml
 
 ***
 # 五、打包镜像  
-`docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.7`  
+`docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.8`  
 从阿里云镜像仓库拉取yamlapi镜像
 
 `docker build -t demo_image .`  

@@ -8,9 +8,7 @@ import pytest
 from py._xmlgen import html
 
 from setting.project_config import *
-
 from tool.feishu_robot import send_feishu_alarm
-
 from tool.dingtalk_robot import send_dingtalk_alarm
 
 
@@ -73,6 +71,10 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
     report.description = str(item.function.__doc__)
 
+    if report.when == "call":
+        print("用例名称：%s" % str(item.function.__doc__))
+        print("运行结果：%s" % report.outcome)
+
 
 def pytest_addoption(parser):
     """
@@ -106,16 +108,17 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
     :return:
     """
 
+    logger.info("环境：{}", environment)
     total = terminalreporter._numcollected
-    logger.info("总共：{}", total)
+    logger.info("总共：{}条", total)
     passed = len([i for i in terminalreporter.stats.get('passed', []) if i.when != 'setup' and i.when != 'teardown'])
-    logger.info("通过：{}", passed)
+    logger.info("通过：{}条", passed)
     failed = len([i for i in terminalreporter.stats.get('failed', []) if i.when != 'setup' and i.when != 'teardown'])
-    logger.info("失败：{}", failed)
+    logger.info("失败：{}条", failed)
     error = len([i for i in terminalreporter.stats.get('error', []) if i.when != 'setup' and i.when != 'teardown'])
-    logger.info("错误：{}", error)
+    logger.info("错误：{}条", error)
     skipped = len([i for i in terminalreporter.stats.get('skipped', []) if i.when != 'setup' and i.when != 'teardown'])
-    logger.info("跳过：{}", skipped)
+    logger.info("跳过：{}条", skipped)
     successful = passed / total
     logger.info("成功率：{:.2%}", successful)
     duration = time.time() - terminalreporter._sessionstarttime
