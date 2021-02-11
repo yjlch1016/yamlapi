@@ -84,84 +84,84 @@ if setting_config_type == "apollo":
         apollo_config_dict = read_apollo_config_center("https://formal.apollo.com")
         # 传入生产环境的Apollo配置域名
 
-        test_scenario = apollo_config_dict["test_scenario"]
-        test_story = apollo_config_dict["test_story"]
-        test_case_priority = apollo_config_dict["test_case_priority"]
-        test_case_address = apollo_config_dict["test_case_address"]
-        test_case_address_title = apollo_config_dict["test_case_address_title"]
-        # allure配置
+    test_scenario = apollo_config_dict["test_scenario"]
+    test_story = apollo_config_dict["test_story"]
+    test_case_priority = apollo_config_dict["test_case_priority"]
+    test_case_address = apollo_config_dict["test_case_address"]
+    test_case_address_title = apollo_config_dict["test_case_address_title"]
+    # allure配置
 
-        beautiful_filename = apollo_config_dict["beautiful_filename"]
-        beautiful_description = apollo_config_dict["beautiful_description"]
-        # BeautifulReport配置
+    beautiful_filename = apollo_config_dict["beautiful_filename"]
+    beautiful_description = apollo_config_dict["beautiful_description"]
+    # BeautifulReport配置
 
-        html_report_title = apollo_config_dict["html_report_title"]
-        project_name = apollo_config_dict["project_name"]
-        swagger_address = apollo_config_dict["swagger_address"]
-        test_department = apollo_config_dict["test_department"]
-        tester = apollo_config_dict["tester"]
-        # conftest配置
+    html_report_title = apollo_config_dict["html_report_title"]
+    project_name = apollo_config_dict["project_name"]
+    swagger_address = apollo_config_dict["swagger_address"]
+    test_department = apollo_config_dict["test_department"]
+    tester = apollo_config_dict["tester"]
+    # conftest配置
 
-        test_case_format = apollo_config_dict["test_case_format"]
-        # 测试用例的格式：yaml或者json
-        # 不可混用，只能选取一种格式
-        first_test_case_file = apollo_config_dict["first_test_case_file"]
-        # 第一个测试用例文件
+    test_case_format = apollo_config_dict["test_case_format"]
+    # 测试用例的格式：yaml或者json
+    # 不可混用，只能选取一种格式
+    first_test_case_file = apollo_config_dict["first_test_case_file"]
+    # 第一个测试用例文件
 
-        robot = apollo_config_dict["robot"]
-        # 机器人：feishu、dingtalk或者为空
-        # 不可混用，只能选取一种
+    robot = apollo_config_dict["robot"]
+    # 机器人：feishu、dingtalk或者为空
+    # 不可混用，只能选取一种
 
-        feishu_webhook = apollo_config_dict["feishu_webhook"]
-        # 飞书机器人webhook
-        feishu_secret = apollo_config_dict["feishu_secret"]
-        # 飞书机器人密钥
-        card_header_title_content = apollo_config_dict["card_header_title_content"]
-        # 飞书消息卡片标题
-        card_elements_actions_text_content = apollo_config_dict["card_elements_actions_text_content"]
-        # 飞书消息卡片跳转链接文字
-        card_elements_actions_url = apollo_config_dict["card_elements_actions_url"]
-        # 飞书消息卡片跳转链接
+    feishu_webhook = apollo_config_dict["feishu_webhook"]
+    # 飞书机器人webhook
+    feishu_secret = apollo_config_dict["feishu_secret"]
+    # 飞书机器人密钥
+    card_header_title_content = apollo_config_dict["card_header_title_content"]
+    # 飞书消息卡片标题
+    card_elements_actions_text_content = apollo_config_dict["card_elements_actions_text_content"]
+    # 飞书消息卡片跳转链接文字
+    card_elements_actions_url = apollo_config_dict["card_elements_actions_url"]
+    # 飞书消息卡片跳转链接
 
-        dingtalk_webhook = apollo_config_dict["dingtalk_webhook"]
-        # 钉钉机器人webhook
-        dingtalk_secret = apollo_config_dict["dingtalk_secret"]
-        # 钉钉机器人密钥
+    dingtalk_webhook = apollo_config_dict["dingtalk_webhook"]
+    # 钉钉机器人webhook
+    dingtalk_secret = apollo_config_dict["dingtalk_secret"]
+    # 钉钉机器人密钥
 
-        influxdb_switch = apollo_config_dict["influxdb_switch"]
-        # 是否插入到influxDB, true或者为空
-        # 不可混用，只能选取一种
-        influxdb_host = apollo_config_dict["influxdb_host"]
-        influxdb_port = apollo_config_dict["influxdb_port"]
-        influxdb_database = apollo_config_dict["influxdb_database"]
-        influxdb_user = apollo_config_dict["influxdb_user"]
-        influxdb_password = apollo_config_dict["influxdb_password"]
-        influxdb_measurement = apollo_config_dict["influxdb_measurement"]
-        # influxDB数据库配置
+    influxdb_switch = apollo_config_dict["influxdb_switch"]
+    # 是否插入到influxDB, true或者为空
+    # 不可混用，只能选取一种
+    influxdb_host = apollo_config_dict["influxdb_host"]
+    influxdb_port = apollo_config_dict["influxdb_port"]
+    influxdb_database = apollo_config_dict["influxdb_database"]
+    influxdb_user = apollo_config_dict["influxdb_user"]
+    influxdb_password = apollo_config_dict["influxdb_password"]
+    influxdb_measurement = apollo_config_dict["influxdb_measurement"]
+    # influxDB数据库配置
 
-        service_domain = apollo_config_dict["service_domain"]
-        # 接口域名
+    service_domain = apollo_config_dict["service_domain"]
+    # 接口域名
 
-        db_host = apollo_config_dict["db_host"]
-        db_port = apollo_config_dict["db_port"]
-        db_user = apollo_config_dict["db_user"]
-        db_password = apollo_config_dict["db_password"]
-        db_database = apollo_config_dict["db_database"]
-        # MySQL数据库配置
+    db_host = apollo_config_dict["db_host"]
+    db_port = apollo_config_dict["db_port"]
+    db_user = apollo_config_dict["db_user"]
+    db_password = apollo_config_dict["db_password"]
+    db_database = apollo_config_dict["db_database"]
+    # MySQL数据库配置
 
-        pgsql_host = apollo_config_dict["pgsql_host"]
-        pgsql_port = apollo_config_dict["pgsql_port"]
-        pgsql_user = apollo_config_dict["pgsql_user"]
-        pgsql_password = apollo_config_dict["pgsql_password"]
-        pgsql_database = apollo_config_dict["pgsql_database"]
-        # PgSQL数据库配置
+    pgsql_host = apollo_config_dict["pgsql_host"]
+    pgsql_port = apollo_config_dict["pgsql_port"]
+    pgsql_user = apollo_config_dict["pgsql_user"]
+    pgsql_password = apollo_config_dict["pgsql_password"]
+    pgsql_database = apollo_config_dict["pgsql_database"]
+    # PgSQL数据库配置
 
-        mongo_host = apollo_config_dict["mongo_host"]
-        mongo_port = apollo_config_dict["mongo_port"]
-        mongo_database = apollo_config_dict["mongo_database"]
-        mongo_user = apollo_config_dict["mongo_user"]
-        mongo_password = apollo_config_dict["mongo_password"]
-        # MongoDB数据库配置
+    mongo_host = apollo_config_dict["mongo_host"]
+    mongo_port = apollo_config_dict["mongo_port"]
+    mongo_database = apollo_config_dict["mongo_database"]
+    mongo_user = apollo_config_dict["mongo_user"]
+    mongo_password = apollo_config_dict["mongo_password"]
+    # MongoDB数据库配置
 
 if setting_config_type == "local":
 
