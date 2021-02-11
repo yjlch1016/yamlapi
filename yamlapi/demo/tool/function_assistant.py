@@ -55,9 +55,9 @@ def function_rl(field):
         digit_list = re.findall("{__RL(.+?)}", field)
         # 获取位数列表
         for i in digit_list:
-            random_number = create_random_letters(int(i))
+            random_letters = create_random_letters(int(i))
             # 调用生成随机数字的方法
-            field = field.replace("{__RL" + i + "}", random_number)
+            field = field.replace("{__RL" + i + "}", random_letters)
     else:
         pass
 

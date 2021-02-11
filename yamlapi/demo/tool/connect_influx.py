@@ -22,15 +22,22 @@ class ConnectInflux(object):
             logger.error("初始化InfluxDB连接池发生错误：{}", e)
             raise e
 
-    def insert_influx_one(self, environment, case_name, step_name, url, actual_time, actual_code):
+    def insert_influx_one(self, environment, case_name, step_name, request_mode, url,
+                          expected_time, actual_time, expected_code, actual_code,
+                          expected_result, actual_result_text):
         """
         插入InfluxDB，一条数据
         :param environment: 环境
         :param case_name: 用例名称
         :param step_name: 步骤名称
+        :param request_mode: 请求方式
         :param url: 接口地址
+        :param expected_time: 预期的响应时间
         :param actual_time: 实际的响应时间
+        :param expected_code: 预期的响应代码
         :param actual_code: 实际的响应代码
+        :param expected_result: 预期的响应结果
+        :param actual_result_text: 实际的响应结果
         :return:
         """
 
@@ -43,12 +50,17 @@ class ConnectInflux(object):
                         "environment": environment,
                         "case_name": case_name,
                         "step_name": step_name,
+                        "request_mode": request_mode,
                         "url": url
                     },
                     "time": time_key,
                     "fields": {
+                        "expected_time": expected_time,
                         "actual_time": actual_time,
-                        "actual_code": actual_code
+                        "expected_code": expected_code,
+                        "actual_code": actual_code,
+                        "expected_result": expected_result,
+                        "actual_result_text": actual_result_text
                     }
                 }
             ]

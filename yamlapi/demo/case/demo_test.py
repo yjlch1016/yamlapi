@@ -428,7 +428,9 @@ class DemoTest(unittest.TestCase):
             if influxdb_switch:
                 influx_db = ConnectInflux()
                 # 实例化一个InfluxDB操作对象
-                influx_db.insert_influx_one(environment, case_name, step_name, url, actual_time, actual_code)
+                influx_db.insert_influx_one(environment, case_name, step_name, request_mode, url,
+                                            expected_time, actual_time, expected_code, actual_code,
+                                            expected_result, actual_result_text)
                 # 往InfluxDB插入一条数据
 
             if mysql:
