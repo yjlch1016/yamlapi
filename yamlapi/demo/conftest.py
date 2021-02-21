@@ -10,6 +10,7 @@ from py._xmlgen import html
 from setting.project_config import *
 from tool.feishu_robot import send_feishu_alarm
 from tool.dingtalk_robot import send_dingtalk_alarm
+from tool.wechat_robot import send_wechat_alarm
 
 
 def pytest_html_report_title(report):
@@ -130,5 +131,8 @@ def pytest_terminal_summary(terminalreporter, exitstatus, config):
     elif robot == "dingtalk":
         send_dingtalk_alarm(total, passed, failed, error, skipped, successful, duration)
         # 发送钉钉报警
+    elif robot == "wechat":
+        send_wechat_alarm(total, passed, failed, error, skipped, successful, duration)
+        # 发送企业微信报警
     else:
         pass

@@ -12,13 +12,14 @@ https://pypi.org/project/yamlapi/
 github：  
 https://github.com/yjlch1016/yamlapi  
 
-支持unittest与pytest两种运行模式  
 yamlapi即为yaml文件+api测试的缩写  
 可看作是一个脚手架工具  
 可快速生成项目的各个目录与文件  
-支持MySQL、PgSQL与MongoDB数据库的增删改查  
-只需维护一份或者多份yaml文件即可  
-（或者json文件）  
+支持unittest与pytest两种运行模式  
+支持MySQL、PgSQL与MongoDB等数据库的增删改查  
+支持Jenkins、Docker等CI/CD工具  
+支持飞书、钉钉、企业微信等机器人  
+只需维护一份或者多份yaml（或者json）文件即可  
 
 `pip install yamlapi`  
 安装  
@@ -341,17 +342,20 @@ test_case.xlsx
 test_case.yaml  
 
 ***
-# 五、打包镜像  
+# 五、打包镜像，运行容器  
 `docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.8`  
 从阿里云镜像仓库拉取yamlapi镜像
 
 `docker build -t demo_image .`  
 docker build -t 镜像名称 .  
-本地打包  
-demo_image为镜像名称，随便取  
+本地打包，demo_image为镜像名称，随便取  
 
-`docker run -e cmd="test" demo_image:latest`  
 docker run -e cmd="环境缩写" 镜像名称:latest  
-启动容器  
-前台运行  
--e cmd="test"向启动命令动态传递参数，环境缩写为test  
+`docker run -e cmd="dev" demo_image:latest`  
+开发环境  
+`docker run -e cmd="test" demo_image:latest`  
+测试环境  
+`docker run -e cmd="pre" demo_image:latest`  
+预生产环境  
+`docker run -e cmd="formal" demo_image:latest`  
+生产环境  

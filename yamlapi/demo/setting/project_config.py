@@ -109,7 +109,7 @@ if setting_config_type == "apollo":
     # 第一个测试用例文件
 
     robot = apollo_config_dict["robot"]
-    # 机器人：feishu、dingtalk或者为空
+    # 机器人：feishu、dingtalk、wechat或者为空
     # 不可混用，只能选取一种
 
     feishu_webhook = apollo_config_dict["feishu_webhook"]
@@ -127,6 +127,9 @@ if setting_config_type == "apollo":
     # 钉钉机器人webhook
     dingtalk_secret = apollo_config_dict["dingtalk_secret"]
     # 钉钉机器人密钥
+
+    wechat_webhook = apollo_config_dict["wechat_webhook"]
+    # 企业微信机器人webhook
 
     influxdb_switch = apollo_config_dict["influxdb_switch"]
     # 是否插入到influxDB, true或者为空
@@ -190,7 +193,7 @@ if setting_config_type == "local":
     # 第一个测试用例文件
 
     robot = "feishu"
-    # 机器人：feishu、dingtalk或者为空
+    # 机器人：feishu、dingtalk、wechat或者为空
     # 不可混用，只能选取一种
 
     feishu_webhook = "https://open.feishu.cn/open-apis/bot/v2/hook/XXXXXX"
@@ -208,6 +211,9 @@ if setting_config_type == "local":
     # 钉钉机器人webhook
     dingtalk_secret = "1234567890abcdefghij"
     # 钉钉机器人密钥
+
+    wechat_webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=XXXXXX"
+    # 企业微信机器人webhook
 
     influxdb_switch = "true"
     # 是否插入到influxDB, true或者为空

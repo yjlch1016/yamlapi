@@ -430,7 +430,7 @@ class DemoTest(unittest.TestCase):
                 # 实例化一个InfluxDB操作对象
                 influx_db.insert_influx_one(environment, case_name, step_name, request_mode, url,
                                             expected_time, actual_time, expected_code, actual_code,
-                                            expected_result, actual_result_text)
+                                            json.dumps(expected_result, ensure_ascii=False), actual_result_text)
                 # 往InfluxDB插入一条数据
 
             if mysql:
