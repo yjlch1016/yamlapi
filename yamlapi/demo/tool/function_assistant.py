@@ -172,3 +172,26 @@ def function_mongo(field, mongo_result_list):
 
     return field
     # 返回替换后的字段
+
+
+def function_redis(field, redis_result_list):
+    """
+    替换Redis查询结果的方法
+    :param field: 第一个参数是yaml文件里面定义的字段
+    :param redis_result_list: 第二个参数是Redis查询结果列表
+    :return:
+    """
+
+    if "{__REDIS" in field:
+        redis_index_list = re.findall("{__REDIS(.+?)}", field)
+        # 获取索引列表
+        for i in redis_index_list:
+            redis_value = redis_result_list[int(i)]
+            if type(redis_value) != str:
+                redis_value = str(redis_value)
+            field = field.replace("{__REDIS" + i + "}", redis_value)
+    else:
+        pass
+
+    return field
+    # 返回替换后的字段

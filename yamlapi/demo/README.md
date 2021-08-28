@@ -16,7 +16,7 @@ yamlapi即为yaml文件+api测试的缩写
 可看作是一个脚手架工具  
 可快速生成项目的各个目录与文件  
 支持unittest与pytest两种运行模式  
-支持MySQL、PgSQL与MongoDB等数据库的增删改查  
+支持MySQL、PgSQL、MongoDB、Redis等数据库的增删改查  
 支持Jenkins、Docker等CI/CD工具  
 支持飞书、钉钉、企业微信等机器人  
 只需维护一份或者多份yaml（或者json）文件即可  
@@ -52,7 +52,7 @@ yamlapi即为yaml文件+api测试的缩写
 
 ***
 # 一、思路         
-1、采用requests+unittest+ddt+PyMySQL+DBUtils+psycopg2-binary+pymongo+influxdb+BeautifulReport+demjson+loguru+
+1、采用requests+unittest+ddt+PyMySQL+DBUtils+psycopg2-binary+pymongo+redis+influxdb+BeautifulReport+demjson+loguru+
 PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assume+pytest-rerunfailures+pytest-instafail+pytest-sugar+pytest-timeout+pytest-parallel+tablib  
 2、requests是发起HTTP请求的第三方库  
 3、unittest是Python自带的单元测试工具  
@@ -61,22 +61,23 @@ PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assu
 6、DBUtils是数据库连接池的第三方库  
 7、psycopg2-binary是连接PgSQL的第三方库  
 8、pymongo是连接Mongo的第三方库  
-9、influxdb是连接influxDB的第三方库  
-10、BeautifulReport是生成html测试报告的第三方库  
-11、demjson是解析非标格式json的第三方库  
-12、loguru是记录日志的第三方库  
-13、PyYAML与ruamel.yaml是读写yaml文件的第三方库  
-14、pytest是单元测试的第三方库  
-15、pytest-html是生成html测试报告的插件  
-16、allure-pytest是生成allure测试报告的插件  
-17、pytest-reportlog是替换--resultlog选项的插件  
-18、pytest-assume是多重断言的插件  
-19、pytest-rerunfailures是失败重跑的插件  
-20、pytest-instafail是实时显示错误信息的插件  
-21、pytest-sugar是显示进度的插件  
-22、pytest-timeout是设置超时时间的插件  
-23、pytest-parallel是多线程的插件  
-24、tablib是导出多种格式数据的第三方库  
+9、redis是连接Redis的第三方库  
+10、influxdb是连接influxDB的第三方库  
+11、BeautifulReport是生成html测试报告的第三方库  
+12、demjson是解析非标格式json的第三方库  
+13、loguru是记录日志的第三方库  
+14、PyYAML与ruamel.yaml是读写yaml文件的第三方库  
+15、pytest是单元测试的第三方库  
+16、pytest-html是生成html测试报告的插件  
+17、allure-pytest是生成allure测试报告的插件  
+18、pytest-reportlog是替换--resultlog选项的插件  
+19、pytest-assume是多重断言的插件  
+20、pytest-rerunfailures是失败重跑的插件  
+21、pytest-instafail是实时显示错误信息的插件  
+22、pytest-sugar是显示进度的插件  
+23、pytest-timeout是设置超时时间的插件  
+24、pytest-parallel是多线程的插件  
+25、tablib是导出多种格式数据的第三方库  
 
 ***
 # 二、目录结构  
@@ -109,6 +110,10 @@ yaml文件
         -
         -
       mongo:
+        -
+        -
+        -
+      redis:
         -
         -
         -
@@ -147,6 +152,7 @@ json文件
         "mysql": [],
         "pgsql": [],
         "mongo": [],
+        "redis": [],
         "request_mode": "POST",
         "api": "/api/test",
         "file": [],
@@ -182,6 +188,7 @@ json文件
 | mysql | MySQL语句 | 否 | -列表格式 | 顺序不可修改 |
 | pgsql | PgSQL语句 | 否 | -列表格式 | 顺序不可修改 |
 | mongo | Mongo语句 | 否 | -列表格式 | 顺序不可修改 |
+| redis | Redis语句 | 否 | -列表格式 | 顺序不可修改 |
 | request_mode | 请求方式 | 是 | | |
 | api | 接口路径 | 是 | | |
 | file | 文件 | 否 | -列表格式 | 顺序不可修改 |
@@ -258,7 +265,28 @@ mongo： Mongo语句，-列表格式，顺序不可修改，选填
 当只需要查时，第一行为空，第二行为查，第三行为空  
 当只需要双重断言时，第一行为空，第二行为空，第三行为查  
 
-5、file字段说明  
+5、redis字段说明（参考mysql字段）  
+redis： Redis语句，-列表格式，顺序不可修改，选填  
+
+| 位置 | 索引 | 作用| 是否必填 | 格式 | 注解 |
+| ---- | ---- | --- | --- | ---- | ---- |
+| 第一行 | redis[0]  | 增删改 | 否 | -列表格式 | 第一个元素为增删改，第二个元素为增删改参数 |
+| 第二行 | redis[1] | 查 | 否 | -字符串格式 | 查语句（动态传参） |
+| 第三行 | redis[2] | 查 | 否 | -字符串格式 | 查语句（数据库双重断言） |
+ 
+第一行：redis[0]  
+第二行：redis[1]  
+第三行：redis[2]  
+第一行为增、删、改，第二行为查（动态传参），第三行为查（数据库双重断言）  
+第一行是发起请求之前的动作，没有返回结果  
+第二行是发起请求之前的动作，有返回结果，是为了动态传参  
+第三行是发起请求之后的动作，有返回结果，但是不可用于动态传参，是为了断言实际的响应结果  
+当不需要增删改查和双重断言时，可以不写redis字段，或者三行都为空  
+当只需要增删改时，第一行为增、删、改，第二行为空，第三行为空  
+当只需要查时，第一行为空，第二行为查，第三行为空  
+当只需要双重断言时，第一行为空，第二行为空，第三行为查  
+
+6、file字段说明  
 file： 文件参数，-列表格式，顺序不可修改，选填  
 
 | 位置 | 类型 | 是否必填 | 格式 | 注解 |
@@ -267,7 +295,7 @@ file： 文件参数，-列表格式，顺序不可修改，选填
 | 第二行 | 文件名称 | 否 | 字符串 | 例如：demo_excel.xlsx |
 | 第三行 | MIME类型 | 否 | 字符串 | 例如：application/octet-stream |
 
-6、函数助手  
+7、函数助手  
 
 | 函数名称 | 写法 | 作用域| 数量限制 |
 | ---- | ---- | --- | --- |
@@ -275,6 +303,7 @@ file： 文件参数，-列表格式，顺序不可修改，选填
 | MySQL查询语句返回的结果 | {__SQL索引} | 本条用例 | 不限 |
 | PgSQL查询语句返回的结果 | {__PGSQL索引} | 本条用例 | 不限 |
 | Mongo查询语句返回的结果 | {__MONGO索引} | 本条用例 | 不限 |
+| Redis查询语句返回的结果 | {__REDIS索引} | 本条用例 | 不限 |
 | 随机数字 | {__RN位数} | 本条用例 | 不限 |
 | 随机英文字母 | {__RL位数} | 本条用例 | 不限 |
 | 随机手机号码 | {__MP} | 本条用例 | 不限 |
@@ -287,15 +316,227 @@ PgSQL查询语句返回的结果，即第二行pgsql[1]返回的结果，用{__P
 即{__PGSQL0}、{__PGSQL1}、{__PGSQL2}、{__PGSQL3}。。。。。。一条用例里面可以有多个  
 Mongo查询语句返回的结果，即第二行mongo[1]返回的结果，用{__MONGO索引}匹配  
 即{__MONGO0}、{__MONGO1}、{__MONGO2}、{__MONGO3}。。。。。。一条用例里面可以有多个  
+Redis查询语句返回的结果，即第二行redis[1]返回的结果，用{__MONGO索引}匹配  
+即{__REDIS0}、{__REDIS1}、{__REDIS2}、{__REDIS3}。。。。。。一条用例里面可以有多个  
 随机数字用{__RN位数}，如{__RN15}，一条用例里面可以有多个  
 随机英文字母用{__RL位数}，如{__RL10}，一条用例里面可以有多个  
 随机手机号码用{__MP}，一条用例里面可以有多个  
 随机日期时间字符串用{__RD开始年份,结束年份}，如{__RD2019,2020}，一条用例里面可以有多个  
-以上8种类型在一条用例里面可以混合使用  
-${变量名}的作用域是全局的，其它7种的作用域仅限该条用例   
+以上9种类型在一条用例里面可以混合使用  
+${变量名}的作用域是全局的，其它8种的作用域仅限该条用例   
 
 ***
-# 四、运行  
+# 四、用例demo  
+1、包含mysql语句的demo：  
+```yaml
+case_name: 【进项发票列表高级搜索】根据主键id查询
+step:
+  - step_name: 根据主键id查询
+    mysql:
+      -
+      - SELECT id FROM invoice_purchaser_main WHERE purchaser_tenant_id=${tenantId} AND purchaser_org_id=${orgId} AND purchaser_company_id=${companyId} AND paper_drew_date BETWEEN '2020-01-01 00:00:00' AND '2020-08-01 00:00:00' ORDER BY id DESC LIMIT 1;
+      - SELECT id FROM invoice_purchaser_main WHERE purchaser_tenant_id=${tenantId} AND purchaser_org_id=${orgId} AND purchaser_company_id=${companyId} AND paper_drew_date BETWEEN '2020-01-01 00:00:00' AND '2020-08-01 00:00:00' ORDER BY id DESC LIMIT 1;
+    request_mode: POST
+    api: /${tenantId}/invoice/v1/pool/input/invoices/advance-query
+    body:
+      {"and":[{"fieldName":"id","fieldValue":"{__SQL0}","operationType":"EQUAL"}],"sorts":[{"fieldName":"id","sortNo":0,"sortType":"DESC"}],"orgIds":["${orgId}"],"companyIds":["${companyId}"]}
+    headers:
+      Content-Type: application/json;charset=UTF-8
+      xforce-saas-token: ${xforce-saas-token}
+      userId: ${userId}
+    query_string:
+      appId: ${appId}
+      startPaperDrewDate: 2020/01/01 00:00:00
+      endPaperDrewDate: 2020/08/01 00:00:00
+      businessFlag: 'true'
+      pageNo: 1
+      pageSize: 20
+    expected_code: 200
+    expected_result:
+      {"code":"INVOICE0200","message":"请求成功","id":"{__SQL0}"}
+```
+2、包含pgsql语句的demo：  
+```yaml
+- case_name: 【查询物品列表】精确查询的用例
+  step:
+    - step_name: 步骤一
+      pgsql:
+        -
+        - SELECT goods_name, salesbill_no, invoice_code, invoice_no, receiver_company_name, receiver_name, receiver_tel, receiver_addr, sender_company_name FROM goods WHERE tenant_id = '${tenantId}' ORDER BY create_time DESC LIMIT 1;
+        -
+      request_mode: GET
+      api: /${tenantId}/enterprise/v1/logistics/goods
+      headers:
+        Content-Type: application/json;charset=UTF-8
+        xforce-saas-token: ${xforce-saas-token}
+      query_string:
+        {
+          "appId": "${tenantId}",
+          "orderNum": "",
+          "goodsName": "{__SQL0}",
+          "businessNo": "{__SQL1}",
+          "invoiceCode": "{__SQL2}",
+          "invoiceNo": "{__SQL3}",
+          "receiverCompanyName": "{__SQL4}",
+          "receiverName": "{__SQL5}",
+          "receiverTel": "{__SQL6}",
+          "receiverAddress": "{__SQL7}",
+          "senderCompanyName": "{__SQL8}",
+          "page": "1",
+          "size": "20"
+        }
+      expected_code: 200
+      expected_result:
+        {"code":"LGSTZZ0200","message":"请求成功"}
+```
+3、包含mongo语句的demo：  
+```yaml
+- case_name: 熊猫清理-OPPO-牛数-广告激活次留的用例
+  step:
+    - step_name: 第一步：广告
+      mongo:
+        -
+        -
+        - - ad_qili
+          - - {"imei":"{__FA0}"}
+            - {"product_name": 1,"_id": 0}
+      request_mode: GET
+      api: /oppo/common/apis
+      query_string:
+        {
+          "adid": "__ADID__",
+          "cid": "__CID__",
+          "imei": "{__RN38}",
+          "mac": "__MAC__",
+          "android_id": "{__RN39}",
+          "os": "__OS__",
+          "timestamp": "__TS__",
+          "campaign_id": "__CAMPAIGN_ID__",
+          "aid_name": "__AID_NAME__",
+          "csite": "__CSITE__",
+          "ctype": "__CTYPE__",
+          "product_name": "1812",
+          "market_name": "oppo_01",
+          "pkg": "com.geek.jk.weather"
+        }
+      expected_code: 200
+      expected_result: {"ret":0,"msg":"success"}
+      mongo_result: ["1812"]
+    - step_name: 第二步：埋点
+      mongo:
+        -
+        -
+        - - data_qili
+          - - {"unique_id":"{__FA1}"}
+            - {"unique_id":1,"active_match_status":1,"active_source":1,"active_status":1,"ad_market":1,"active_day":1,"active_error_msg":1,"is_actual":1,"_id":0}
+      request_mode: POST
+      api: /calculate
+      body:
+        {
+          "common": {
+            "upload_time": "2020-09-08 10:39:59.250",
+            "mpc": "中国联通",
+            "screen_width": "720",
+            "screen_height": "1440",
+            "os_system": "1",
+            "os_version": "7.1.1",
+            "imei": "{__FA0}",
+            "idfa": "",
+            "model": "OPPO A83",
+            "message_id": "1",
+            "sdk": 0,
+            "android_id": "{__FA1}",
+            "uuid": "{__RN40}",
+            "product_name": "1812"
+          },
+          "events": [{
+                       "gender": "未知",
+                       "app_version": "0.0.9",
+                       "page_type": "android",
+                       "latitude": "1111.2222",
+                       "ip": "172.16.90.44",
+                       "receive_time": "{__RD2022,2025}",
+                       "market_name": "oppo-01",
+                       "event_type": "custom",
+                       "cv": "1.2.3",
+                       "user_id": "60066122",
+                       "event_code": "imei",
+                       "event_name": "激活",
+                       "phone_num": "13653363989",
+                       "network_type": "WIFI",
+                       "age": "未知",
+                       "oaid": "",
+                       "longitude": "1111.1111",
+                       "province": "provincetest",
+                       "city": "test",
+                       "ts": "2020-09-08 10:39:59.250"
+                     }]
+        }
+      headers: {"Content-Type":"application/json;charset=UTF-8"}
+      expected_code: 200
+      expected_result: {"ret":0,"msg":"success"}
+      mongo_result: ["{__FA1}", "1", "oppo", "1", "oppo_01","{__TODAY}", "上报成功", "1"]
+    - step_name: 第三步：次留
+      mongo:
+        - - data_qili
+          - update
+          - - {"unique_id":"{__FA1}"}
+            - {"$set":{"active_day":"{__YESTERDAY}"}}
+        -
+        - - data_qili
+          - - {"unique_id":"{__FA1}"}
+            - {"unique_id":1,"active_match_status":1,"active_source":1,"active_status":1,"ad_market":1,"active_day":1,"active_error_msg":1,"is_actual":1,"next_day_retain_status":1,"next_day_error_msg":1,"next_day_retain_day":1,"_id":0}
+      request_mode: POST
+      api: /calculate
+      body:
+        {
+          "common": {
+            "upload_time": "2020-09-08 10:39:59.250",
+            "mpc": "中国联通",
+            "screen_width": "720",
+            "screen_height": "1440",
+            "os_system": "1",
+            "os_version": "7.1.1",
+            "imei": "{__FA0}",
+            "idfa": "",
+            "model": "OPPO A83",
+            "message_id": "1",
+            "sdk": 0,
+            "android_id": "{__FA1}",
+            "uuid": "{__FA2}",
+            "product_name": "1812"
+          },
+          "events": [{
+                       "gender": "未知",
+                       "app_version": "0.0.9",
+                       "page_type": "android",
+                       "latitude": "1111.2222",
+                       "ip": "172.16.90.44",
+                       "receive_time": "{__RD2022,2025}",
+                       "market_name": "oppo-01",
+                       "event_type": "cold_start",
+                       "cv": "1.2.3",
+                       "user_id": "60066122",
+                       "event_code": "cold_start",
+                       "event_name": "激活",
+                       "phone_num": "13653363989",
+                       "network_type": "WIFI",
+                       "age": "未知",
+                       "oaid": "",
+                       "longitude": "1111.1111",
+                       "province": "provincetest",
+                       "city": "test",
+                       "ts": "2020-09-08 10:39:59.250"
+                     }]
+        }
+      headers: {"Content-Type":"application/json;charset=UTF-8"}
+      expected_code: 200
+      expected_result: {"ret":0,"msg":"success"}
+      mongo_result: ["{__FA1}", "1", "oppo", "1", "oppo_01","{__YESTERDAY}", "上报成功", "1", "1", "上报成功", "{__TODAY}"]
+```
+
+***
+# 五、运行  
 1、unittest模式：  
 python+测试文件名+环境缩写  
 `python case/demo_test.py dev`  
@@ -342,7 +583,7 @@ test_case.xlsx
 test_case.yaml  
 
 ***
-# 五、打包镜像，运行容器  
+# 六、打包镜像，运行容器  
 `docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.8`  
 从阿里云镜像仓库拉取yamlapi镜像
 

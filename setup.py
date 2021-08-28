@@ -35,7 +35,7 @@ requires = [
 
 setup(
     name='yamlapi',
-    version='1.3.9',
+    version='1.4.0',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',

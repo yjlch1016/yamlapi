@@ -22,6 +22,7 @@ from setting.project_config import *
 from tool.connect_mysql import ConnectMySQL
 from tool.connect_postgresql import ConnectPostgreSQL
 from tool.connect_mongo import ConnectMongo
+from tool.connect_redis import ConnectRedis
 from tool.connect_influx import ConnectInflux
 from tool.data_type_conversion import data_conversion_string
 from tool.export_test_case import export_various_formats
@@ -29,7 +30,7 @@ from tool.read_write_yaml import merge_yaml
 from tool.read_write_json import merge_json
 from tool.beautiful_report_run import beautiful_report_run
 from tool.function_assistant import function_dollar, function_rn, function_rl, \
-    function_sql, function_mp, function_rd, function_mongo, function_pgsql
+    function_sql, function_mp, function_rd, function_mongo, function_pgsql, function_redis
 
 
 @allure.feature(test_scenario)
@@ -90,6 +91,8 @@ class DemoTest(unittest.TestCase):
             # pgsql语句
             mongo = item.get("mongo")
             # mongo语句
+            redis = item.get("redis")
+            # redis语句
             request_mode = item.get("request_mode")
             # 请求方式
             api = item.get("api")
@@ -130,9 +133,10 @@ class DemoTest(unittest.TestCase):
             logger.info("步骤名称为：{}", step_name)
             if environment == "formal" and mysql or \
                     environment == "formal" and pgsql or \
-                    environment == "formal" and mongo:
+                    environment == "formal" and mongo or \
+                    environment == "formal" and redis:
                 self.skipTest("跳过生产环境，请忽略")
-            # 生产环境不能连接MySQL数据库或者PostgreSQL数据库或者Mongo数据库，因此跳过，此行后面的都不会执行
+            # 生产环境不能连接MySQL、PostgreSQL、Mongo或者Redis数据库，因此跳过，此行后面的都不会执行
 
             if self.variable_result_dict:
                 # 如果变量名与提取的结果字典不为空
@@ -169,6 +173,23 @@ class DemoTest(unittest.TestCase):
                             if type(mongo[2][1]) != str:
                                 mongo[2][1] = str(mongo[2][1])
                             mongo[2][1] = function_dollar(mongo[2][1], self.variable_result_dict.items())
+                if redis:
+                    if redis[0]:
+                        if redis[0][1]:
+                            if type(redis[0][1]) != str:
+                                redis[0][1] = str(redis[0][1])
+                            redis[0][1] = function_dollar(redis[0][1], self.variable_result_dict.items())
+                            # 调用替换$的方法
+                    if redis[1]:
+                        if redis[1]:
+                            if type(redis[1]) != str:
+                                redis[1] = str(redis[1])
+                            redis[1] = function_dollar(redis[1], self.variable_result_dict.items())
+                    if redis[2]:
+                        if redis[2]:
+                            if type(redis[2]) != str:
+                                redis[2] = str(redis[2])
+                            redis[2] = function_dollar(redis[2], self.variable_result_dict.items())
                 if api:
                     api = function_dollar(api, self.variable_result_dict.items())
                 if payload:
@@ -324,6 +345,52 @@ class DemoTest(unittest.TestCase):
                             query_string = function_mongo(query_string, mongo_result_list)
                         if expected_result:
                             expected_result = function_mongo(expected_result, mongo_result_list)
+            if redis:
+                redis_db = ConnectRedis()
+                # 实例化一个Redis操作对象
+                if redis[0]:
+                    if redis[0][1]:
+                        if type(redis[0][1]) != str:
+                            redis[0][1] = str(redis[0][1])
+                        redis[0][1] = function_rn(redis[0][1])
+                        redis[0][1] = function_rl(redis[0][1])
+                        redis[0][1] = function_mp(redis[0][1])
+                        redis[0][1] = function_rd(redis[0][1])
+                    if redis[0][0] == "insert" or redis[0][0] == "update":
+                        if redis[0][1]:
+                            if type(redis[0][1]) != dict:
+                                redis[0][1] = demjson.decode(redis[0][1])
+                                if type(redis[0][1]) == list:
+                                    redis_db.insert_redis_str_one(*redis[0][1])
+                                    # 调用插入Redis（一条数据）的方法
+                            if type(redis[0][1]) == dict:
+                                redis_db.insert_redis_str_many(redis[0][1])
+                                # 调用插入Redis（多条数据）的方法
+                        sleep(1)
+                    if redis[0][0] == "remove":
+                        if redis[0][1]:
+                            redis_db.delete_redis(redis[0][1])
+                            # 调用删除Redis（一条数据）的方法
+                        sleep(1)
+                if redis[1]:
+                    if type(redis[1]) == str:
+                        redis_result_str = redis_db.query_redis_one(redis[1])
+                        # 调用查询Redis（一条数据）的方法
+                        if redis_result_str:
+                            redis_result_list = redis_result_str.split()
+                            # 把字符串转换成列表
+                            logger.info("发起请求之前redis查询的结果列表为：{}", redis_result_list)
+                            if api:
+                                api = function_redis(api, redis_result_list)
+                                # 调用替换Redis查询结果的方法
+                            if payload:
+                                payload = function_redis(payload, redis_result_list)
+                            if headers:
+                                headers = function_redis(headers, redis_result_list)
+                            if query_string:
+                                query_string = function_redis(query_string, redis_result_list)
+                            if expected_result:
+                                expected_result = function_redis(expected_result, redis_result_list)
 
             if api:
                 api = function_rn(api)
@@ -463,6 +530,13 @@ class DemoTest(unittest.TestCase):
                         logger.info("发起请求之后mongo查询的结果列表为：{}", mongo_result_list_after)
                         mongo_result_list_after = list(map(str, mongo_result_list_after))
                         # 把列表里面的元素类型全部转为str
+            if redis:
+                if redis[2]:
+                    redis_db_after = ConnectRedis()
+                    redis_result_str_after = redis_db_after.query_redis_one(redis[2])
+                    if redis_result_str_after:
+                        redis_result_list_after = redis_result_str_after.split()
+                        logger.info("发起请求之后redis查询的结果列表为：{}", redis_result_list_after)
 
             if regular:
                 # 如果正则不为空
@@ -526,11 +600,19 @@ class DemoTest(unittest.TestCase):
                 if mongo[2] and expected_time:
                     boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
                         mongo_result_list_after) <= set(actual_result_list) and actual_time <= expected_time
+            if redis:
+                if redis[2]:
+                    boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
+                        redis_result_list_after) <= set(actual_result_list)
+                if redis[2] and expected_time:
+                    boolean_expression = set(expected_result_list) <= set(actual_result_list) and set(
+                        redis_result_list_after) <= set(actual_result_list) and actual_time <= expected_time
             # 多重断言
             # 预期的响应结果与实际的响应结果是被包含关系
             # 发起请求之后mysql查询结果与实际的响应结果是被包含关系
             # 发起请求之后pgsql查询结果与实际的响应结果是被包含关系
             # 发起请求之后mongo查询结果与实际的响应结果是被包含关系
+            # 发起请求之后redis查询结果与实际的响应结果是被包含关系
             # 实际的响应时间应该小于或者等于预期的响应时间
             if expected_code == actual_code:
                 if boolean_expression:

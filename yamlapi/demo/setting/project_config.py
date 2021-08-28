@@ -166,6 +166,12 @@ if setting_config_type == "apollo":
     mongo_password = apollo_config_dict["mongo_password"]
     # MongoDB数据库配置
 
+    redis_host = apollo_config_dict["redis_host"]
+    redis_port = apollo_config_dict["redis_port"]
+    redis_password = apollo_config_dict["redis_password"]
+    redis_database = apollo_config_dict["redis_database"]
+    # Redis数据库配置
+
 if setting_config_type == "local":
 
     test_scenario = "测试场景：XXX接口测试"
@@ -251,6 +257,12 @@ if setting_config_type == "local":
         mongo_password = "123456"
         # 开发环境MongoDB数据库配置
 
+        redis_host = 'redis.dev.com'
+        redis_port = 6379
+        redis_password = '123456'
+        redis_database = 0
+        # 开发环境Redis数据库配置
+
     elif environment == "test":
         service_domain = "http://www.test.com"
         # 测试环境接口域名
@@ -275,6 +287,12 @@ if setting_config_type == "local":
         mongo_user = "root"
         mongo_password = "123456"
         # 测试环境MongoDB数据库配置
+
+        redis_host = 'redis.test.com'
+        redis_port = 6379
+        redis_password = '123456'
+        redis_database = 0
+        # 测试环境Redis数据库配置
 
     elif environment == "pre":
         service_domain = "http://www.pre.com"
@@ -301,6 +319,12 @@ if setting_config_type == "local":
         mongo_password = "123456"
         # 预生产环境MongoDB数据库配置
 
+        redis_host = 'redis.pre.com'
+        redis_port = 6379
+        redis_password = '123456'
+        redis_database = 0
+        # 预生产环境Redis数据库配置
+
     elif environment == "formal":
         service_domain = "https://www.formal.com"
         # 生产环境接口域名
@@ -325,3 +349,9 @@ if setting_config_type == "local":
         mongo_user = None
         mongo_password = None
         # 生产环境MongoDB数据库配置
+
+        redis_host = None
+        redis_port = None
+        redis_password = None
+        redis_database = None
+        # 生产环境Redis数据库配置

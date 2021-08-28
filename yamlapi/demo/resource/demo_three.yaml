@@ -4,6 +4,7 @@
       mysql:
       pgsql:
       mongo:
+      redis:
       request_mode:
       api:
       file:
@@ -24,6 +25,7 @@
       mysql:
       pgsql:
       mongo:
+      redis:
       request_mode:
       api:
       file:
