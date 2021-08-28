@@ -329,31 +329,31 @@ ${变量名}的作用域是全局的，其它8种的作用域仅限该条用例
 # 四、用例demo  
 1、包含mysql语句的demo：  
 ```yaml
-case_name: 【进项发票列表高级搜索】根据主键id查询
-step:
-  - step_name: 根据主键id查询
-    mysql:
-      -
-      - SELECT id FROM invoice_purchaser_main WHERE purchaser_tenant_id=${tenantId} AND purchaser_org_id=${orgId} AND purchaser_company_id=${companyId} AND paper_drew_date BETWEEN '2020-01-01 00:00:00' AND '2020-08-01 00:00:00' ORDER BY id DESC LIMIT 1;
-      - SELECT id FROM invoice_purchaser_main WHERE purchaser_tenant_id=${tenantId} AND purchaser_org_id=${orgId} AND purchaser_company_id=${companyId} AND paper_drew_date BETWEEN '2020-01-01 00:00:00' AND '2020-08-01 00:00:00' ORDER BY id DESC LIMIT 1;
-    request_mode: POST
-    api: /${tenantId}/invoice/v1/pool/input/invoices/advance-query
-    body:
-      {"and":[{"fieldName":"id","fieldValue":"{__SQL0}","operationType":"EQUAL"}],"sorts":[{"fieldName":"id","sortNo":0,"sortType":"DESC"}],"orgIds":["${orgId}"],"companyIds":["${companyId}"]}
-    headers:
-      Content-Type: application/json;charset=UTF-8
-      xforce-saas-token: ${xforce-saas-token}
-      userId: ${userId}
-    query_string:
-      appId: ${appId}
-      startPaperDrewDate: 2020/01/01 00:00:00
-      endPaperDrewDate: 2020/08/01 00:00:00
-      businessFlag: 'true'
-      pageNo: 1
-      pageSize: 20
-    expected_code: 200
-    expected_result:
-      {"code":"INVOICE0200","message":"请求成功","id":"{__SQL0}"}
+- case_name: 【进项发票列表高级搜索】根据主键id查询
+  step:
+    - step_name: 根据主键id查询
+      mysql:
+        -
+        - SELECT id FROM invoice_purchaser_main WHERE purchaser_tenant_id=${tenantId} AND purchaser_org_id=${orgId} AND purchaser_company_id=${companyId} AND paper_drew_date BETWEEN '2020-01-01 00:00:00' AND '2020-08-01 00:00:00' ORDER BY id DESC LIMIT 1;
+        - SELECT id FROM invoice_purchaser_main WHERE purchaser_tenant_id=${tenantId} AND purchaser_org_id=${orgId} AND purchaser_company_id=${companyId} AND paper_drew_date BETWEEN '2020-01-01 00:00:00' AND '2020-08-01 00:00:00' ORDER BY id DESC LIMIT 1;
+      request_mode: POST
+      api: /${tenantId}/invoice/v1/pool/input/invoices/advance-query
+      body:
+        {"and":[{"fieldName":"id","fieldValue":"{__SQL0}","operationType":"EQUAL"}],"sorts":[{"fieldName":"id","sortNo":0,"sortType":"DESC"}],"orgIds":["${orgId}"],"companyIds":["${companyId}"]}
+      headers:
+        Content-Type: application/json;charset=UTF-8
+        xforce-saas-token: ${xforce-saas-token}
+        userId: ${userId}
+      query_string:
+        appId: ${appId}
+        startPaperDrewDate: 2020/01/01 00:00:00
+        endPaperDrewDate: 2020/08/01 00:00:00
+        businessFlag: 'true'
+        pageNo: 1
+        pageSize: 20
+      expected_code: 200
+      expected_result:
+        {"code":"INVOICE0200","message":"请求成功","id":"{__SQL0}"}
 ```
 2、包含pgsql语句的demo：  
 ```yaml
