@@ -1,57 +1,62 @@
-# yamlapi  
-yamlapi接口测试框架  
+# yamlapi
 
-# QQ群  
-529063263  
+yamlapi接口测试框架
 
-# 工程主页  
+# QQ群
+
+529063263
+
+# 工程主页
+
 readthedocs：  
 https://yamlapi-docs.readthedocs.io/zh_CN/latest/  
 pypi：  
 https://pypi.org/project/yamlapi/  
 github：  
-https://github.com/yjlch1016/yamlapi  
+https://github.com/yjlch1016/yamlapi
 
 yamlapi即为yaml文件+api测试的缩写  
 可看作是一个脚手架工具  
 可快速生成项目的各个目录与文件  
 支持unittest与pytest两种运行模式  
 支持MySQL、PgSQL、MongoDB、Redis等数据库的增删改查  
-支持Jenkins、Docker等CI/CD工具  
+支持Jenkins、GitLab Runner等CI/CD工具  
 支持飞书、钉钉、企业微信等机器人  
-只需维护一份或者多份yaml（或者json）文件即可  
+只需维护一份或者多份yaml（或者json）文件即可
 
 `pip install yamlapi`  
-安装  
+安装
 
 `yamlapi -h（或yamlapi --help）`  
-查看参数信息  
+查看参数信息
 
 `yamlapi -v（或yamlapi --version）`  
-查看版本号  
+查看版本号
 
 `pip install -U yamlapi`  
-安装最新版  
+安装最新版
 
 `yamlapi create --p=项目名称`  
 创建项目  
 例如在某个路径下执行命令：  
-`yamlapi create --p=demo_project`  
+`yamlapi create --p=demo_project`
 
 `yamlapi run --c=环境缩写`  
 运行项目  
 例如在项目的根目录下面执行命令：  
-`yamlapi run --c=test`  
+`yamlapi run --c=test`
 
 `yamlapi clean`  
 清理测试报告与日志目录下的所有文件  
-类似于`mvn clean`    
+类似于`mvn clean`
 
 `pip uninstall yamlapi`  
-卸载  
+卸载
 
 ***
-# 一、思路         
+
+# 一、思路
+
 1、采用requests+unittest+ddt+PyMySQL+DBUtils+psycopg2-binary+pymongo+redis+influxdb+BeautifulReport+demjson+loguru+
 PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assume+pytest-rerunfailures+pytest-instafail+pytest-sugar+pytest-timeout+pytest-parallel+tablib  
 2、requests是发起HTTP请求的第三方库  
@@ -77,10 +82,12 @@ PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assu
 22、pytest-sugar是显示进度的插件  
 23、pytest-timeout是设置超时时间的插件  
 24、pytest-parallel是多线程的插件  
-25、tablib是导出多种格式数据的第三方库  
+25、tablib是导出多种格式数据的第三方库
 
 ***
-# 二、目录结构  
+
+# 二、目录结构
+
 1、case是测试用例包  
 2、report_log是测试报告和日志的目录  
 3、resource是yaml文件的目录  
@@ -92,11 +99,14 @@ PyYAML+ruamel.yaml+pytest+pytest-html+allure-pytest+pytest-reportlog+pytest-assu
 9、Dockerfile是构建镜像的文件  
 10、Jenkinsfile是Jenkins Pipeline文件  
 11、pytest.ini是pytest的配置文件  
-12、requirements.txt是第三方依赖库  
+12、requirements.txt是第三方依赖库
 
 ***
-# 三、yaml、json文件说明  
-yaml文件  
+
+# 三、yaml、json文件说明
+
+yaml文件
+
 ```yaml
 - case_name: 用例名称
   step:
@@ -124,15 +134,15 @@ yaml文件
         -
         -
       body:
-        {"key_1":"value_1","key_2":"value_2"}
+        { "key_1": "value_1","key_2": "value_2" }
       headers:
-        {"Content-Type":"application/json"}
+        { "Content-Type": "application/json" }
       query_string:
-        {"key_3":"value_3","key_4":"value_4"}
+        { "key_3": "value_3","key_4": "value_4" }
       expected_time: 3
       expected_code: 200
       expected_result:
-        {"code":1,"message":"成功"}
+        { "code": 1,"message": "成功" }
       regular:
         variable:
           - name_1
@@ -141,7 +151,9 @@ yaml文件
           - '"response_1":"(.+?)"'
           - '"response_2":"(.+?)"'
 ```
-json文件  
+
+json文件
+
 ```json
 [
   {
@@ -177,8 +189,9 @@ json文件
   }
 ]
 ```
-1、外层有2个字段，内层有16个字段  
-命名和格式不可修改，顺序可以修改  
+
+1、外层有2个字段，内层有17个字段  
+命名和格式不可修改，顺序可以修改
 
 | 字段 | 中文名称 | 是否必填 | 格式 | 注解 |
 | ---- | ---- | --- | ---- | ---- |
@@ -203,7 +216,7 @@ json文件
 | expression | 表达式 | 否 | -列表格式 | |
 
 2、mysql字段说明  
-mysql： MySQL语句，-列表格式，顺序不可修改，选填  
+mysql： MySQL语句，-列表格式，顺序不可修改，选填
 
 | 位置 | 索引 | 作用 | 是否必填 | 格式 | 注解 |
 | ---- | ---- | --- | --- | ---- | ---- |
@@ -221,10 +234,10 @@ mysql： MySQL语句，-列表格式，顺序不可修改，选填
 当不需要增删改查和双重断言时，可以不写mysql字段，或者三行都为空  
 当只需要增删改时，第一行为增删改语句，第二行为空，第三行为空  
 当只需要查时，第一行为空，第二行为查语句，第三行为空  
-当只需要双重断言时，第一行为空，第二行为空，第三行为查语句  
+当只需要双重断言时，第一行为空，第二行为空，第三行为查语句
 
 3、pgsql字段说明  
-pgsql： PgSQL语句，-列表格式，顺序不可修改，选填  
+pgsql： PgSQL语句，-列表格式，顺序不可修改，选填
 
 | 位置 | 索引 | 作用 | 是否必填 | 格式 | 注解 |
 | ---- | ---- | --- | --- | ---- | ---- |
@@ -242,17 +255,17 @@ pgsql： PgSQL语句，-列表格式，顺序不可修改，选填
 当不需要增删改查和双重断言时，可以不写pgsql字段，或者三行都为空  
 当只需要增删改时，第一行为增删改语句，第二行为空，第三行为空  
 当只需要查时，第一行为空，第二行为查语句，第三行为空  
-当只需要双重断言时，第一行为空，第二行为空，第三行为查语句  
+当只需要双重断言时，第一行为空，第二行为空，第三行为查语句
 
 4、mongo字段说明（参考mysql字段）  
-mongo： Mongo语句，-列表格式，顺序不可修改，选填  
+mongo： Mongo语句，-列表格式，顺序不可修改，选填
 
 | 位置 | 索引 | 作用| 是否必填 | 格式 | 注解 |
 | ---- | ---- | --- | --- | ---- | ---- |
 | 第一行 | mongo[0]  | 增删改 | 否 | -列表格式 | 第一个元素为集合名，第二个元素为增删改，第三个元素为增删改参数 |
 | 第二行 | mongo[1] | 查 | 否 | -列表格式 | 第一个元素为集合名，第二个元素为查参数 |
 | 第三行 | mongo[2] | 查 | 否 | -列表格式 | 第一个元素为集合名，第二个元素为查参数 |
- 
+
 第一行：mongo[0]  
 第二行：mongo[1]  
 第三行：mongo[2]  
@@ -263,17 +276,17 @@ mongo： Mongo语句，-列表格式，顺序不可修改，选填
 当不需要增删改查和双重断言时，可以不写mongo字段，或者三行都为空  
 当只需要增删改时，第一行为增、删、改，第二行为空，第三行为空  
 当只需要查时，第一行为空，第二行为查，第三行为空  
-当只需要双重断言时，第一行为空，第二行为空，第三行为查  
+当只需要双重断言时，第一行为空，第二行为空，第三行为查
 
 5、redis字段说明（参考mysql字段）  
-redis： Redis语句，-列表格式，顺序不可修改，选填  
+redis： Redis语句，-列表格式，顺序不可修改，选填
 
 | 位置 | 索引 | 作用| 是否必填 | 格式 | 注解 |
 | ---- | ---- | --- | --- | ---- | ---- |
 | 第一行 | redis[0]  | 增删改 | 否 | -列表格式 | 第一个元素为增删改，第二个元素为增删改参数 |
 | 第二行 | redis[1] | 查 | 否 | -字符串格式 | 查语句（动态传参） |
 | 第三行 | redis[2] | 查 | 否 | -字符串格式 | 查语句（数据库双重断言） |
- 
+
 第一行：redis[0]  
 第二行：redis[1]  
 第三行：redis[2]  
@@ -284,10 +297,10 @@ redis： Redis语句，-列表格式，顺序不可修改，选填
 当不需要增删改查和双重断言时，可以不写redis字段，或者三行都为空  
 当只需要增删改时，第一行为增、删、改，第二行为空，第三行为空  
 当只需要查时，第一行为空，第二行为查，第三行为空  
-当只需要双重断言时，第一行为空，第二行为空，第三行为查  
+当只需要双重断言时，第一行为空，第二行为空，第三行为查
 
 6、file字段说明  
-file： 文件参数，-列表格式，顺序不可修改，选填  
+file： 文件参数，-列表格式，顺序不可修改，选填
 
 | 位置 | 类型 | 是否必填 | 格式 | 注解 |
 | ---- | --- | --- | ---- | ---- |
@@ -295,7 +308,7 @@ file： 文件参数，-列表格式，顺序不可修改，选填
 | 第二行 | 文件名称 | 否 | 字符串 | 例如：demo_excel.xlsx |
 | 第三行 | MIME类型 | 否 | 字符串 | 例如：application/octet-stream |
 
-7、函数助手  
+7、函数助手
 
 | 函数名称 | 写法 | 作用域| 数量限制 |
 | ---- | ---- | --- | --- |
@@ -323,11 +336,14 @@ Redis查询语句返回的结果，即第二行redis[1]返回的结果，用{__M
 随机手机号码用{__MP}，一条用例里面可以有多个  
 随机日期时间字符串用{__RD开始年份,结束年份}，如{__RD2019,2020}，一条用例里面可以有多个  
 以上9种类型在一条用例里面可以混合使用  
-${变量名}的作用域是全局的，其它8种的作用域仅限该条用例   
+${变量名}的作用域是全局的，其它8种的作用域仅限该条用例
 
 ***
-# 四、用例demo  
-1、包含mysql语句的demo：  
+
+# 四、用例demo
+
+1、包含mysql语句的demo：
+
 ```yaml
 - case_name: 【进项发票列表高级搜索】根据主键id查询
   step:
@@ -339,7 +355,7 @@ ${变量名}的作用域是全局的，其它8种的作用域仅限该条用例
       request_mode: POST
       api: /${tenantId}/invoice/v1/pool/input/invoices/advance-query
       body:
-        {"and":[{"fieldName":"id","fieldValue":"{__SQL0}","operationType":"EQUAL"}],"sorts":[{"fieldName":"id","sortNo":0,"sortType":"DESC"}],"orgIds":["${orgId}"],"companyIds":["${companyId}"]}
+        { "and": [ { "fieldName": "id","fieldValue": "{__SQL0}","operationType": "EQUAL" } ],"sorts": [ { "fieldName": "id","sortNo": 0,"sortType": "DESC" } ],"orgIds": [ "${orgId}" ],"companyIds": [ "${companyId}" ] }
       headers:
         Content-Type: application/json;charset=UTF-8
         xforce-saas-token: ${xforce-saas-token}
@@ -353,9 +369,11 @@ ${变量名}的作用域是全局的，其它8种的作用域仅限该条用例
         pageSize: 20
       expected_code: 200
       expected_result:
-        {"code":"INVOICE0200","message":"请求成功","id":"{__SQL0}"}
+        { "code": "INVOICE0200","message": "请求成功","id": "{__SQL0}" }
 ```
-2、包含pgsql语句的demo：  
+
+2、包含pgsql语句的demo：
+
 ```yaml
 - case_name: 【查询物品列表】精确查询的用例
   step:
@@ -387,9 +405,11 @@ ${变量名}的作用域是全局的，其它8种的作用域仅限该条用例
         }
       expected_code: 200
       expected_result:
-        {"code":"LGSTZZ0200","message":"请求成功"}
+        { "code": "LGSTZZ0200","message": "请求成功" }
 ```
-3、包含mongo语句的demo：  
+
+3、包含mongo语句的demo：
+
 ```yaml
 - case_name: 熊猫清理-OPPO-牛数-广告激活次留的用例
   step:
@@ -398,8 +418,8 @@ ${变量名}的作用域是全局的，其它8种的作用域仅限该条用例
         -
         -
         - - ad_qili
-          - - {"imei":"{__FA0}"}
-            - {"product_name": 1,"_id": 0}
+          - - { "imei": "{__FA0}" }
+            - { "product_name": 1,"_id": 0 }
       request_mode: GET
       api: /oppo/common/apis
       query_string:
@@ -420,15 +440,15 @@ ${变量名}的作用域是全局的，其它8种的作用域仅限该条用例
           "pkg": "com.geek.jk.weather"
         }
       expected_code: 200
-      expected_result: {"ret":0,"msg":"success"}
-      mongo_result: ["1812"]
+      expected_result: { "ret": 0,"msg": "success" }
+      mongo_result: [ "1812" ]
     - step_name: 第二步：埋点
       mongo:
         -
         -
         - - data_qili
-          - - {"unique_id":"{__FA1}"}
-            - {"unique_id":1,"active_match_status":1,"active_source":1,"active_status":1,"ad_market":1,"active_day":1,"active_error_msg":1,"is_actual":1,"_id":0}
+          - - { "unique_id": "{__FA1}" }
+            - { "unique_id": 1,"active_match_status": 1,"active_source": 1,"active_status": 1,"ad_market": 1,"active_day": 1,"active_error_msg": 1,"is_actual": 1,"_id": 0 }
       request_mode: POST
       api: /calculate
       body:
@@ -449,43 +469,43 @@ ${变量名}的作用域是全局的，其它8种的作用域仅限该条用例
             "uuid": "{__RN40}",
             "product_name": "1812"
           },
-          "events": [{
-                       "gender": "未知",
-                       "app_version": "0.0.9",
-                       "page_type": "android",
-                       "latitude": "1111.2222",
-                       "ip": "172.16.90.44",
-                       "receive_time": "{__RD2022,2025}",
-                       "market_name": "oppo-01",
-                       "event_type": "custom",
-                       "cv": "1.2.3",
-                       "user_id": "60066122",
-                       "event_code": "imei",
-                       "event_name": "激活",
-                       "phone_num": "13653363989",
-                       "network_type": "WIFI",
-                       "age": "未知",
-                       "oaid": "",
-                       "longitude": "1111.1111",
-                       "province": "provincetest",
-                       "city": "test",
-                       "ts": "2020-09-08 10:39:59.250"
-                     }]
+          "events": [ {
+            "gender": "未知",
+            "app_version": "0.0.9",
+            "page_type": "android",
+            "latitude": "1111.2222",
+            "ip": "172.16.90.44",
+            "receive_time": "{__RD2022,2025}",
+            "market_name": "oppo-01",
+            "event_type": "custom",
+            "cv": "1.2.3",
+            "user_id": "60066122",
+            "event_code": "imei",
+            "event_name": "激活",
+            "phone_num": "13653363989",
+            "network_type": "WIFI",
+            "age": "未知",
+            "oaid": "",
+            "longitude": "1111.1111",
+            "province": "provincetest",
+            "city": "test",
+            "ts": "2020-09-08 10:39:59.250"
+          } ]
         }
-      headers: {"Content-Type":"application/json;charset=UTF-8"}
+      headers: { "Content-Type": "application/json;charset=UTF-8" }
       expected_code: 200
-      expected_result: {"ret":0,"msg":"success"}
-      mongo_result: ["{__FA1}", "1", "oppo", "1", "oppo_01","{__TODAY}", "上报成功", "1"]
+      expected_result: { "ret": 0,"msg": "success" }
+      mongo_result: [ "{__FA1}", "1", "oppo", "1", "oppo_01","{__TODAY}", "上报成功", "1" ]
     - step_name: 第三步：次留
       mongo:
         - - data_qili
           - update
-          - - {"unique_id":"{__FA1}"}
-            - {"$set":{"active_day":"{__YESTERDAY}"}}
+          - - { "unique_id": "{__FA1}" }
+            - { "$set": { "active_day": "{__YESTERDAY}" } }
         -
         - - data_qili
-          - - {"unique_id":"{__FA1}"}
-            - {"unique_id":1,"active_match_status":1,"active_source":1,"active_status":1,"ad_market":1,"active_day":1,"active_error_msg":1,"is_actual":1,"next_day_retain_status":1,"next_day_error_msg":1,"next_day_retain_day":1,"_id":0}
+          - - { "unique_id": "{__FA1}" }
+            - { "unique_id": 1,"active_match_status": 1,"active_source": 1,"active_status": 1,"ad_market": 1,"active_day": 1,"active_error_msg": 1,"is_actual": 1,"next_day_retain_status": 1,"next_day_error_msg": 1,"next_day_retain_day": 1,"_id": 0 }
       request_mode: POST
       api: /calculate
       body:
@@ -506,37 +526,118 @@ ${变量名}的作用域是全局的，其它8种的作用域仅限该条用例
             "uuid": "{__FA2}",
             "product_name": "1812"
           },
-          "events": [{
-                       "gender": "未知",
-                       "app_version": "0.0.9",
-                       "page_type": "android",
-                       "latitude": "1111.2222",
-                       "ip": "172.16.90.44",
-                       "receive_time": "{__RD2022,2025}",
-                       "market_name": "oppo-01",
-                       "event_type": "cold_start",
-                       "cv": "1.2.3",
-                       "user_id": "60066122",
-                       "event_code": "cold_start",
-                       "event_name": "激活",
-                       "phone_num": "13653363989",
-                       "network_type": "WIFI",
-                       "age": "未知",
-                       "oaid": "",
-                       "longitude": "1111.1111",
-                       "province": "provincetest",
-                       "city": "test",
-                       "ts": "2020-09-08 10:39:59.250"
-                     }]
+          "events": [ {
+            "gender": "未知",
+            "app_version": "0.0.9",
+            "page_type": "android",
+            "latitude": "1111.2222",
+            "ip": "172.16.90.44",
+            "receive_time": "{__RD2022,2025}",
+            "market_name": "oppo-01",
+            "event_type": "cold_start",
+            "cv": "1.2.3",
+            "user_id": "60066122",
+            "event_code": "cold_start",
+            "event_name": "激活",
+            "phone_num": "13653363989",
+            "network_type": "WIFI",
+            "age": "未知",
+            "oaid": "",
+            "longitude": "1111.1111",
+            "province": "provincetest",
+            "city": "test",
+            "ts": "2020-09-08 10:39:59.250"
+          } ]
         }
-      headers: {"Content-Type":"application/json;charset=UTF-8"}
+      headers: { "Content-Type": "application/json;charset=UTF-8" }
       expected_code: 200
-      expected_result: {"ret":0,"msg":"success"}
-      mongo_result: ["{__FA1}", "1", "oppo", "1", "oppo_01","{__YESTERDAY}", "上报成功", "1", "1", "上报成功", "{__TODAY}"]
+      expected_result: { "ret": 0,"msg": "success" }
+      mongo_result: [ "{__FA1}", "1", "oppo", "1", "oppo_01","{__YESTERDAY}", "上报成功", "1", "1", "上报成功", "{__TODAY}" ]
 ```
 
 ***
-# 五、运行  
+
+# 五、Apollo配置文件demo（选用，非必须）
+
+```properties
+test_scenario=测试场景：XXX接口测试
+test_story=测试故事：XXX接口测试
+test_case_priority=critical
+test_case_address=http://www.testcase.com
+test_case_address_title=XXX接口测试用例地址
+# allure配置
+beautiful_filename=xxx_report
+beautiful_description=XXX接口测试报告
+# BeautifulReport配置
+html_report_title=XXX接口测试报告
+project_name=XXX接口自动化测试
+swagger_address=http://www.swagger.com/swagger-ui.html
+test_department=测试部门：
+tester=测试人员：
+# conftest配置
+test_case_format=yaml
+# 测试用例的格式：yaml或者json
+# 不可混用，只能选取一种格式
+first_test_case_file=demo_one.yaml
+# 第一个测试用例文件
+robot=feishu
+# 机器人：feishu、dingtalk或者为空
+# 不可混用，只能选取一种
+feishu_webhook=https://open.feishu.cn/open-apis/bot/v2/hook/XXXXXX
+# 飞书机器人webhook
+feishu_secret=abcdefghij1234567890
+# 飞书机器人密钥
+card_header_title_content=飞书消息卡片标题
+# 飞书消息卡片标题
+card_elements_actions_text_content=飞书消息卡片跳转链接文字
+# 飞书消息卡片跳转链接文字
+card_elements_actions_url=https://demo.fesihu.com
+# 飞书消息卡片跳转链接
+dingtalk_webhook=https://oapi.dingtalk.com/robot/send?access_token=XXXXXX
+# 钉钉机器人webhook
+dingtalk_secret=1234567890abcdefghij
+# 钉钉机器人密钥
+wechat_webhook=https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=XXXXXX
+# 企业微信机器人webhook
+influxdb_switch=true
+# 是否插入到influxDB, true或者为空
+# 不可混用，只能选取一种
+influxdb_host=www.influxdb.com
+influxdb_port=8086
+influxdb_database=influxdb_database
+influxdb_user=root
+influxdb_password=123456
+influxdb_measurement=influxdb_measurement
+# InfluxDB数据库配置
+db_host=mysql.test.com
+db_port=3306
+db_user=root
+db_password=123456
+db_database=
+# MySQL数据库配置
+pgsql_host=pgsql.test.com
+pgsql_port=5432
+pgsql_user=root
+pgsql_password=123456
+pgsql_database=pgsql_db_1
+# PgSQL数据库配置
+mongo_host=mongo.test.com
+mongo_port=27017
+mongo_database=mongo_db_1
+mongo_user=root
+mongo_password=123456
+# Mongo数据库配置
+redis_host=redis.test.com
+redis_port=6379
+redis_password=123456
+redis_database=0
+# Redis数据库配置
+```
+
+***
+
+# 六、运行
+
 1、unittest模式：  
 python+测试文件名+环境缩写  
 `python case/demo_test.py dev`  
@@ -546,7 +647,7 @@ python+测试文件名+环境缩写
 `python case/demo_test.py pre`  
 预生产环境  
 `python case/demo_test.py formal`  
-生产环境  
+生产环境
 
 2、pytest模式：  
 pytest+--cmd=环境缩写  
@@ -557,7 +658,7 @@ pytest+--cmd=环境缩写
 `pytest --cmd=pre`  
 预生产环境  
 `pytest --cmd=formal`  
-生产环境  
+生产环境
 
 3、yamlapi模式：  
 yamlapi+run+--c=环境缩写  
@@ -568,7 +669,7 @@ yamlapi+run+--c=环境缩写
 `yamlapi run --c=pre`  
 预生产环境  
 `yamlapi run --c=formal`  
-生产环境  
+生产环境
 
 4、运行结果：  
 会在report_log目录下生成以下文件  
@@ -580,16 +681,18 @@ test_case.csv
 test_case.html  
 test_case.json  
 test_case.xlsx  
-test_case.yaml  
+test_case.yaml
 
 ***
-# 六、打包镜像，运行容器  
+
+# 七、打包镜像，运行容器
+
 `docker pull registry.cn-hangzhou.aliyuncs.com/yangjianliang/yamlapi:0.0.8`  
 从阿里云镜像仓库拉取yamlapi镜像
 
 `docker build -t demo_image .`  
 docker build -t 镜像名称 .  
-本地打包，demo_image为镜像名称，随便取  
+本地打包，demo_image为镜像名称，随便取
 
 docker run -e cmd="环境缩写" 镜像名称:latest  
 `docker run -e cmd="dev" demo_image:latest`  

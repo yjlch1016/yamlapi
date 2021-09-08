@@ -1,0 +1,15 @@
+stages:
+  - build
+
+job_build:
+  stage: build
+  only:
+    - master
+  script:
+    - echo "Start running the test project!"
+    - pwd
+    - ls -a
+    - docker build -t demo_image .
+    - if [ $(docker ps -aq --filter name=demo_image) ]; then docker rm -f demo_image; fi
+    - docker run -e cmd="test" demo_image:latest
+    - echo "End of test project operation!"
