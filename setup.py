@@ -8,7 +8,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='yamlapi',
-    version='1.4.1',
+    version='1.4.2',
     description='yamlapi接口测试框架',
     author='yangjianliang',
     author_email='526861348@qq.com',
